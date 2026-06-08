@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  const API = 'http://localhost:3000';
+  const API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
 
   /* ── DOM references ── */
   const loader   = document.getElementById('siteConfigLoader');

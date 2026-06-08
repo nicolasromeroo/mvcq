@@ -4,7 +4,7 @@
 
 'use strict';
 
-const API            = 'http://localhost:3000';
+const API            = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
 const STORAGE_KEY    = 'mvcq-colecciones-v2';
 const STORAGE_OUTFIT = 'mvcq-vestidor-draft';
 const FALLBACK_IMG   = '../img/aestethic.jpg';

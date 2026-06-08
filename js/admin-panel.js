@@ -2,7 +2,7 @@
    ADMIN PANEL JS – Me Visto Como Quiero
    ═══════════════════════════════════════════════════ */
 
-const API = "http://localhost:3000";
+const API = "https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com";
 const STORAGE_USERS = "mvcq-admin-users";
 const FALLBACK_IMG = "../img/aestethic.jpg";
 const LOOKBOOK_FALLBACKS = [

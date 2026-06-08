@@ -5,7 +5,7 @@
 const contenedor = document.getElementById("productsList");
 const paginacion = document.getElementById("pagination");
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com";
 const LIMIT = 9;
 const IMG_FALLBACK = "../img/aestethic.jpg";
 const LOOKBOOK = [
