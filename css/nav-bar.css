@@ -1,0 +1,429 @@
+/* =========================================================
+   NAVBAR — Me Visto Como Quiero
+   Transparent at hero → opaque white on scroll
+   ========================================================= */
+
+:root {
+  --site-nav-height: 78px;
+}
+
+/* ── Base navbar shell ── */
+.contenedor-estilos-nav {
+  width: 100%;
+  z-index: 1000;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+  transition:
+    background    0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    border-color  0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow    0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform     0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Slide up when scrolling down */
+.contenedor-estilos-nav.is-hidden {
+  transform: translateY(-100%);
+}
+
+/* Solid white when scrolled */
+.contenedor-estilos-nav.is-scrolled {
+  background: rgba(250, 247, 242, 0.97);
+  border-bottom: 1px solid rgba(60, 34, 20, 0.08);
+  box-shadow: 0 6px 28px rgba(26, 14, 8, 0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ── Navbar layout ── */
+.site-navbar {
+  min-height: var(--site-nav-height);
+  padding: 0;
+}
+
+.site-navbar-inner {
+  min-height: var(--site-nav-height);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* ── Brand / Logo ── */
+.site-navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  z-index: 3;
+}
+
+.site-navbar-brand-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.9;
+  color: #fff;
+  text-transform: uppercase;
+  transition: color 0.38s ease;
+}
+
+.site-navbar-brand-copy strong {
+  font-family: 'Staatliches', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
+  font-weight: 400;
+}
+
+.site-navbar-brand-copy small {
+  font-size: 0.58rem;
+  letter-spacing: 0.32em;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.38s ease;
+}
+
+/* Brand colors when scrolled */
+.is-scrolled .site-navbar-brand-copy { color: #1a1614; }
+.is-scrolled .site-navbar-brand-copy small { color: #86695d; }
+
+.logo-navbar {
+  width: 50px;
+  height: auto;
+  transition: transform 0.3s ease, filter 0.38s ease;
+  filter: brightness(0) invert(1);
+}
+
+.is-scrolled .logo-navbar { filter: none; }
+
+.site-navbar-brand:hover .logo-navbar { transform: scale(1.05); }
+
+/* ── Nav menu ── */
+.site-navbar-panel {
+  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-navbar-menu {
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.site-navbar-menu .nav-link {
+  position: relative;
+  padding: 0.3rem 0.25rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.site-navbar-menu .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.site-navbar-menu .nav-link:hover { color: #fff; }
+.site-navbar-menu .nav-link:hover::after,
+.site-navbar-menu .nav-link.active::after { transform: scaleX(1); transform-origin: left; }
+
+/* Links when scrolled */
+.is-scrolled .site-navbar-menu .nav-link { color: #2e211b; }
+.is-scrolled .site-navbar-menu .nav-link:hover { color: #e63946; }
+
+/* ── Action buttons ── */
+.site-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.site-navbar-auth,
+.site-navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.site-nav-link {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.82);
+  border-radius: 6px;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+.site-nav-link:hover { color: #fff; }
+
+.is-scrolled .site-nav-link { color: #2e211b; }
+.is-scrolled .site-nav-link:hover { color: #e63946; }
+
+.site-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+.site-nav-pill:hover {
+  background: rgba(255, 255, 255, 0.24);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.is-scrolled .site-nav-pill {
+  background: #e63946;
+  color: #fff;
+  border-color: #e63946;
+}
+.is-scrolled .site-nav-pill:hover {
+  background: #c1121f;
+  border-color: #c1121f;
+}
+
+/* Cart icon */
+.site-nav-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+.site-nav-icon:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.is-scrolled .site-nav-icon { color: #2e211b; }
+.is-scrolled .site-nav-icon:hover { color: #e63946; background: rgba(230,57,70,0.06); }
+
+.site-nav-badge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: #e63946;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.2s var(--ease-spring, ease);
+}
+
+/* Profile dropdown trigger */
+.site-nav-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: color 0.25s;
+}
+.site-nav-profile::after { display: none; } /* hide default BS caret */
+
+.is-scrolled .site-nav-profile { color: #2e211b; }
+.site-nav-profile:hover { color: #fff; }
+.is-scrolled .site-nav-profile:hover { color: #e63946; }
+
+/* Dropdown */
+.dropdown-menu {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(10, 5, 3, 0.14);
+  padding: 0.5rem;
+  min-width: 180px;
+}
+
+.dropdown-item {
+  border-radius: 8px;
+  font-size: 0.85rem;
+  padding: 0.55rem 0.85rem;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.dropdown-item:hover { background: rgba(230, 57, 70, 0.06); color: #e63946; }
+
+/* ── Toggler ── */
+.site-navbar-toggler,
+.admin-navbar-toggler {
+  border: none;
+  background: transparent;
+  padding: 0.4rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.site-navbar-toggler:hover { background: rgba(255,255,255,0.1); }
+.is-scrolled .site-navbar-toggler:hover { background: rgba(0,0,0,0.05); }
+
+/* Custom hamburger icon color */
+.site-navbar-toggler .navbar-toggler-icon {
+  filter: invert(1);
+  transition: filter 0.38s ease;
+}
+.is-scrolled .site-navbar-toggler .navbar-toggler-icon { filter: none; }
+
+/* ── Promo marquee ── */
+.promo-marquee {
+  overflow: hidden;
+  background: #0a0a0a;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 999;
+}
+
+.promo-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marqueeScroll 28s linear infinite;
+  gap: 0;
+}
+
+.promo-track > span {
+  padding: 0 4rem;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: rgba(255,255,255,0.88) !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Duplicate the span content in HTML so scrolling is seamless — OR use the JS approach */
+.promo-track-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0 3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.88);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.promo-track-item i {
+  color: #e63946 !important;
+  font-size: 0.65rem;
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── Mobile collapse ── */
+@media (max-width: 991px) {
+  .site-navbar-panel.show,
+  .site-navbar-panel.collapsing {
+    background: rgba(10, 8, 6, 0.97);
+    padding: 1.2rem 1rem 1.5rem;
+    border-radius: 0 0 16px 16px;
+    backdrop-filter: blur(20px);
+  }
+
+  .is-scrolled .site-navbar-panel.show,
+  .is-scrolled .site-navbar-panel.collapsing {
+    background: rgba(250, 247, 242, 0.98);
+  }
+
+  .site-navbar-menu .nav-link {
+    color: rgba(255,255,255,0.88);
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .is-scrolled .site-navbar-menu .nav-link { color: #1a1614; }
+}
+
+/* ── ADMIN NAVBAR (unchanged aesthetic) ── */
+.admin-navbar {
+  min-height: 68px;
+  background: rgba(18, 12, 8, 0.97);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  backdrop-filter: blur(14px);
+}
+
+.admin-navbar-inner {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+}
+
+.admin-navbar-brand-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.9;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.admin-navbar-brand-copy strong {
+  font-family: 'Staatliches', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.14em;
+  font-weight: 400;
+}
+
+.admin-navbar-brand-copy small {
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.5);
+}
+
+.admin-navbar-menu .nav-link {
+  color: rgba(255,255,255,0.72);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.admin-navbar-menu .nav-link:hover,
+.admin-navbar-menu .nav-link.is-active {
+  color: #fff;
+  background: rgba(230, 57, 70, 0.14);
+}

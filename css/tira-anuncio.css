@@ -1,0 +1,44 @@
+.promo-marquee {
+  position: fixed;
+  top: var(--site-promo-offset, 82px);
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fefff9;
+  color: #000000;
+  font-weight: bold;
+  padding: 10px 0;
+  z-index: 999;
+  transition:
+    top 0.35s ease,
+    box-shadow 0.35s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.contenedor-estilos-nav.is-hidden + .promo-marquee {
+  top: 0;
+}
+
+.promo-track {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 20s linear infinite;
+}
+
+.promo-track span {
+  color: #000000;
+  white-space: nowrap;
+  margin-right: 50px;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}

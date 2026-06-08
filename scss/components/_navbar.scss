@@ -1,0 +1,26 @@
+
+
+
+header nav .container-fluid img {
+    width: 150px;
+    height: auto;
+}
+
+header nav .container-fluid {
+    height: auto;
+}
+
+.navbar .navbar-collapse {
+    justify-content: space-evenly;
+    z-index: 10;
+}
+
+.navbar a {
+    @include links(20px, bold, uppercase, 0.1s, 55px, relative, 30px)
+}
+
+.navbar a:hover {
+    text-decoration: #c02924 overline;
+    /* transform: scale(1.1); */
+    color: #000000;
+}

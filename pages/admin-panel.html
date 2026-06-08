@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel Admin · Me Visto Como Quiero</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../css/nav-bar.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/admin-panel.css" />
+
+    <script
+      src="https://kit.fontawesome.com/68c5d14b35.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <!-- ─── ADMIN NAVBAR ─── -->
+    <header>
+      <nav class="navbar fixed-top admin-navbar">
+        <div class="container-fluid admin-navbar-inner">
+          <a
+            class="navbar-brand admin-navbar-brand"
+            href="admin-panel.html"
+            aria-label="Panel Admin"
+          >
+            <img
+              src="../img/mvcqSinfondo.png"
+              alt="Logo MVCQ"
+              class="logo-navbar"
+            />
+            <span class="admin-navbar-brand-copy">
+              <strong>MVCQ</strong>
+              <small>Admin</small>
+            </span>
+          </a>
+
+          <div class="admin-navbar-actions ms-auto">
+            <a
+              class="admin-nav-store-link"
+              href="../index.html"
+              title="Ir a la tienda"
+            >
+              <i class="fas fa-store me-1"></i>Tienda
+            </a>
+            <div class="nav-item dropdown">
+              <a
+                class="admin-nav-profile dropdown-toggle"
+                href="#"
+                id="userDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src="https://ui-avatars.com/api/?name=Admin&background=7a2b3b&color=fff"
+                  alt="Admin"
+                  class="rounded-circle"
+                  width="32"
+                  height="32"
+                />
+                <span id="usernameSpan">Admin</span>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="userDropdown"
+              >
+                <li>
+                  <a class="dropdown-item" href="perfil.html">
+                    <i class="fas fa-user me-2"></i>Mi perfil
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a
+                    class="dropdown-item text-danger"
+                    href="#"
+                    onclick="logout()"
+                  >
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ─── ADMIN SHELL ─── -->
+    <div class="admin-shell">
+      <!-- Mobile sidebar toggle -->
+      <button
+        class="admin-sidebar-toggle"
+        id="sidebarToggle"
+        aria-label="Abrir menú lateral"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="admin-sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- ─── SIDEBAR ─── -->
+      <aside class="admin-sidebar" id="adminSidebar">
+        <div class="admin-sidebar-header">
+          <i class="fas fa-shield-alt"></i>
+          <span>Admin Panel</span>
+        </div>
+        <nav class="admin-sidebar-nav">
+          <button class="admin-nav-btn is-active" data-section="dashboard">
+            <i class="fas fa-chart-pie"></i>
+            <span>Dashboard</span>
+          </button>
+          <button class="admin-nav-btn" data-section="almacen">
+            <i class="fas fa-warehouse"></i>
+            <span>Almacén</span>
+            <small class="admin-nav-count" id="almacenCount">0</small>
+          </button>
+          <button class="admin-nav-btn" data-section="publicados">
+            <i class="fas fa-store"></i>
+            <span>Publicados</span>
+            <small class="admin-nav-count" id="publicadosCount">0</small>
+          </button>
+          <button class="admin-nav-btn" data-section="usuarios">
+            <i class="fas fa-users-cog"></i>
+            <span>Usuarios</span>
+          </button>
+          <button class="admin-nav-btn" data-section="sitio">
+            <i class="fas fa-palette"></i>
+            <span>Sitio Web</span>
+          </button>
+        </nav>
+        <div class="admin-sidebar-footer">
+          <a href="../index.html" class="admin-back-link">
+            <i class="fas fa-arrow-left"></i> Volver a la tienda
+          </a>
+        </div>
+      </aside>
+
+      <!-- ─── MAIN CONTENT ─── -->
+      <main class="admin-main">
+        <!-- ════ DASHBOARD ════ -->
+        <section class="admin-section is-visible" id="section-dashboard">
+          <div class="admin-section-header">
+            <div>
+              <h1>Dashboard</h1>
+              <p class="admin-section-sub">Resumen general de tu tienda</p>
+            </div>
+          </div>
+
+          <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+              <div class="admin-stat-icon" style="--stat-clr: #7a2b3b">
+                <i class="fas fa-box-open"></i>
+              </div>
+              <div class="admin-stat-body">
+                <span class="admin-stat-label">Total productos</span>
+                <strong class="admin-stat-value" id="statTotal">—</strong>
+              </div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="admin-stat-icon" style="--stat-clr: #27ae60">
+                <i class="fas fa-store"></i>
+              </div>
+              <div class="admin-stat-body">
+                <span class="admin-stat-label">Publicados</span>
+                <strong class="admin-stat-value" id="statPublicados">—</strong>
+              </div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="admin-stat-icon" style="--stat-clr: #e67e22">
+                <i class="fas fa-eye-slash"></i>
+              </div>
+              <div class="admin-stat-body">
+                <span class="admin-stat-label">Sin publicar</span>
+                <strong class="admin-stat-value" id="statSinPublicar">—</strong>
+              </div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="admin-stat-icon" style="--stat-clr: #2980b9">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="admin-stat-body">
+                <span class="admin-stat-label">Usuarios</span>
+                <strong class="admin-stat-value" id="statUsuarios">—</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="admin-quick-actions">
+            <h2>Acciones rápidas</h2>
+            <div class="admin-quick-grid">
+              <button class="admin-quick-btn" data-goto="almacen">
+                <i class="fas fa-warehouse"></i>
+                <span>Ver almacén</span>
+              </button>
+              <button class="admin-quick-btn" data-goto="publicados">
+                <i class="fas fa-store"></i>
+                <span>Ver publicados</span>
+              </button>
+              <button class="admin-quick-btn" data-goto="usuarios">
+                <i class="fas fa-user-plus"></i>
+                <span>Gestionar usuarios</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Top sellers -->
+          <div class="admin-recent-card">
+            <h2>Top productos más vendidos</h2>
+            <div class="admin-recent-list" id="recentProducts">
+              <p class="admin-empty-hint">Cargando…</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ ALMACÉN ════ -->
+        <section class="admin-section" id="section-almacen">
+          <div class="admin-section-header">
+            <div>
+              <h1>Almacén</h1>
+              <p class="admin-section-sub">
+                Todos los productos en sistema — publicá los que quieras en tu
+                tienda
+              </p>
+            </div>
+            <div class="admin-section-tools">
+              <div class="admin-search-box">
+                <i class="fas fa-search"></i>
+                <input
+                  type="text"
+                  id="almacenSearch"
+                  placeholder="Buscar producto…"
+                />
+              </div>
+            </div>
+            <button
+              class="admin-btn-primary"
+              id="btnAgregarProducto"
+              type="button"
+            >
+              <i class="fas fa-plus me-1"></i>
+              <span>Agregar nuevo artículo</span>
+            </button>
+          </div>
+
+          <!-- ════ FORMULARIO: Nuevo Producto PRO ════ -->
+          <div
+            class="admin-new-product-form"
+            id="newProductForm"
+            style="display: none"
+          >
+            <div class="pf-backdrop" id="productFormBackdrop"></div>
+            <div class="pf-panel">
+              <!-- HEADER -->
+              <div class="pf-header">
+                <div class="pf-header-left">
+                  <div class="pf-header-icon">
+                    <i class="fas fa-box-open"></i>
+                  </div>
+                  <div>
+                    <h4 class="pf-title">Nuevo Producto</h4>
+                    <p class="pf-subtitle">
+                      Completá los datos para agregar un artículo al almacén
+                    </p>
+                  </div>
+                </div>
+                <button
+                  class="pf-close-btn"
+                  id="closeProductForm"
+                  type="button"
+                  aria-label="Cerrar"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+
+              <!-- BODY -->
+              <form id="productFormSubmit" class="pf-body" novalidate>
+                <!-- ─ STEP 1: Info básica ─ -->
+                <fieldset class="pf-fieldset">
+                  <legend class="pf-legend">
+                    <i class="fas fa-info-circle me-2"></i>Información básica
+                  </legend>
+                  <div class="row g-3">
+                    <div class="col-md-8">
+                      <label class="pf-label" for="productName"
+                        >Nombre del producto
+                        <span class="pf-req">*</span></label
+                      >
+                      <input
+                        type="text"
+                        class="pf-input"
+                        id="productName"
+                        placeholder="Ej: Remera oversize negra"
+                        required
+                      />
+                    </div>
+                    <div class="col-md-4">
+                      <label class="pf-label" for="productSku">
+                        SKU
+                        <button
+                          type="button"
+                          class="pf-sku-gen"
+                          id="btnGenerateSKU"
+                        >
+                          Auto <i class="fas fa-magic"></i>
+                        </button>
+                      </label>
+                      <input
+                        type="text"
+                        class="pf-input"
+                        id="productSku"
+                        placeholder="MVCQ-XXXXX"
+                      />
+                    </div>
+                    <div class="col-12">
+                      <label class="pf-label" for="productDescription"
+                        >Descripción</label
+                      >
+                      <textarea
+                        class="pf-input pf-textarea"
+                        id="productDescription"
+                        rows="3"
+                        placeholder="Breve descripción del producto…"
+                      ></textarea>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- ─ STEP 2: Clasificación ─ -->
+                <fieldset class="pf-fieldset">
+                  <legend class="pf-legend">
+                    <i class="fas fa-tags me-2"></i>Clasificación
+                  </legend>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <label class="pf-label" for="productCategory"
+                        >Categoría <span class="pf-req">*</span></label
+                      >
+                      <select
+                        class="pf-input pf-select"
+                        id="productCategory"
+                        required
+                      >
+                        <option value="" disabled selected>Seleccionar…</option>
+                        <option value="Remeras">Remeras</option>
+                        <option value="Pantalones">Pantalones</option>
+                        <option value="Buzos">Buzos</option>
+                        <option value="Camperas">Camperas</option>
+                        <option value="Camisas">Camisas</option>
+                        <option value="Shorts">Shorts</option>
+                        <option value="Vestidos">Vestidos</option>
+                        <option value="Polleras">Polleras</option>
+                        <option value="Accesorios">Accesorios</option>
+                        <option value="Calzado">Calzado</option>
+                        <option value="Otro">Otro</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="pf-label" for="productGender"
+                        >Género <span class="pf-req">*</span></label
+                      >
+                      <select
+                        class="pf-input pf-select"
+                        id="productGender"
+                        required
+                      >
+                        <option value="" disabled selected>Seleccionar…</option>
+                        <option value="Hombre">Hombre</option>
+                        <option value="Mujer">Mujer</option>
+                        <option value="Unisex">Unisex</option>
+                        <option value="Niño">Niño</option>
+                        <option value="Niña">Niña</option>
+                      </select>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="pf-label">Talles disponibles</label>
+                      <div class="pf-size-grid" id="sizeGrid">
+                        <label class="pf-size-chip"
+                          ><input
+                            type="checkbox"
+                            name="sizes"
+                            value="XS"
+                          /><span>XS</span></label
+                        >
+                        <label class="pf-size-chip"
+                          ><input type="checkbox" name="sizes" value="S" /><span
+                            >S</span
+                          ></label
+                        >
+                        <label class="pf-size-chip"
+                          ><input
+                            type="checkbox"
+                            name="sizes"
+                            value="M"
+                            checked
+                          /><span>M</span></label
+                        >
+                        <label class="pf-size-chip"
+                          ><input
+                            type="checkbox"
+                            name="sizes"
+                            value="L"
+                            checked
+                          /><span>L</span></label
+                        >
+                        <label class="pf-size-chip"
+                          ><input
+                            type="checkbox"
+                            name="sizes"
+                            value="XL"
+                            checked
+                          /><span>XL</span></label
+                        >
+                        <label class="pf-size-chip"
+                          ><input
+                            type="checkbox"
+                            name="sizes"
+                            value="XXL"
+                          /><span>XXL</span></label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- ─ STEP 3: Precio & Stock ─ -->
+                <fieldset class="pf-fieldset">
+                  <legend class="pf-legend">
+                    <i class="fas fa-dollar-sign me-2"></i>Precio & Stock
+                  </legend>
+                  <div class="row g-3">
+                    <div class="col-md-4">
+                      <label class="pf-label" for="productPrice"
+                        >Precio <span class="pf-req">*</span></label
+                      >
+                      <div class="pf-input-icon-wrap">
+                        <span class="pf-input-icon">$</span>
+                        <input
+                          type="number"
+                          class="pf-input pf-input-with-icon"
+                          id="productPrice"
+                          min="0"
+                          step="0.01"
+                          placeholder="0.00"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="pf-label" for="productStock">Stock</label>
+                      <div class="pf-input-icon-wrap">
+                        <span class="pf-input-icon"
+                          ><i class="fas fa-cubes"></i
+                        ></span>
+                        <input
+                          type="number"
+                          class="pf-input pf-input-with-icon"
+                          id="productStock"
+                          min="0"
+                          placeholder="0"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="pf-label" for="productDiscount"
+                        >Descuento %</label
+                      >
+                      <div class="pf-input-icon-wrap">
+                        <span class="pf-input-icon"
+                          ><i class="fas fa-percent"></i
+                        ></span>
+                        <input
+                          type="number"
+                          class="pf-input pf-input-with-icon"
+                          id="productDiscount"
+                          min="0"
+                          max="100"
+                          placeholder="0"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- ─ STEP 4: Imágenes ─ -->
+                <fieldset class="pf-fieldset">
+                  <legend class="pf-legend">
+                    <i class="fas fa-images me-2"></i>Imágenes
+                  </legend>
+                  <div class="row g-4">
+                    <div class="col-md-6">
+                      <label class="pf-label"
+                        >Imagen principal <span class="pf-req">*</span></label
+                      >
+                      <div class="pf-upload" id="mainUploadZone">
+                        <input
+                          type="file"
+                          id="mainImageInput"
+                          hidden
+                          accept="image/*"
+                        />
+                        <div class="pf-upload-placeholder" id="mainPlaceholder">
+                          <i class="fas fa-cloud-upload-alt"></i>
+                          <span>Arrastrá o hacé click para subir</span>
+                          <small>JPG, PNG, WEBP — máx 5 MB</small>
+                        </div>
+                        <img id="previewMain" class="pf-upload-preview" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="pf-label">Imagen secundaria</label>
+                      <div class="pf-upload" id="secondUploadZone">
+                        <input
+                          type="file"
+                          id="secondImageInput"
+                          hidden
+                          accept="image/*"
+                        />
+                        <div
+                          class="pf-upload-placeholder"
+                          id="secondPlaceholder"
+                        >
+                          <i class="fas fa-cloud-upload-alt"></i>
+                          <span>Arrastrá o hacé click para subir</span>
+                          <small>JPG, PNG, WEBP — máx 5 MB</small>
+                        </div>
+                        <img id="previewSecond" class="pf-upload-preview" />
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+
+                <!-- ─ STEP 5: Estado ─ -->
+                <fieldset class="pf-fieldset pf-fieldset-inline">
+                  <div class="pf-toggle-row">
+                    <div>
+                      <span class="pf-toggle-label">Producto activo</span>
+                      <span class="pf-toggle-hint"
+                        >El producto estará disponible para publicar</span
+                      >
+                    </div>
+                    <label class="pf-switch">
+                      <input type="checkbox" id="productIsActive" checked />
+                      <span class="pf-switch-slider"></span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <!-- ─ FOOTER ACTIONS ─ -->
+                <div class="pf-actions">
+                  <button
+                    type="button"
+                    class="pf-btn pf-btn-ghost"
+                    id="cancelProductForm"
+                  >
+                    <i class="fas fa-arrow-left me-1"></i> Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    class="pf-btn pf-btn-primary"
+                    id="btnSubmitProduct"
+                  >
+                    <span class="pf-btn-label"
+                      ><i class="fas fa-save me-1"></i> Guardar producto</span
+                    >
+                    <span class="pf-btn-loading" style="display: none"
+                      ><i class="fas fa-spinner fa-spin me-1"></i>
+                      Guardando…</span
+                    >
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="admin-product-grid" id="almacenGrid">
+            <p class="admin-empty-hint">Cargando productos…</p>
+          </div>
+        </section>
+
+        <!-- ════ PUBLICADOS ════ -->
+        <section class="admin-section" id="section-publicados">
+          <div class="admin-section-header">
+            <div>
+              <h1>Publicados</h1>
+              <p class="admin-section-sub">
+                Productos visibles en la tienda para tus clientes
+              </p>
+            </div>
+          </div>
+
+          <div class="admin-product-grid" id="publicadosGrid">
+            <p class="admin-empty-hint">Ningún producto publicado aún</p>
+          </div>
+        </section>
+
+        <!-- ════ USUARIOS ════ -->
+        <section class="admin-section" id="section-usuarios">
+          <div class="admin-section-header">
+            <div>
+              <h1>Usuarios</h1>
+              <p class="admin-section-sub">Gestión de cuentas y permisos</p>
+            </div>
+            <button class="admin-btn-primary" id="btnNuevoUsuario">
+              <i class="fas fa-user-plus me-1"></i> Nuevo usuario
+            </button>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table" id="usersTable">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Email</th>
+                  <th>Rol</th>
+                  <th>Creado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="usersBody">
+                <tr>
+                  <td colspan="5" class="admin-empty-hint">
+                    Cargando usuarios…
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ════ SITIO WEB ════ -->
+        <section class="admin-section" id="section-sitio">
+          <div class="admin-section-header">
+            <div>
+              <h1>Configuración del Sitio</h1>
+              <p class="admin-section-sub">Controlá qué secciones se muestran y editá los textos del home</p>
+            </div>
+            <button class="admin-btn-primary" id="btnSaveSiteConfig">
+              <i class="fas fa-save me-1"></i> Guardar cambios
+            </button>
+          </div>
+
+          <!-- Loader / error state -->
+          <div id="siteConfigLoader" class="text-center py-5">
+            <div style="display:inline-block;width:28px;height:28px;border:3px solid rgba(230,57,70,0.2);border-top-color:#e63946;border-radius:50%;animation:spin .7s linear infinite"></div>
+            <p class="mt-3 text-muted">Cargando configuración…</p>
+          </div>
+
+          <div id="siteConfigForm" style="display:none">
+
+            <!-- ── Marquee ── -->
+            <div class="admin-config-card">
+              <div class="admin-config-card-head">
+                <div>
+                  <h3><i class="fas fa-bullhorn me-2 text-danger"></i>Barra de anuncios</h3>
+                  <p>Texto que se desplaza en la parte superior de la página</p>
+                </div>
+                <label class="admin-toggle" title="Mostrar / Ocultar">
+                  <input type="checkbox" id="cfg-marquee-visible" />
+                  <span class="admin-toggle-track"></span>
+                </label>
+              </div>
+              <div class="admin-config-card-body">
+                <label class="admin-label" for="cfg-marquee-text">Texto del anuncio</label>
+                <input type="text" id="cfg-marquee-text" class="admin-input" placeholder="Ej: 15% OFF en compras de 3+ prendas" />
+              </div>
+            </div>
+
+            <!-- ── Hero ── -->
+            <div class="admin-config-card">
+              <div class="admin-config-card-head">
+                <div>
+                  <h3><i class="fas fa-images me-2 text-danger"></i>Slider principal (Hero)</h3>
+                  <p>Banner de pantalla completa en el inicio</p>
+                </div>
+                <label class="admin-toggle">
+                  <input type="checkbox" id="cfg-hero-visible" />
+                  <span class="admin-toggle-track"></span>
+                </label>
+              </div>
+              <div class="admin-config-card-body" id="heroSlidesConfig">
+                <!-- Slides rendered by JS -->
+              </div>
+            </div>
+
+            <!-- ── Categorías ── -->
+            <div class="admin-config-card">
+              <div class="admin-config-card-head">
+                <div>
+                  <h3><i class="fas fa-th-large me-2 text-danger"></i>Mosaico de categorías</h3>
+                  <p>Grid de imágenes "¿Para quién estás comprando?"</p>
+                </div>
+                <label class="admin-toggle">
+                  <input type="checkbox" id="cfg-categories-visible" />
+                  <span class="admin-toggle-track"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- ── Promo Banner ── -->
+            <div class="admin-config-card">
+              <div class="admin-config-card-head">
+                <div>
+                  <h3><i class="fas fa-fire me-2 text-danger"></i>Banner promocional</h3>
+                  <p>Sección oscura entre categorías y productos destacados</p>
+                </div>
+                <label class="admin-toggle">
+                  <input type="checkbox" id="cfg-promo-visible" />
+                  <span class="admin-toggle-track"></span>
+                </label>
+              </div>
+              <div class="admin-config-card-body">
+                <div class="admin-config-row">
+                  <div>
+                    <label class="admin-label" for="cfg-promo-text">Título</label>
+                    <input type="text" id="cfg-promo-text" class="admin-input" placeholder="Nueva colección disponible" />
+                  </div>
+                  <div>
+                    <label class="admin-label" for="cfg-promo-subtext">Subtítulo</label>
+                    <input type="text" id="cfg-promo-subtext" class="admin-input" placeholder="Prendas únicas para cada estilo" />
+                  </div>
+                </div>
+                <div class="admin-config-row mt-2">
+                  <div>
+                    <label class="admin-label" for="cfg-promo-cta">Texto del botón</label>
+                    <input type="text" id="cfg-promo-cta" class="admin-input" placeholder="Explorar ahora" />
+                  </div>
+                  <div>
+                    <label class="admin-label" for="cfg-promo-link">Link del botón</label>
+                    <input type="text" id="cfg-promo-link" class="admin-input" placeholder="pages/productos.html" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Productos Destacados ── -->
+            <div class="admin-config-card">
+              <div class="admin-config-card-head">
+                <div>
+                  <h3><i class="fas fa-star me-2 text-danger"></i>Productos Destacados</h3>
+                  <p>Carrusel de productos en la home</p>
+                </div>
+                <label class="admin-toggle">
+                  <input type="checkbox" id="cfg-featured-visible" />
+                  <span class="admin-toggle-track"></span>
+                </label>
+              </div>
+              <div class="admin-config-card-body">
+                <div class="admin-config-row">
+                  <div>
+                    <label class="admin-label" for="cfg-featured-title">Título de la sección</label>
+                    <input type="text" id="cfg-featured-title" class="admin-input" placeholder="Productos Destacados" />
+                  </div>
+                  <div>
+                    <label class="admin-label" for="cfg-featured-subtitle">Subtítulo</label>
+                    <input type="text" id="cfg-featured-subtitle" class="admin-input" placeholder="Elegimos para vos los más populares" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ── Trust / Beneficios ── -->
+            <div class="admin-config-card">
+              <div class="admin-config-card-head">
+                <div>
+                  <h3><i class="fas fa-shield-alt me-2 text-danger"></i>Sección Beneficios</h3>
+                  <p>Tarjetas de confianza (envío, devoluciones, pagos, soporte)</p>
+                </div>
+                <label class="admin-toggle">
+                  <input type="checkbox" id="cfg-trust-visible" />
+                  <span class="admin-toggle-track"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- ── Newsletter ── -->
+            <div class="admin-config-card">
+              <div class="admin-config-card-head">
+                <div>
+                  <h3><i class="fas fa-envelope me-2 text-danger"></i>Newsletter</h3>
+                  <p>Formulario de suscripción al newsletter</p>
+                </div>
+                <label class="admin-toggle">
+                  <input type="checkbox" id="cfg-newsletter-visible" />
+                  <span class="admin-toggle-track"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Save notice -->
+            <div id="siteConfigSaved" class="admin-save-notice" style="display:none">
+              <i class="fas fa-check-circle me-2"></i> Configuración guardada correctamente
+            </div>
+
+          </div><!-- /siteConfigForm -->
+        </section>
+
+      </main>
+    </div>
+
+    <!-- ─── MODAL: Nuevo / Editar usuario ─── -->
+    <div class="admin-modal-backdrop" id="userModalBackdrop">
+      <div class="admin-modal" role="dialog" aria-labelledby="userModalTitle">
+        <div class="admin-modal-header">
+          <h2 id="userModalTitle">Nuevo usuario</h2>
+          <button
+            class="admin-modal-close"
+            id="userModalClose"
+            aria-label="Cerrar"
+          >
+            &times;
+          </button>
+        </div>
+        <form id="userForm" autocomplete="off">
+          <input type="hidden" id="userFormId" />
+          <div class="admin-form-group">
+            <label for="userFormName">Nombre de usuario</label>
+            <input
+              type="text"
+              id="userFormName"
+              required
+              minlength="3"
+              maxlength="30"
+            />
+          </div>
+          <div class="admin-form-group">
+            <label for="userFormEmail">Email</label>
+            <input type="email" id="userFormEmail" required />
+          </div>
+          <div class="admin-form-group">
+            <label for="userFormPassword">Contraseña</label>
+            <input
+              type="password"
+              id="userFormPassword"
+              minlength="6"
+              placeholder="Dejar vacío para no cambiar"
+            />
+          </div>
+          <div class="admin-form-group">
+            <label>Rol</label>
+            <div class="admin-role-picker">
+              <label class="admin-role-option">
+                <input type="radio" name="userRole" value="user" checked />
+                <span><i class="fas fa-user"></i> Usuario</span>
+              </label>
+              <label class="admin-role-option">
+                <input type="radio" name="userRole" value="admin" />
+                <span><i class="fas fa-user-shield"></i> Admin</span>
+              </label>
+            </div>
+          </div>
+          <div class="admin-form-actions">
+            <button type="button" class="admin-btn-ghost" id="userModalCancel">
+              Cancelar
+            </button>
+            <button type="submit" class="admin-btn-primary">
+              <i class="fas fa-save me-1"></i> Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ─── ADMIN FOOTER ─── -->
+    <footer class="admin-footer">
+      <div class="admin-footer-inner">
+        <p>© 2026 Me Visto Como Quiero · Panel de Administración</p>
+        <a href="../index.html"
+          ><i class="fas fa-store me-1"></i>Ir a la tienda</a
+        >
+      </div>
+    </footer>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin-panel.js"></script>
+    <script src="../js/admin-site-config.js"></script>
+    <script>
+      // Update admin avatar with real username
+      (function () {
+        var name = localStorage.getItem("username") || "Admin";
+        var span = document.getElementById("usernameSpan");
+        var img = document.querySelector("#userDropdown img");
+        if (span) span.textContent = name;
+        if (img) {
+          var encoded = encodeURIComponent(name);
+          img.src =
+            "https://ui-avatars.com/api/?name=" +
+            encoded +
+            "&background=7a2b3b&color=fff";
+          img.alt = name;
+        }
+      })();
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

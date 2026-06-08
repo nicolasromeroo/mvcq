@@ -1,0 +1,81 @@
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    
+}
+
+  .form-container, .social-media-container {
+    flex: 1;
+    margin-right: 10px;
+}
+  
+h3 {
+    margin-bottom: 10px;
+}
+  
+form {
+    display: flex;
+    margin-bottom: 10px;
+}
+  
+input[type="email"] {
+    padding: 5px;
+    margin-right: 5px;
+    flex: 1;
+}
+  
+button[type="submit"] {
+    padding: 5px 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+  
+.social-media-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+  
+.social-media-links li {
+    margin-right: 10px;
+}
+  /*
+.social-media-links a {
+    color: #fff;
+    font-size: 20px;
+} */
+
+.social-media-links a {
+    @include linksReducidos(
+    #ffffff,
+    50px,
+    20px,
+    .3s
+    )
+}
+  
+.social-media-links a:hover {
+    color: $lightPinkColor;
+}
+
+$fuenteDeColor: (
+  naranja: $colorCatalogo, 
+  rosa: $lightPinkColor, 
+  bordo: $colorMultimedia, 
+  );
+
+@each $fondo, $fondo-color in $fuenteDeColor {
+    .objeto-de-color-#{$fondo} {
+      background-color: #{$fondo-color};
+      color: #555;
+      @if $fondo == bordo {
+        color: #ffffff;
+      }
+    } 
+  }

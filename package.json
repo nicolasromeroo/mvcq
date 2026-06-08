@@ -1,0 +1,19 @@
+{
+  "name": "mevistocomoquiero",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolasromeroo/PreEntrega2-Romero.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolasromeroo/PreEntrega2-Romero/issues"
+  },
+  "homepage": "https://github.com/nicolasromeroo/PreEntrega2-Romero#readme",
+  "dependencies": {
+    "typed.js": "^2.1.0"
+  }
+}

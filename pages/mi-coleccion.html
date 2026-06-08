@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vestidor Virtual · Me Visto Como Quiero</title>
+    <meta
+      name="description"
+      content="Vestí tu maniquí virtual con prendas de la tienda y guardá tus outfits favoritos."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Staatliches&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/68c5d14b35.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="../css/design-system.css" />
+    <link rel="stylesheet" href="../css/nav-bar.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/mi-coleccion.css" />
+  </head>
+
+  <body class="mc-page">
+    <!-- ══ NAVBAR ══ -->
+    <header>
+      <nav
+        class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar"
+      >
+        <div class="container-xxl site-navbar-inner">
+          <a
+            class="navbar-brand site-navbar-brand"
+            href="../index.html"
+            aria-label="Inicio"
+          >
+            <img
+              src="../img/mvcqSinfondo.png"
+              alt="Logo MVCQ"
+              class="logo-navbar"
+            />
+            <span class="site-navbar-brand-copy">
+              <strong>Me Visto</strong>
+              <small>Como Quiero</small>
+            </span>
+          </a>
+          <button
+            class="navbar-toggler site-navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Abrir navegación"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse site-navbar-panel"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav site-navbar-menu mx-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="productos.html">Productos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="mi-coleccion.html">Vestidor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contactanos.html">Contacto</a>
+              </li>
+            </ul>
+            <div class="site-navbar-actions">
+              <div id="authNav" class="site-navbar-auth">
+                <a class="site-nav-link" href="login.html">Ingresá</a>
+                <a class="site-nav-pill" href="register.html">Registrate</a>
+              </div>
+              <div id="userNav" class="site-navbar-user d-none">
+                <a
+                  class="site-nav-icon"
+                  href="carrito.html"
+                  title="Carrito"
+                  aria-label="Carrito"
+                >
+                  <i class="fas fa-shopping-bag"></i>
+                  <span class="site-nav-badge">0</span>
+                </a>
+                <a
+                  id="adminPanelItem"
+                  class="site-nav-link d-none"
+                  href="admin-panel.html"
+                  >Panel</a
+                >
+                <div class="nav-item dropdown">
+                  <a
+                    class="site-nav-profile dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff"
+                      alt="Usuario"
+                      class="rounded-circle"
+                      width="30"
+                      height="30"
+                    />
+                    <span id="usernameSpan">Usuario</span>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="userDropdown"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="perfil.html"
+                        ><i class="fas fa-user me-2"></i>Mi perfil</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="mis-pedidos.html"
+                        ><i class="fas fa-box me-2"></i>Mis pedidos</a
+                      >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a
+                        class="dropdown-item text-danger"
+                        href="#"
+                        onclick="logout()"
+                        ><i class="fas fa-sign-out-alt me-2"></i>Cerrar
+                        sesión</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ══ PAGE HEADER + TABS ══ -->
+    <div class="mc-page-header">
+      <div class="mc-page-header-inner">
+        <span class="mc-page-header-eyebrow">Tu espacio de moda</span>
+        <h1>Vestidor Virtual</h1>
+        <p>
+          Elegí prendas de la tienda, vistí el maniquí y guardá tus outfits
+          favoritos.
+        </p>
+      </div>
+      <div class="mc-tabs" role="tablist">
+        <button class="mc-tab is-active" data-tab="vestidor" role="tab">
+          <i class="fas fa-person-dress"></i> Vestidor
+        </button>
+        <button class="mc-tab" data-tab="colecciones" role="tab">
+          <i class="fas fa-layer-group"></i> Mis Colecciones
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TAB 1: VESTIDOR VIRTUAL
+    ══════════════════════════════════════ -->
+    <div class="mc-tab-panel is-active" data-panel="vestidor">
+      <div class="vestidor-layout">
+        <!-- ── Left: Product browser ── -->
+        <aside class="vestidor-browser">
+          <div class="browser-head">
+            <h3>Prendas</h3>
+            <div class="browser-search">
+              <i class="fas fa-search browser-search-icon"></i>
+              <input
+                type="search"
+                id="browserSearch"
+                placeholder="Buscar prenda…"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="browser-cats" id="catPills">
+            <!-- Rendered by JS -->
+          </div>
+          <div class="browser-list" id="browserList">
+            <!-- Products rendered by JS -->
+          </div>
+        </aside>
+
+        <!-- ── Center: Mannequin ── -->
+        <section class="vestidor-stage">
+          <p class="vestidor-stage-hint">
+            <i class="fas fa-hand-pointer me-1"></i>
+            Hacé clic en una prenda o en una zona del maniquí
+          </p>
+
+          <!-- Mannequin + overlay zones -->
+          <div class="mannequin-wrap">
+            <!-- SVG Mannequin body -->
+            <svg
+              class="mannequin-svg"
+              viewBox="0 0 200 500"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <!-- Subtle gradient for depth -->
+                <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#ede7df" />
+                  <stop offset="100%" stop-color="#ddd5cc" />
+                </linearGradient>
+                <linearGradient id="hipGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ddd5cc" />
+                  <stop offset="100%" stop-color="#d0c8bf" />
+                </linearGradient>
+              </defs>
+
+              <!-- HEAD -->
+              <ellipse cx="100" cy="35" rx="24" ry="28" fill="url(#bodyGrad)" />
+
+              <!-- NECK -->
+              <path
+                d="M 93 61 L 93 84 Q 100 86 107 84 L 107 61 Z"
+                fill="url(#bodyGrad)"
+              />
+
+              <!-- LEFT ARM -->
+              <path
+                d="M 46 92 C 46 84 66 80 82 80 L 82 88 L 52 94 L 36 174 Q 42 180 48 178 L 54 196 Z"
+                fill="url(#bodyGrad)"
+              />
+
+              <!-- RIGHT ARM -->
+              <path
+                d="M 154 92 C 154 84 134 80 118 80 L 118 88 L 148 94 L 164 174 Q 158 180 152 178 L 146 196 Z"
+                fill="url(#bodyGrad)"
+              />
+
+              <!-- TORSO -->
+              <path
+                d="M 52 94 L 148 94 L 142 200 Q 124 212 100 214 Q 76 212 58 200 Z"
+                fill="url(#bodyGrad)"
+              />
+
+              <!-- HIPS -->
+              <path
+                d="M 58 200 Q 76 212 100 214 Q 124 212 142 200 L 150 256 Q 124 270 100 272 Q 76 270 50 256 Z"
+                fill="url(#hipGrad)"
+              />
+
+              <!-- LEFT LEG -->
+              <path
+                d="M 50 256 Q 76 270 97 272 L 93 488 Q 70 494 48 490 L 42 256 Z"
+                fill="url(#bodyGrad)"
+              />
+
+              <!-- RIGHT LEG -->
+              <path
+                d="M 103 272 Q 124 270 150 256 L 158 490 Q 136 494 107 488 Z"
+                fill="url(#bodyGrad)"
+              />
+
+              <!-- FEET (base plates) -->
+              <rect
+                x="40"
+                y="485"
+                width="56"
+                height="10"
+                rx="5"
+                fill="#cfc8c0"
+              />
+              <rect
+                x="104"
+                y="485"
+                width="56"
+                height="10"
+                rx="5"
+                fill="#cfc8c0"
+              />
+
+              <!-- Subtle center seam line -->
+              <line
+                x1="100"
+                y1="80"
+                x2="100"
+                y2="214"
+                stroke="#cfc8c0"
+                stroke-width="0.6"
+                opacity="0.5"
+              />
+
+              <!-- Waist indicator dashes -->
+              <path
+                d="M 60 165 L 72 163"
+                stroke="#cfc8c0"
+                stroke-width="0.8"
+                opacity="0.4"
+              />
+              <path
+                d="M 128 163 L 140 165"
+                stroke="#cfc8c0"
+                stroke-width="0.8"
+                opacity="0.4"
+              />
+
+              <!-- Stand pole -->
+              <rect x="96" y="494" width="8" height="6" rx="2" fill="#b0a8a0" />
+            </svg>
+
+            <!-- Clothing overlay zones -->
+            <div class="outfit-zone outfit-zone--outer" data-zone="outer">
+              <img alt="" />
+            </div>
+            <div class="outfit-zone outfit-zone--full" data-zone="full">
+              <img alt="" />
+            </div>
+            <div class="outfit-zone outfit-zone--top" data-zone="top">
+              <img alt="" />
+            </div>
+            <div class="outfit-zone outfit-zone--bottom" data-zone="bottom">
+              <img alt="" />
+            </div>
+          </div>
+          <!-- /mannequin-wrap -->
+
+          <!-- Slot picker buttons below mannequin -->
+          <div class="outfit-slots">
+            <div
+              class="outfit-slot is-active"
+              data-slot="outer"
+              title="Outerwear (camperas, abrigos)"
+            >
+              <div class="outfit-slot-preview">
+                <i class="fas fa-wind"></i>
+              </div>
+              <span class="outfit-slot-label">Outer</span>
+            </div>
+            <div
+              class="outfit-slot"
+              data-slot="top"
+              title="Top (remeras, blusas)"
+            >
+              <div class="outfit-slot-preview">
+                <i class="fas fa-tshirt"></i>
+              </div>
+              <span class="outfit-slot-label">Top</span>
+            </div>
+            <div
+              class="outfit-slot"
+              data-slot="bottom"
+              title="Bottom (jeans, pantalones)"
+            >
+              <div class="outfit-slot-preview">
+                <i class="fas fa-socks"></i>
+              </div>
+              <span class="outfit-slot-label">Bottom</span>
+            </div>
+            <div
+              class="outfit-slot"
+              data-slot="full"
+              title="Vestido (reemplaza top + bottom)"
+            >
+              <div class="outfit-slot-preview">
+                <i class="fas fa-person-dress"></i>
+              </div>
+              <span class="outfit-slot-label">Vestido</span>
+            </div>
+          </div>
+        </section>
+        <!-- /vestidor-stage -->
+
+        <!-- ── Right: Outfit panel ── -->
+        <aside class="vestidor-panel">
+          <h3 class="panel-title">Mi Outfit</h3>
+
+          <div id="panelSlots">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="panel-total">
+            <span class="panel-total-label">Total</span>
+            <span class="panel-total-value" id="outfitTotal">—</span>
+          </div>
+
+          <div class="panel-actions">
+            <button
+              class="panel-btn panel-btn--save"
+              id="btnSaveOutfit"
+              disabled
+            >
+              <i class="fas fa-bookmark me-1"></i> Guardar outfit
+            </button>
+            <button class="panel-btn panel-btn--cart" id="btnAddAllToCart">
+              <i class="fas fa-shopping-bag me-1"></i> Agregar al carrito
+            </button>
+            <button class="panel-btn panel-btn--clear" id="btnClearOutfit">
+              <i class="fas fa-eraser me-1"></i> Limpiar
+            </button>
+          </div>
+        </aside>
+      </div>
+      <!-- /vestidor-layout -->
+    </div>
+    <!-- /tab-panel vestidor -->
+
+    <!-- ══════════════════════════════════════
+         TAB 2: MIS COLECCIONES
+    ══════════════════════════════════════ -->
+    <div class="mc-tab-panel" data-panel="colecciones">
+      <div class="colecciones-main">
+        <div class="colecciones-header">
+          <h2>Mis Colecciones</h2>
+          <button class="btn-new-col" id="btnNewCol">
+            <i class="fas fa-plus me-1"></i> Nueva colección
+          </button>
+        </div>
+
+        <!-- Empty state -->
+        <div
+          id="coleccionesEmpty"
+          class="colecciones-empty"
+          style="display: none"
+        >
+          <i class="fas fa-tshirt"></i>
+          <h3>Tu armario está vacío</h3>
+          <p>
+            Usá el vestidor para armar outfits y guardarlos acá, o creá una
+            colección manual.
+          </p>
+          <button class="btn-vestidor-cta" id="btnNewColEmpty">
+            <i class="fas fa-person-dress me-2"></i>Ir al Vestidor
+          </button>
+        </div>
+
+        <!-- Collections grid -->
+        <div
+          id="coleccionesGrid"
+          class="colecciones-grid"
+          style="display: none"
+        ></div>
+      </div>
+    </div>
+    <!-- /tab-panel colecciones -->
+
+    <!-- ══════════════════════════════════════
+         MODALS
+    ══════════════════════════════════════ -->
+
+    <!-- Save outfit modal -->
+    <div id="saveOutfitModal" class="save-modal-backdrop" style="display: none">
+      <div class="save-modal">
+        <h3>Guardar outfit</h3>
+        <p>
+          Dale un nombre a tu look para encontrarlo fácilmente en tus
+          colecciones.
+        </p>
+        <label for="outfitName">Nombre del outfit</label>
+        <input
+          type="text"
+          id="outfitName"
+          placeholder="Ej: Look verano casual…"
+          maxlength="60"
+        />
+        <div class="save-modal-actions">
+          <button class="btn-modal-cancel" id="btnCancelSave">Cancelar</button>
+          <button class="btn-modal-confirm" id="btnConfirmSave">
+            <i class="fas fa-bookmark me-1"></i> Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New collection modal -->
+    <div id="newColModal" class="mc-modal-backdrop" style="display: none">
+      <div class="mc-modal">
+        <button class="mc-modal-close" id="mcModalClose">
+          <i class="fas fa-times"></i>
+        </button>
+        <h3>Nueva Colección</h3>
+        <p>Dale nombre, elegí una portada y empezá a armar tu look</p>
+        <form id="mcFormNewCol">
+          <div class="mc-form-group">
+            <label for="mcNombre">Nombre</label>
+            <input
+              type="text"
+              id="mcNombre"
+              placeholder="Ej: Outfit de verano, Look casual…"
+              required
+              maxlength="60"
+            />
+          </div>
+          <div class="mc-form-group">
+            <label for="mcDesc"
+              >Descripción
+              <span class="mc-char-count"
+                ><span id="mcDescCount">0</span>/200</span
+              ></label
+            >
+            <textarea
+              id="mcDesc"
+              placeholder="¿Para qué ocasión?"
+              maxlength="200"
+              rows="3"
+            ></textarea>
+          </div>
+          <div class="mc-form-group">
+            <label>Portada</label>
+            <div class="mc-cover-picker">
+              <div
+                class="mc-cover-option is-selected"
+                data-cover="../img/aestethic.jpg"
+              >
+                <img src="../img/aestethic.jpg" alt="Cover 1" />
+              </div>
+              <div class="mc-cover-option" data-cover="../img/vintage2.jpg">
+                <img src="../img/vintage2.jpg" alt="Cover 2" />
+              </div>
+              <div class="mc-cover-option" data-cover="../img/ropa-clara.jpg">
+                <img src="../img/ropa-clara.jpg" alt="Cover 3" />
+              </div>
+              <div class="mc-cover-option" data-cover="../img/vintage5.jpg">
+                <img src="../img/vintage5.jpg" alt="Cover 4" />
+              </div>
+              <div class="mc-cover-option" data-cover="../img/aestethic2.jpg">
+                <img src="../img/aestethic2.jpg" alt="Cover 5" />
+              </div>
+              <div class="mc-cover-option" data-cover="../img/vintage8.jpg">
+                <img src="../img/vintage8.jpg" alt="Cover 6" />
+              </div>
+            </div>
+          </div>
+          <div class="mc-form-actions">
+            <button type="button" class="mc-btn-cancel" id="mcBtnCancel">
+              Cancelar
+            </button>
+            <button type="submit" class="mc-btn-crear">
+              <i class="fas fa-sparkles me-1"></i>Crear
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="site-footer custom-footer">
+      <section class="container py-2">
+        <div class="row align-items-start g-4 mb-4">
+          <div class="col-lg-5">
+            <div class="footer-brand-card">
+              <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="footer-logo mb-3"
+                style="max-width:90px;filter:brightness(0) invert(1)" />
+              <h3>Me Visto Como Quiero</h3>
+              <p class="mt-2">
+                Moda con personalidad para cada estilo.<br />
+                Descubrí lanzamientos, promos exclusivas y colecciones pensadas
+                para que comprar ropa se sienta simple y confiable.
+              </p>
+              <div class="footer-socials">
+                <a href="https://www.facebook.com/noelia.lenardon?mibextid=ZbWKwL"
+                  target="_blank" rel="noreferrer" aria-label="Facebook">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/mevistocomoquiero_ropafemenina/?hl=es-la"
+                  target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="footer-community-card">
+              <span class="footer-eyebrow">Comunidad MVCQ</span>
+              <h4 class="mt-1">¡Sumate a nuestra comunidad!</h4>
+              <p>
+                Seguinos en redes para lanzamientos, sorteos y novedades exclusivas.<br />
+                Compartí tu look usando <strong>#MeVistoComoQuiero</strong>.
+              </p>
+              <div class="footer-mini-points">
+                <span><i class="fas fa-users"></i> Comunidad real</span>
+                <span><i class="fas fa-hashtag"></i> #MeVistoComoQuiero</span>
+                <span><i class="fas fa-gift"></i> Sorteos y lanzamientos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4 footer-links-row">
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>Explorá</h5>
+              <a href="catalogo.html">Catálogos</a>
+              <a href="productos.html">Productos</a>
+              <a href="promociones.html">Promociones</a>
+              <a href="mi-coleccion.html">Mis colecciones</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>La tienda</h5>
+              <a href="nosotros.html">Sobre nosotros</a>
+              <a href="contactanos.html">Contacto</a>
+              <a href="register.html">Crear cuenta</a>
+              <a href="login.html">Ingresar</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block footer-link-block--contact">
+              <h5>Atención</h5>
+              <p><i class="fas fa-map-marker-alt"></i> Atención online · envíos a todo el país</p>
+              <p><i class="fas fa-clock"></i> Lun a Sáb · 9:00 a 20:00</p>
+              <p><i class="fas fa-shield-alt"></i> Compra protegida y soporte personalizado</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="site-footer-bottom">
+          <p>© 2026 Me Visto Como Quiero. Todos los derechos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="contactanos.html">Ayuda</a>
+            <a href="nosotros.html">Marca</a>
+            <a href="mi-coleccion.html">Mi Colección</a>
+          </div>
+        </div>
+      </section>
+    </footer>
+
+    <!-- ══ SCRIPTS ══ -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/nav-bar.js"></script>
+    <script src="../js/mi-coleccion.js"></script>
+  </body>
+</html>

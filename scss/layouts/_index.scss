@@ -1,0 +1,90 @@
+/* SECCIÓN DE IMAGENES CON BOTÓN DE CATÁLOGO */
+
+// .carouselPrincipalContainer {
+//     display: flex;
+//     z-index: 2;
+// }
+
+// .carousel {
+//     width: 100%;
+//     height: auto;
+//     z-index: 0;
+
+//     &-item img {
+//         width: 100%;
+//         height: 600px;
+//         object-fit: cover;
+//     }
+// }
+
+// .container-content {
+//     width: 50%;
+//     height: 600px;
+
+//     &-catalogo img {
+//         width: 100%;
+//         height: 600px;
+//         object-fit: cover;
+//         opacity: .6;
+//         box-shadow: 3px 3px 3px 3px #c02924;
+//     }
+
+//     &-catalogo button {
+//         position: relative;
+//         left: 300px;
+//         bottom: 300px;
+//         transition: .3s;
+
+//         &:hover {
+//             transform: scale(1.1);
+//         }
+
+//     }
+// }
+
+/* SECCIÓN DE TRES CARACTERÍSTICAS */
+
+.caracteristica {
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    h3 {
+        color: #f1524d;
+        text-shadow: 1px 1px 1px #000000;
+        font-size: 40px;
+        text-transform: uppercase;
+        font-family: 'Staatliches', sans-serif;
+    }
+
+    p {
+        font-size: 20px;
+        font-weight: bold;
+    }
+}
+
+/* SECCIÓN MULTIMEDIA */
+
+.sectionMultimedia {
+    padding: 20px;
+    display: flex;
+    text-align: center;
+    gap: 50px;
+
+    h3 {
+        color: #3b2d27;
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .containerSpotify,
+    .containerYoutube {
+        width: 50%;
+    }
+
+    iframe {
+        width: 50%;
+        height: 400px;
+    }
+}

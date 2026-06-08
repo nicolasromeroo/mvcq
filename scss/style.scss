@@ -1,0 +1,23 @@
+
+/* IMPORTS */
+
+
+//base
+@import 'base/vars';  //las variables van primero
+@import 'base/reset';
+@import 'base/utilities';
+
+//components
+@import 'components/navbar';
+@import 'components/footer'; 
+
+//layouts
+@import 'layouts/index';
+@import 'layouts/productos';
+@import 'layouts/promociones';
+@import 'layouts/nosotros';
+@import 'layouts/contactanos';
+@import 'layouts/catalogo';
+@import 'layouts/mediaqueries';
+
+

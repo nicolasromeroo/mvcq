@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/design-system.css" />
+    <link rel="stylesheet" href="../css/nav-bar.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/productos.css" />
+    <script
+      src="https://kit.fontawesome.com/68c5d14b35.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Productos</title>
+  </head>
+
+  <body>
+    <!-- ══ NAVBAR ══ -->
+    <header>
+      <nav
+        class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar"
+      >
+        <div class="container-xxl site-navbar-inner">
+          <a
+            class="navbar-brand site-navbar-brand"
+            href="../index.html"
+            aria-label="Inicio"
+          >
+            <img
+              src="../img/mvcqSinfondo.png"
+              alt="Logo MVCQ"
+              class="logo-navbar"
+            />
+            <span class="site-navbar-brand-copy">
+              <strong>Me Visto</strong>
+              <small>Como Quiero</small>
+            </span>
+          </a>
+          <button
+            class="navbar-toggler site-navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Abrir navegación"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse site-navbar-panel"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav site-navbar-menu mx-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html">Inicio</a>
+              </li>
+              <!-- <li class="nav-item">
+                <a class="nav-link" href="catalogo.html">Catálogo</a>
+              </li> -->
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="productos.html"
+                  >Productos</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="mi-coleccion.html">Vestidor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contactanos.html">Contacto</a>
+              </li>
+            </ul>
+            <div class="site-navbar-actions">
+              <div id="authNav" class="site-navbar-auth">
+                <a class="site-nav-link" href="login.html">Ingresá</a>
+                <a class="site-nav-pill" href="register.html">Registrate</a>
+              </div>
+              <div id="userNav" class="site-navbar-user d-none">
+                <a
+                  class="site-nav-icon"
+                  href="carrito.html"
+                  title="Carrito"
+                  aria-label="Carrito"
+                >
+                  <i class="fas fa-shopping-bag"></i>
+                  <span class="site-nav-badge">0</span>
+                </a>
+                <a
+                  id="adminPanelItem"
+                  class="site-nav-link d-none"
+                  href="admin-panel.html"
+                  >Panel</a
+                >
+                <div class="nav-item dropdown">
+                  <a
+                    class="site-nav-profile dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff"
+                      alt="Usuario"
+                      class="rounded-circle"
+                      width="30"
+                      height="30"
+                    />
+                    <span id="usernameSpan">Usuario</span>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="userDropdown"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="perfil.html"
+                        ><i class="fas fa-user me-2"></i>Mi perfil</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="mis-pedidos.html"
+                        ><i class="fas fa-box me-2"></i>Mis pedidos</a
+                      >
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a
+                        class="dropdown-item text-danger"
+                        href="#"
+                        onclick="logout()"
+                        ><i class="fas fa-sign-out-alt me-2"></i>Cerrar
+                        sesión</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="productos-page">
+      <!-- ── Top bar: breadcrumb + result count + sort + toggle ── -->
+      <div class="productos-topbar">
+        <div
+          class="container d-flex align-items-center justify-content-between flex-wrap gap-2"
+        >
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item">
+                <a href="../index.html">Inicio</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Productos
+              </li>
+            </ol>
+          </nav>
+          <div class="productos-topbar-right">
+            <!-- Inline search -->
+            <div class="topbar-search" id="topbar-search">
+              <button
+                class="topbar-search-trigger"
+                id="topbar-search-trigger"
+                aria-label="Buscar productos"
+                aria-expanded="false"
+              >
+                <i class="fas fa-search"></i>
+              </button>
+              <div
+                class="topbar-search-box"
+                id="topbar-search-box"
+                role="search"
+              >
+                <i class="fas fa-search topbar-search-icon"></i>
+                <input
+                  type="search"
+                  class="topbar-search-input"
+                  id="topbar-search-input"
+                  placeholder="Buscar productos…"
+                  autocomplete="off"
+                  aria-label="Buscar productos"
+                />
+                <button
+                  class="topbar-search-clear"
+                  id="topbar-search-clear"
+                  aria-label="Limpiar búsqueda"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+
+            <span class="productos-count" id="productos-count"></span>
+
+            <!-- Grid density toggle (desktop only) -->
+            <div
+              class="grid-toggle d-none d-lg-flex"
+              id="grid-toggle"
+              role="group"
+              aria-label="Densidad de grilla"
+            >
+              <button
+                class="grid-btn"
+                data-cols="4"
+                title="4 columnas"
+                aria-label="4 columnas"
+              >
+                <i class="fas fa-grip-vertical"></i>
+              </button>
+              <button
+                class="grid-btn grid-btn--active"
+                data-cols="3"
+                title="3 columnas"
+                aria-label="3 columnas"
+              >
+                <i class="fas fa-th-large"></i>
+              </button>
+              <button
+                class="grid-btn"
+                data-cols="2"
+                title="2 columnas"
+                aria-label="2 columnas"
+              >
+                <i class="fas fa-th"></i>
+              </button>
+              <button
+                class="grid-btn"
+                data-cols="list"
+                title="Vista lista"
+                aria-label="Vista lista"
+              >
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+
+            <button
+              class="filtro-toggle-btn"
+              id="filtro-toggle"
+              aria-label="Mostrar filtros"
+            >
+              <i class="fas fa-sliders-h"></i> Filtros
+              <span class="filtro-badge d-none" id="filtro-badge">0</span>
+            </button>
+
+            <div class="ordenar-por">
+              <label for="ordenar" class="ordenar-label">Ordenar:</label>
+              <select class="ordenar-select" id="ordenar">
+                <option value="relevancia">Más relevantes</option>
+                <option value="precio-asc">Menor precio</option>
+                <option value="precio-desc">Mayor precio</option>
+                <option value="novedades">Novedades</option>
+                <option value="mas-vendidos">Más vendidos</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container productos-layout">
+        <!-- ── SIDEBAR FILTERS ── -->
+        <aside class="filtros-panel" id="filtros-panel">
+          <div class="filtros-panel-head">
+            <h3 class="filtros-panel-title">Filtros</h3>
+            <button
+              class="filtros-close-btn"
+              id="filtros-close"
+              aria-label="Cerrar filtros"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- Active filters chips -->
+          <div class="filtros-active" id="filtros-active" style="display: none">
+            <div class="filtros-active-list" id="filtros-active-list"></div>
+            <button class="filtros-clear-all" id="filtros-clear-all">
+              Limpiar todo
+            </button>
+          </div>
+
+          <!-- Category -->
+          <div class="filtro-section" data-section="categorias">
+            <button class="filtro-section-toggle" aria-expanded="true">
+              Categorías <i class="fas fa-chevron-up"></i>
+            </button>
+            <div class="filtro-section-body">
+              <label class="filtro-check">
+                <input type="checkbox" name="categoria" value="remeras" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Remeras</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="categoria" value="camisas" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Camisas</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="categoria" value="jeans" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Jeans</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="categoria" value="vestidos" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Vestidos</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="categoria" value="abrigos" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Abrigos</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="categoria" value="camperas" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Camperas</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Size -->
+          <div class="filtro-section" data-section="tallas">
+            <button class="filtro-section-toggle" aria-expanded="true">
+              Talle <i class="fas fa-chevron-up"></i>
+            </button>
+            <div class="filtro-section-body">
+              <div class="filtro-sizes">
+                <button class="filtro-size-btn" data-size="XS">XS</button>
+                <button class="filtro-size-btn" data-size="S">S</button>
+                <button class="filtro-size-btn" data-size="M">M</button>
+                <button class="filtro-size-btn" data-size="L">L</button>
+                <button class="filtro-size-btn" data-size="XL">XL</button>
+                <button class="filtro-size-btn" data-size="XXL">XXL</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color -->
+          <div class="filtro-section" data-section="colores">
+            <button class="filtro-section-toggle" aria-expanded="true">
+              Color <i class="fas fa-chevron-up"></i>
+            </button>
+            <div class="filtro-section-body">
+              <div class="filtro-colors">
+                <button
+                  class="filtro-color-swatch"
+                  data-color="negro"
+                  style="--swatch: #000"
+                  title="Negro"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="blanco"
+                  style="--swatch: #fff"
+                  title="Blanco"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="gris"
+                  style="--swatch: #808080"
+                  title="Gris"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="rojo"
+                  style="--swatch: #c0392b"
+                  title="Rojo"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="azul"
+                  style="--swatch: #2c3e8c"
+                  title="Azul"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="verde"
+                  style="--swatch: #27ae60"
+                  title="Verde"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="naranja"
+                  style="--swatch: #e67e22"
+                  title="Naranja"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="violeta"
+                  style="--swatch: #8e44ad"
+                  title="Violeta"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="rosa"
+                  style="--swatch: #e084a3"
+                  title="Rosa"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="beige"
+                  style="--swatch: #d4b896"
+                  title="Beige"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="marron"
+                  style="--swatch: #6d4c2e"
+                  title="Marrón"
+                ></button>
+                <button
+                  class="filtro-color-swatch"
+                  data-color="celeste"
+                  style="--swatch: #7ec8e3"
+                  title="Celeste"
+                ></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="filtro-section" data-section="precio">
+            <button class="filtro-section-toggle" aria-expanded="true">
+              Precio <i class="fas fa-chevron-up"></i>
+            </button>
+            <div class="filtro-section-body">
+              <div class="filtro-price">
+                <div class="filtro-price-labels">
+                  <span id="precio-min-label">$0</span>
+                  <span id="precio-max-label">$50.000</span>
+                </div>
+                <div class="filtro-price-track">
+                  <input
+                    type="range"
+                    class="filtro-range"
+                    id="precio-min"
+                    min="0"
+                    max="50000"
+                    step="1000"
+                    value="0"
+                  />
+                  <input
+                    type="range"
+                    class="filtro-range"
+                    id="precio-max"
+                    min="0"
+                    max="50000"
+                    step="1000"
+                    value="50000"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile apply button -->
+          <div class="filtros-panel-footer">
+            <button class="filtros-apply-btn" id="filtros-apply">
+              Aplicar filtros
+            </button>
+          </div>
+        </aside>
+
+        <!-- Overlay for mobile -->
+        <div class="filtros-overlay" id="filtros-overlay"></div>
+
+        <!-- ── PRODUCTS GRID ── -->
+        <section class="productos-main">
+          <div class="productos-grid" id="productsList"></div>
+          <nav aria-label="Navegación de productos" class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+          </nav>
+        </section>
+      </div>
+    </main>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="site-footer custom-footer">
+      <section class="container py-2">
+        <div class="row align-items-start g-4 mb-4">
+          <div class="col-lg-5">
+            <div class="footer-brand-card">
+              <img
+                src="../img/mvcqSinfondo.png"
+                alt="Logo MVCQ"
+                class="footer-logo mb-3"
+                style="max-width: 90px; filter: brightness(0) invert(1)"
+              />
+              <h3>Me Visto Como Quiero</h3>
+              <p class="mt-2">
+                Moda con personalidad para cada estilo.<br />
+                Descubrí lanzamientos, promos exclusivas y colecciones pensadas
+                para que comprar ropa se sienta simple y confiable.
+              </p>
+              <div class="footer-socials">
+                <a
+                  href="https://www.facebook.com/noelia.lenardon?mibextid=ZbWKwL"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook"
+                >
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a
+                  href="https://www.instagram.com/mevistocomoquiero_ropafemenina/?hl=es-la"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                >
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" aria-label="WhatsApp"
+                  ><i class="fab fa-whatsapp"></i
+                ></a>
+                <a href="#" aria-label="TikTok"
+                  ><i class="fab fa-tiktok"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="footer-community-card">
+              <span class="footer-eyebrow">Comunidad MVCQ</span>
+              <h4 class="mt-1">¡Sumate a nuestra comunidad!</h4>
+              <p>
+                Seguinos en redes para lanzamientos, sorteos y novedades
+                exclusivas.<br />
+                Compartí tu look usando <strong>#MeVistoComoQuiero</strong>.
+              </p>
+              <div class="footer-mini-points">
+                <span><i class="fas fa-users"></i> Comunidad real</span>
+                <span><i class="fas fa-hashtag"></i> #MeVistoComoQuiero</span>
+                <span><i class="fas fa-gift"></i> Sorteos y lanzamientos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mb-4 footer-links-row">
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>Explorá</h5>
+              <a href="catalogo.html">Catálogos</a>
+              <a href="productos.html">Productos</a>
+              <a href="promociones.html">Promociones</a>
+              <a href="mi-coleccion.html">Mis colecciones</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>La tienda</h5>
+              <a href="nosotros.html">Sobre nosotros</a>
+              <a href="contactanos.html">Contacto</a>
+              <a href="register.html">Crear cuenta</a>
+              <a href="login.html">Ingresar</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block footer-link-block--contact">
+              <h5>Atención</h5>
+              <p>
+                <i class="fas fa-map-marker-alt"></i> Atención online · envíos a
+                todo el país
+              </p>
+              <p><i class="fas fa-clock"></i> Lun a Sáb · 9:00 a 20:00</p>
+              <p>
+                <i class="fas fa-shield-alt"></i> Compra protegida y soporte
+                personalizado
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="site-footer-bottom">
+          <p>© 2026 Me Visto Como Quiero. Todos los derechos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="contactanos.html">Ayuda</a>
+            <a href="nosotros.html">Marca</a>
+            <a href="mi-coleccion.html">Mi Colección</a>
+          </div>
+        </div>
+      </section>
+    </footer>
+
+    <!-- ══ QUICK VIEW MODAL ══ -->
+    <div class="qv-backdrop" id="qvBackdrop" aria-hidden="true"></div>
+    <div
+      class="qv-modal"
+      id="qvModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="qvProductName"
+      style="display: none"
+    >
+      <div class="qv-panel">
+        <button class="qv-modal-close" id="qvClose" aria-label="Cerrar">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Gallery -->
+        <div class="qv-gallery">
+          <div class="qv-gallery-thumbs" id="qvThumbs"></div>
+          <div class="qv-gallery-main">
+            <img
+              id="qvMainImg"
+              src=""
+              alt=""
+              class="qv-main-img"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="qv-details">
+          <div class="qv-details-inner">
+            <div class="qv-cat" id="qvCat"></div>
+            <h2 class="qv-name" id="qvProductName"></h2>
+
+            <div class="qv-rating-row" id="qvRatingRow" style="display: none">
+              <div class="qv-stars" id="qvStars"></div>
+              <span class="qv-review-count" id="qvReviewCount"></span>
+            </div>
+
+            <div class="qv-price-wrap">
+              <span class="qv-price-main" id="qvPrice"></span>
+              <span
+                class="qv-price-original"
+                id="qvPriceOrig"
+                style="display: none"
+              ></span>
+              <span
+                class="qv-discount-badge"
+                id="qvDiscBadge"
+                style="display: none"
+              ></span>
+            </div>
+
+            <p class="qv-desc" id="qvDesc"></p>
+
+            <!-- Color Selector -->
+            <div
+              class="qv-option-group"
+              id="qvColorGroup"
+              style="display: none"
+            >
+              <div class="qv-option-label">
+                Color: <strong id="qvColorLabel">—</strong>
+              </div>
+              <div class="qv-color-row" id="qvColorRow"></div>
+            </div>
+
+            <!-- Size Selector -->
+            <div class="qv-option-group">
+              <div
+                class="qv-option-label d-flex justify-content-between align-items-center"
+              >
+                <span
+                  >Talle: <strong id="qvSizeLabel">Seleccionar</strong></span
+                >
+                <button
+                  class="qv-size-guide-btn"
+                  type="button"
+                  id="qvSizeGuideBtn"
+                >
+                  <i class="fas fa-ruler-horizontal me-1"></i>Guía de talles
+                </button>
+              </div>
+              <div class="qv-size-row" id="qvSizeRow">
+                <button class="qv-sz-btn" data-size="XS">XS</button>
+                <button class="qv-sz-btn" data-size="S">S</button>
+                <button class="qv-sz-btn" data-size="M">M</button>
+                <button class="qv-sz-btn" data-size="L">L</button>
+                <button class="qv-sz-btn" data-size="XL">XL</button>
+                <button class="qv-sz-btn" data-size="XXL">XXL</button>
+              </div>
+              <p class="qv-size-error" id="qvSizeError" style="display: none">
+                <i class="fas fa-circle-exclamation me-1"></i>Seleccioná un
+                talle para continuar
+              </p>
+            </div>
+
+            <!-- Qty + Add to cart -->
+            <div class="qv-add-row">
+              <div class="qv-qty-wrap">
+                <button
+                  class="qv-qty-btn"
+                  id="qvQtyMinus"
+                  aria-label="Restar cantidad"
+                >
+                  −
+                </button>
+                <span class="qv-qty-val" id="qvQtyVal">1</span>
+                <button
+                  class="qv-qty-btn"
+                  id="qvQtyPlus"
+                  aria-label="Sumar cantidad"
+                >
+                  +
+                </button>
+              </div>
+              <button class="qv-cart-btn" id="qvCartBtn">
+                <i class="fas fa-shopping-bag"></i>
+                Agregar al carrito
+              </button>
+              <button
+                class="qv-heart-btn"
+                id="qvHeartBtn"
+                aria-label="Guardar en favoritos"
+              >
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+
+            <!-- Trust signals -->
+            <div class="qv-meta">
+              <div class="qv-meta-item">
+                <i class="fas fa-truck"></i>
+                <span>Envío gratis en pedidos superiores a $15.000</span>
+              </div>
+              <div class="qv-meta-item">
+                <i class="fas fa-rotate-left"></i>
+                <span>Cambios y devoluciones sin costo</span>
+              </div>
+              <div class="qv-meta-item">
+                <i class="fas fa-shield-halved"></i>
+                <span>Compra 100% protegida</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SIZE GUIDE MODAL ══ -->
+    <div class="sg-backdrop" id="sgBackdrop" aria-hidden="true"></div>
+    <div
+      class="sg-modal"
+      id="sgModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Guía de talles"
+      style="display: none"
+    >
+      <div class="sg-panel">
+        <div class="sg-header">
+          <h3>Guía de Talles</h3>
+          <button class="sg-close" id="sgClose" aria-label="Cerrar">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="sg-body">
+          <p class="sg-tip">
+            <i class="fas fa-circle-info me-1"></i>Medidas en centímetros.
+            Tomate las medidas sobre la ropa interior.
+          </p>
+          <div class="sg-table-wrap">
+            <table class="sg-table">
+              <thead>
+                <tr>
+                  <th>Talle</th>
+                  <th>Busto</th>
+                  <th>Cintura</th>
+                  <th>Cadera</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>XS</strong></td>
+                  <td>80–84</td>
+                  <td>60–64</td>
+                  <td>86–90</td>
+                </tr>
+                <tr>
+                  <td><strong>S</strong></td>
+                  <td>84–88</td>
+                  <td>64–68</td>
+                  <td>90–94</td>
+                </tr>
+                <tr>
+                  <td><strong>M</strong></td>
+                  <td>88–92</td>
+                  <td>68–72</td>
+                  <td>94–98</td>
+                </tr>
+                <tr>
+                  <td><strong>L</strong></td>
+                  <td>92–98</td>
+                  <td>72–78</td>
+                  <td>98–104</td>
+                </tr>
+                <tr>
+                  <td><strong>XL</strong></td>
+                  <td>98–106</td>
+                  <td>78–86</td>
+                  <td>104–112</td>
+                </tr>
+                <tr>
+                  <td><strong>XXL</strong></td>
+                  <td>106–116</td>
+                  <td>86–96</td>
+                  <td>112–122</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TOAST STACK ══ -->
+    <div
+      class="toast-stack"
+      id="toastStack"
+      aria-live="polite"
+      aria-atomic="false"
+    ></div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/nav-bar.js"></script>
+    <script src="../js/productos.js"></script>
+    <script src="../js/productos-filtros.js"></script>
+  </body>
+</html>

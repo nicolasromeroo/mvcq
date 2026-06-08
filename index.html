@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Me Visto Como Quiero | Moda con Personalidad</title>
+    <meta
+      name="description"
+      content="Tienda de ropa online con estilo propio. Descubrí colecciones exclusivas, ofertas y las últimas tendencias en Me Visto Como Quiero."
+    />
+    <meta
+      name="keywords"
+      content="Ropa, Moda, Aesthetic, Remeras, Jeans, Camperas, Me Visto Como Quiero"
+    />
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Staatliches&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <!-- AOS animate on scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Design system + page styles -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/nav-bar.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/tira-anuncio.css" />
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/68c5d14b35.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <!-- ══════════════════════════════════════
+         HEADER: NAVBAR + MARQUEE
+    ══════════════════════════════════════ -->
+    <header>
+      <nav
+        class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar"
+      >
+        <div class="container-xxl site-navbar-inner">
+          <!-- Brand -->
+          <a
+            class="navbar-brand site-navbar-brand"
+            href="index.html"
+            aria-label="Inicio"
+          >
+            <img
+              src="img/mvcqSinfondo.png"
+              alt="Logo MVCQ"
+              class="logo-navbar"
+            />
+            <span class="site-navbar-brand-copy">
+              <strong>Me Visto</strong>
+              <small>Como Quiero</small>
+            </span>
+          </a>
+
+          <!-- Toggler -->
+          <button
+            class="navbar-toggler site-navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Abrir navegación"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Menu -->
+          <div
+            class="collapse navbar-collapse site-navbar-panel"
+            id="navbarNav"
+          >
+            <ul class="navbar-nav site-navbar-menu mx-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/productos.html">Productos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/mi-coleccion.html">Vestidor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="pages/contactanos.html">Contacto</a>
+              </li>
+            </ul>
+
+            <!-- Auth / User actions -->
+            <div class="site-navbar-actions">
+              <!-- Not logged in -->
+              <div id="authNav" class="site-navbar-auth">
+                <a class="site-nav-link" href="pages/login.html">Ingresá</a>
+                <a class="site-nav-pill" href="pages/register.html"
+                  >Registrate</a
+                >
+              </div>
+
+              <!-- Logged in -->
+              <div id="userNav" class="site-navbar-user d-none">
+                <a
+                  class="site-nav-icon"
+                  href="pages/carrito.html"
+                  title="Carrito"
+                  aria-label="Carrito"
+                >
+                  <i class="fas fa-shopping-bag"></i>
+                  <span class="site-nav-badge">0</span>
+                </a>
+
+                <a
+                  id="adminPanelItem"
+                  class="site-nav-link d-none"
+                  href="pages/admin-panel.html"
+                  >Panel</a
+                >
+
+                <div class="nav-item dropdown">
+                  <a
+                    class="site-nav-profile dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff"
+                      alt="Usuario"
+                      class="rounded-circle"
+                      width="30"
+                      height="30"
+                    />
+                    <span id="usernameSpan">Usuario</span>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="userDropdown"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="pages/perfil.html">
+                        <i class="fas fa-user me-2"></i>Mi perfil
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="pages/mis-pedidos.html">
+                        <i class="fas fa-box me-2"></i>Mis pedidos
+                      </a>
+                    </li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a
+                        class="dropdown-item text-danger"
+                        href="#"
+                        onclick="logout()"
+                      >
+                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Promo marquee -->
+      <div class="promo-marquee" data-section="marquee" id="promoMarquee">
+        <div class="promo-track" id="promoTrack">
+          <span class="promo-track-item">
+            <i class="fas fa-tag"></i>
+            <span id="marqueeText"
+              >¡Aprovechá 15% OFF en tu compra de 3 o más prendas!</span
+            >
+            <i
+              class="fas fa-circle"
+              style="font-size: 0.3rem; opacity: 0.5"
+            ></i>
+            Envío gratis en compras mayores a $5000
+            <i
+              class="fas fa-circle"
+              style="font-size: 0.3rem; opacity: 0.5"
+            ></i>
+            <i class="fas fa-tag"></i>
+            <span id="marqueeText2"
+              >¡Aprovechá 15% OFF en tu compra de 3 o más prendas!</span
+            >
+            <i
+              class="fas fa-circle"
+              style="font-size: 0.3rem; opacity: 0.5"
+            ></i>
+            Envío gratis en compras mayores a $5000
+          </span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════
+         HERO CAROUSEL
+    ══════════════════════════════════════ -->
+    <div
+      id="heroBanner"
+      data-section="hero"
+      class="carousel slide hero-carousel"
+      data-bs-ride="carousel"
+      data-bs-interval="6000"
+    >
+      <!-- Vertical indicators -->
+      <!-- <div class="hero-indicators carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#heroBanner"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#heroBanner"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#heroBanner"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div> -->
+
+      <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <div
+            class="hero-slide"
+            style="background-image: url(&quot;img/ropa-alta.jpg&quot;)"
+          >
+            <div class="hero-slide-overlay"></div>
+            <div class="hero-slide-content">
+              <span class="hero-eyebrow" data-hero-eyebrow="0"
+                >Nueva temporada</span
+              >
+              <h1 class="hero-title text-display" data-hero-title="0">
+                Estilo de<br />Altura
+              </h1>
+              <p class="hero-subtitle" data-hero-subtitle="0">
+                Descubrí lo último en moda urbana para destacar donde vayas
+              </p>
+              <div class="hero-actions">
+                <a
+                  href="pages/productos.html"
+                  class="btn-ed btn-ed--outline-white"
+                  data-hero-cta="0"
+                >
+                  Ver colección <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+                <a
+                  href="pages/catalogo.html"
+                  class="btn-ed"
+                  style="
+                    color: rgba(255, 255, 255, 0.72);
+                    background: transparent;
+                    padding-left: 0;
+                  "
+                >
+                  Explorar todo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <div
+            class="hero-slide"
+            style="background-image: url(&quot;img/ropa-clara.jpg&quot;)"
+          >
+            <div class="hero-slide-overlay"></div>
+            <div class="hero-slide-content">
+              <span class="hero-eyebrow" data-hero-eyebrow="1">15% OFF</span>
+              <h1 class="hero-title text-display" data-hero-title="1">
+                Luz y<br />Estilo
+              </h1>
+              <p class="hero-subtitle" data-hero-subtitle="1">
+                Ropa clara y liviana para los días más frescos del año
+              </p>
+              <div class="hero-actions">
+                <a
+                  href="pages/productos.html"
+                  class="btn-ed btn-ed--outline-white"
+                  data-hero-cta="1"
+                >
+                  Comprar ahora <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+          <div
+            class="hero-slide"
+            style="background-image: url(&quot;img/aestethic.jpg&quot;)"
+          >
+            <div class="hero-slide-overlay"></div>
+            <div class="hero-slide-content">
+              <span class="hero-eyebrow" data-hero-eyebrow="2"
+                >Liquidación</span
+              >
+              <h1 class="hero-title text-display" data-hero-title="2">
+                Aesthetic<br />Vibes
+              </h1>
+              <p class="hero-subtitle" data-hero-subtitle="2">
+                Combiná comodidad y diseño con nuestras nuevas prendas
+              </p>
+              <div class="hero-actions">
+                <a
+                  href="pages/productos.html"
+                  class="btn-ed btn-ed--outline-white"
+                  data-hero-cta="2"
+                >
+                  Ver todo <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <button
+        class="hero-ctrl hero-ctrl-prev"
+        type="button"
+        data-bs-target="#heroBanner"
+        data-bs-slide="prev"
+      >
+        <i class="fas fa-chevron-left"></i>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button
+        class="hero-ctrl hero-ctrl-next"
+        type="button"
+        data-bs-target="#heroBanner"
+        data-bs-slide="next"
+      >
+        <i class="fas fa-chevron-right"></i>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+
+      <!-- Scroll hint -->
+      <div class="hero-scroll-hint">
+        <span>Scroll</span>
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         ¿PARA QUIÉN ESTÁS COMPRANDO?
+    ══════════════════════════════════════ -->
+    <section class="para-quien-section" data-section="categories" data-reveal>
+      <div class="section-header section-header--center">
+        <span class="section-eyebrow">Categorías</span>
+        <h2 class="section-title">¿Para quién estás comprando?</h2>
+        <p class="section-subtitle">
+          Elegí tu estilo y descubrí prendas pensadas para cada ocasión
+        </p>
+      </div>
+
+      <div class="para-quien-grid">
+        <a href="pages/catalogo.html?cat=ninos" class="pq-tile pq-tile--wide">
+          <img
+            src="img/caratulas-genero/nino-2.jpg"
+            alt="Niños"
+            loading="lazy"
+          />
+          <div class="pq-overlay">
+            <span class="pq-label">Niños</span>
+            <span class="pq-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="pages/catalogo.html?cat=hombre" class="pq-tile">
+          <img
+            src="img/caratulas-genero/hombre.avif"
+            alt="Hombre"
+            loading="lazy"
+          />
+          <div class="pq-overlay">
+            <span class="pq-label">Hombre</span>
+            <span class="pq-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="pages/catalogo.html?cat=mujer" class="pq-tile">
+          <img
+            src="img/caratulas-genero/mujer.avif"
+            alt="Mujer"
+            loading="lazy"
+          />
+          <div class="pq-overlay">
+            <span class="pq-label">Mujer</span>
+            <span class="pq-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="pages/catalogo.html?cat=tradicional" class="pq-tile">
+          <img
+            src="img/caratulas-genero/old.avif"
+            alt="Tradicional"
+            loading="lazy"
+          />
+          <div class="pq-overlay">
+            <span class="pq-label">Tradicional</span>
+            <span class="pq-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="pages/catalogo.html?cat=adolescentes" class="pq-tile">
+          <img
+            src="img/caratulas-genero/adol.avif"
+            alt="Adolescentes"
+            loading="lazy"
+          />
+          <div class="pq-overlay">
+            <span class="pq-label">Adolescentes</span>
+            <span class="pq-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+
+        <a href="pages/catalogo.html" class="pq-tile pq-tile--dark">
+          <img
+            src="img/caratulas-genero/ver-todo.avif"
+            alt="Ver todo"
+            loading="lazy"
+          />
+          <div class="pq-overlay pq-overlay--accent">
+            <span class="pq-label">Ver todo</span>
+            <span class="pq-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         BANNER PROMOCIONAL
+    ══════════════════════════════════════ -->
+    <section class="promo-banner-section" data-section="promoBanner">
+      <div class="promo-banner-inner" data-reveal>
+        <span class="promo-banner-eyebrow">Exclusivo</span>
+        <h2 class="promo-banner-title text-display" data-promo-title>
+          Nueva colección disponible
+        </h2>
+        <p class="promo-banner-sub" data-promo-subtext>
+          Prendas únicas pensadas para cada estilo de vida
+        </p>
+        <a
+          href="pages/productos.html"
+          class="btn-ed btn-ed--outline-white"
+          data-promo-cta
+        >
+          Explorar ahora <i class="fas fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         PRODUCTOS DESTACADOS
+    ══════════════════════════════════════ -->
+    <section class="destacados-section" data-section="featured">
+      <div class="section-header section-header--center mb-5" data-reveal>
+        <span class="section-eyebrow">Lo más popular</span>
+        <h2 class="section-title" data-featured-title>Productos Destacados</h2>
+        <p class="section-subtitle" data-featured-subtitle>
+          Elegimos para vos los más populares del catálogo
+        </p>
+      </div>
+
+      <div class="destacados-carousel-wrapper">
+        <button
+          class="destacados-carousel-btn destacados-carousel-btn-prev"
+          aria-label="Anterior"
+          type="button"
+        >
+          <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <div id="productos-genericos" class="destacados-cards">
+          <div class="col-12 text-center text-muted py-5">
+            <div class="spinner-ring"></div>
+          </div>
+        </div>
+
+        <button
+          class="destacados-carousel-btn destacados-carousel-btn-next"
+          aria-label="Siguiente"
+          type="button"
+        >
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section class="nosotros-container py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="position-relative">
+              <img
+                src="../img/vintage1.jpg"
+                class="img-fluid rounded-3 shadow-lg"
+                alt="Nuestra Historia"
+              />
+              <div
+                class="position-absolute top-0 start-0 w-100 h-100 bg-black bg-opacity-30 rounded-3"
+              >
+                <div class="position-absolute bottom-0 start-0 p-4">
+                  <h3 class="text-white mb-1">Nuestra Historia</h3>
+                  <p class="text-white-50">
+                    Más de una década de compromiso con la moda sostenible y la
+                    excelencia en el servicio.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="bg-white p-4 rounded-3 shadow-sm">
+              <h2 class="display-6 mb-4">Nuestra Filosofía</h2>
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-star text-warning me-2"></i>
+                <h3 class="h5 mb-0">Calidad y Compromiso</h3>
+              </div>
+              <p class="mb-4">
+                En MeVistoComoQuiero, nos definimos como una empresa socialmente
+                responsable que genera valor a través de productos de alta
+                calidad y servicio excepcional. Nuestro compromiso con la
+                sostenibilidad y la responsabilidad social nos guía en cada
+                decisión que tomamos.
+              </p>
+
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-clock text-primary me-2"></i>
+                <h3 class="h5 mb-0">Experiencia y Confianza</h3>
+              </div>
+              <p class="mb-4">
+                Con más de 10 años en el mercado, hemos construido una
+                reputación sólida basada en la calidad de nuestros productos y
+                la satisfacción de nuestros clientes. Cada prenda que ofrecemos
+                es un testimonio de nuestro compromiso con la excelencia.
+              </p>
+
+              <div class="d-flex align-items-center mb-3">
+                <i class="fas fa-heart text-danger me-2"></i>
+                <h3 class="h5 mb-0">Innovación y Moda</h3>
+              </div>
+              <p class="mb-4">
+                Nuestro equipo de diseñadores trabaja constantemente para traer
+                las últimas tendencias de moda, combinando estilo, comodidad y
+                responsabilidad ambiental en cada colección.
+              </p>
+
+              <div class="d-flex align-items-center">
+                <i class="fas fa-comments text-success me-2"></i>
+                <h3 class="h5 mb-0">Comunidad y Conexión</h3>
+              </div>
+              <p class="mb-4">
+                Síguenos en nuestras redes sociales para estar al tanto de
+                nuestras novedades, promociones y eventos exclusivos. ¡Únete a
+                nuestra comunidad de fashionistas conscientes!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="valores-container py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-5">Nuestros Valores</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-recycle fa-3x text-success mb-3"></i>
+                <h3 class="h5 mb-3">Sostenibilidad</h3>
+                <p>
+                  Comprometidos con la moda responsable y la reducción de
+                  impacto ambiental.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-handshake fa-3x text-primary mb-3"></i>
+                <h3 class="h5 mb-3">Ética</h3>
+                <p>
+                  Trabajamos con proveedores que comparten nuestros valores y
+                  compromisos éticos.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+              <div class="card-body text-center">
+                <i class="fas fa-crown fa-3x text-warning mb-3"></i>
+                <h3 class="h5 mb-3">Excelencia</h3>
+                <p>
+                  Comprometidos con la calidad y la satisfacción del cliente en
+                  cada detalle.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonios-container py-5 bg-dark text-white">
+      <div class="container">
+        <h2 class="text-center mb-5">¿Qué dicen nuestros clientes?</h2>
+        <div
+          id="testimoniosCarousel"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row justify-content-center">
+                <div class="col-md-8">
+                  <div class="text-center">
+                    <p class="lead mb-4">
+                      "La calidad de las prendas es excepcional.
+                      MeVistoComoQuiero ha cambiado mi forma de vestir y de
+                      pensar sobre la moda sostenible."
+                    </p>
+                    <h5 class="mb-3">María S.</h5>
+                    <p class="text-muted">Cliente desde 2018</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row justify-content-center">
+                <div class="col-md-8">
+                  <div class="text-center">
+                    <p class="lead mb-4">
+                      "El servicio al cliente es increíble. Siempre están
+                      dispuestos a ayudar y asesorar sobre las tendencias más
+                      actuales."
+                    </p>
+                    <h5 class="mb-3">Ana L.</h5>
+                    <p class="text-muted">Fashionista</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#testimoniosCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#testimoniosCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         NEWSLETTER
+    ══════════════════════════════════════ -->
+    <section class="newsletter-section" data-section="newsletter">
+      <div class="newsletter-inner" data-reveal>
+        <div class="newsletter-copy">
+          <span class="newsletter-eyebrow">Comunidad MVCQ</span>
+          <h2 class="newsletter-title">Enterate primero</h2>
+          <p class="newsletter-sub">
+            Nuevos lanzamientos, promos exclusivas y contenido de moda
+            directamente a tu bandeja.
+          </p>
+        </div>
+        <div class="newsletter-form">
+          <form onsubmit="handleNewsletterSubmit(event)">
+            <div class="newsletter-input-group">
+              <input
+                type="email"
+                class="newsletter-input"
+                placeholder="tu@email.com"
+                aria-label="Email para newsletter"
+                required
+              />
+              <button type="submit" class="newsletter-btn">Suscribirme</button>
+            </div>
+          </form>
+          <small class="newsletter-footnote">
+            Sin spam. Cancelá cuando quieras.
+          </small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════ -->
+    <footer class="site-footer custom-footer">
+      <section class="container py-2">
+        <div class="row align-items-start g-4 mb-4">
+          <div class="col-lg-5">
+            <div class="footer-brand-card">
+              <img
+                src="img/mvcqSinfondo.png"
+                alt="Logo MVCQ"
+                class="footer-logo mb-3"
+                style="max-width: 90px; filter: brightness(0) invert(1)"
+              />
+              <h3>Me Visto Como Quiero</h3>
+              <p class="mt-2">
+                Moda con personalidad para cada estilo.<br />
+                Descubrí lanzamientos, promos exclusivas y colecciones pensadas
+                para que comprar ropa se sienta simple y confiable.
+              </p>
+              <div class="footer-socials">
+                <a
+                  href="https://www.facebook.com/noelia.lenardon?mibextid=ZbWKwL"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook"
+                >
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a
+                  href="https://www.instagram.com/mevistocomoquiero_ropafemenina/?hl=es-la"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                >
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" aria-label="WhatsApp">
+                  <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="#" aria-label="TikTok">
+                  <i class="fab fa-tiktok"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="footer-community-card">
+              <span class="footer-eyebrow">Comunidad MVCQ</span>
+              <h4 class="mt-1">¡Sumate a nuestra comunidad!</h4>
+              <p>
+                Seguinos en redes para lanzamientos, sorteos y novedades
+                exclusivas.<br />
+                Compartí tu look usando <strong>#MeVistoComoQuiero</strong>.
+              </p>
+              <div class="footer-mini-points">
+                <span><i class="fas fa-users"></i> Comunidad real</span>
+                <span><i class="fas fa-hashtag"></i> #MeVistoComoQuiero</span>
+                <span><i class="fas fa-gift"></i> Sorteos y lanzamientos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4 footer-links-row">
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>Explorá</h5>
+              <a href="pages/catalogo.html">Catálogos</a>
+              <a href="pages/productos.html">Productos</a>
+              <a href="pages/promociones.html">Promociones</a>
+              <a href="pages/mi-coleccion.html">Mis colecciones</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>La tienda</h5>
+              <a href="pages/nosotros.html">Sobre nosotros</a>
+              <a href="pages/contactanos.html">Contacto</a>
+              <a href="pages/register.html">Crear cuenta</a>
+              <a href="pages/login.html">Ingresar</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block footer-link-block--contact">
+              <h5>Atención</h5>
+              <p>
+                <i class="fas fa-map-marker-alt"></i> Atención online · envíos a
+                todo el país
+              </p>
+              <p><i class="fas fa-clock"></i> Lun a Sáb · 9:00 a 20:00</p>
+              <p>
+                <i class="fas fa-shield-alt"></i> Compra protegida y soporte
+                personalizado
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="site-footer-bottom">
+          <p>© 2026 Me Visto Como Quiero. Todos los derechos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="pages/contactanos.html">Ayuda</a>
+            <a href="pages/nosotros.html">Marca</a>
+            <a href="pages/mi-coleccion.html">Mi Colección</a>
+          </div>
+        </div>
+      </section>
+    </footer>
+
+    <!-- ══════════════════════════════════════
+         COOKIE BANNER
+    ══════════════════════════════════════ -->
+    <div
+      class="cookie-banner"
+      id="cookieBanner"
+      role="dialog"
+      aria-label="Aviso de cookies"
+    >
+      <div class="cookie-banner__glow"></div>
+      <div class="cookie-banner__content">
+        <div class="cookie-banner__badge">
+          <i class="fas fa-cookie-bite me-1"></i> Cookies
+        </div>
+        <h3>Usamos cookies</h3>
+        <p>
+          Para mejorar tu experiencia de compra usamos cookies esenciales y de
+          análisis.
+        </p>
+        <div class="cookie-banner__chips">
+          <span><i class="fas fa-check-circle"></i> Esenciales</span>
+          <span><i class="fas fa-chart-bar"></i> Analíticas</span>
+          <span><i class="fas fa-lock"></i> Seguras</span>
+        </div>
+        <div class="cookie-banner__actions">
+          <button
+            class="cookie-banner__btn cookie-banner__btn--ghost"
+            onclick="cookieDecline()"
+          >
+            Rechazar
+          </button>
+          <button
+            class="cookie-banner__btn cookie-banner__btn--primary"
+            onclick="cookieAccept()"
+          >
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCRIPTS
+    ══════════════════════════════════════ -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Site config must load before products-inicio so sections can be toggled -->
+    <script src="./js/site-config.js"></script>
+
+    <!-- Products carousel -->
+    <script src="./js/productos-inicio.js"></script>
+
+    <!-- Navbar scroll behavior -->
+    <script src="./js/nav-bar.js"></script>
+
+    <!-- Auth -->
+    <script src="./js/auth.js"></script>
+    <script src="./js/main.js"></script>
+
+    <script>
+      /* ── AOS init ── */
+      AOS.init({
+        duration: 900,
+        once: true,
+        easing: "ease-out-quad",
+        offset: 60,
+      });
+
+      /* ── Scroll-reveal (data-reveal) ── */
+      (function () {
+        const els = document.querySelectorAll("[data-reveal]");
+        if (!els.length) return;
+        const io = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("revealed");
+                io.unobserve(e.target);
+              }
+            }),
+          { threshold: 0.12 },
+        );
+        els.forEach((el) => io.observe(el));
+      })();
+
+      /* ── Destacados carousel (prev/next) ── */
+      document.addEventListener("DOMContentLoaded", function () {
+        const cards = document.querySelector(".destacados-cards");
+        const btnPrev = document.querySelector(".destacados-carousel-btn-prev");
+        const btnNext = document.querySelector(".destacados-carousel-btn-next");
+        if (!cards || !btnPrev || !btnNext) return;
+
+        let current = 0;
+        function getCols() {
+          return Array.from(cards.querySelectorAll(".destacados-col"));
+        }
+        function getVisible() {
+          return window.innerWidth < 640 ? 1 : window.innerWidth < 1100 ? 2 : 3;
+        }
+
+        function updateCarousel() {
+          const cols = getCols();
+          const vis = getVisible();
+          cols.forEach((col, i) => {
+            col.style.display =
+              i >= current && i < current + vis ? "flex" : "none";
+          });
+          btnPrev.disabled = current === 0;
+          btnNext.disabled = current + vis >= cols.length;
+        }
+
+        btnPrev.addEventListener("click", () => {
+          if (current > 0) {
+            current--;
+            updateCarousel();
+          }
+        });
+        btnNext.addEventListener("click", () => {
+          const vis = getVisible();
+          if (current + vis < getCols().length) {
+            current++;
+            updateCarousel();
+          }
+        });
+
+        const mo = new MutationObserver(() => {
+          if (getCols().length > 0) {
+            current = 0;
+            updateCarousel();
+          }
+        });
+        mo.observe(cards, { childList: true });
+        window.addEventListener("resize", updateCarousel);
+      });
+
+      /* ── Hero carousel re-animate on slide ── */
+      (function () {
+        const hero = document.getElementById("heroBanner");
+        if (!hero) return;
+        hero.addEventListener("slide.bs.carousel", function (e) {
+          const items = hero.querySelectorAll(".carousel-item");
+          const next = items[e.to];
+          if (!next) return;
+          const animated = next.querySelectorAll(
+            ".hero-eyebrow, .hero-title, .hero-subtitle, .hero-actions",
+          );
+          animated.forEach((el) => {
+            el.style.animation = "none";
+            void el.offsetHeight;
+            el.style.animation = "";
+          });
+        });
+      })();
+
+      /* ── Cookie banner ── */
+      (function () {
+        if (localStorage.getItem("mvcq-cookies")) return;
+        setTimeout(() => {
+          const b = document.getElementById("cookieBanner");
+          if (b) b.classList.add("is-visible");
+        }, 1800);
+      })();
+
+      function cookieAccept() {
+        localStorage.setItem("mvcq-cookies", "accepted");
+        dismissCookie();
+      }
+      function cookieDecline() {
+        localStorage.setItem("mvcq-cookies", "declined");
+        dismissCookie();
+      }
+      function dismissCookie() {
+        const b = document.getElementById("cookieBanner");
+        if (!b) return;
+        b.classList.add("is-leaving");
+        setTimeout(() => b.remove(), 350);
+      }
+
+      /* ── Newsletter ── */
+      function handleNewsletterSubmit(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector(".newsletter-btn");
+        btn.textContent = "¡Gracias!";
+        btn.style.background = "#28a745";
+        setTimeout(() => {
+          btn.textContent = "Suscribirme";
+          btn.style.background = "";
+          e.target.reset();
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

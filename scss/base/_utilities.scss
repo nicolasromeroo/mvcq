@@ -1,0 +1,34 @@
+
+// THROUGH tiene en cuenta del 1 al ULTIMO numero (5)
+// TO tiene en cuenta al PENULTIMO (4)
+
+//mixin sin parametros para NAV
+
+@mixin centrar {
+    width: 100%;
+    height: 50px;
+    position: fixed !important;
+    z-index: 1;
+}
+
+.contenedor-estilos-nav {
+    @include centrar();
+}
+
+//mixin con parametros para links
+@mixin links($tamañoLetra, $grosorLetra, $tipoLetra, $movim, $margenDerecho, $posicion, $arriba) {
+    font-size: $tamañoLetra;
+    font-weight: $grosorLetra;
+    text-transform: $tipoLetra;
+    transition: $movim;
+    margin-right: $margenDerecho;
+    position: $posicion;
+    top: $arriba;
+}
+
+@mixin linksReducidos($color, $tamaño, $margenIzquierdo, $tiempo) {
+    color: $color;
+    font-size: $tamaño;
+    margin-left: $margenIzquierdo;
+    transition: $tiempo;
+}

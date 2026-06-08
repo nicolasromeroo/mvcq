@@ -1,0 +1,114 @@
+.bodyWallpaper {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.65)), url('/img/vintage8.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    padding-bottom: 60px;
+}
+
+.wallpaperPromociones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 20px 40px;
+}
+
+.tituloPromociones h2 {
+    font-size: 42px;
+    color: #ffeaea;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.tituloPromociones h3 {
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 400;
+    color: #f0f0f0;
+    max-width: 700px;
+    margin: auto;
+}
+
+.container-cards-promos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.container-cards-promos .card {
+    background-color: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    animation: fadeInUp 0.6s ease forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    width: 18rem;
+    border: none;
+}
+
+.container-cards-promos .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+}
+
+.container-cards-promos .card img {
+    object-fit: cover;
+    height: 250px;
+    border-bottom: 2px solid #ffc107;
+}
+
+.container-cards-promos .card-text {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+    color: #ffc107;
+    padding: 10px 0;
+}
+
+.container-cards-promos .btn {
+    margin: 0 auto 16px;
+    display: block;
+    width: 80%;
+    background-color: #ffc107;
+    color: #000;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.container-cards-promos .btn:hover {
+    background-color: #ffb300;
+    color: #000;
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff1744;
+    color: white;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 4px;
+    z-index: 2;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

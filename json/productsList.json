@@ -1,0 +1,302 @@
+[
+    {
+        "title": "Camiseta Básica Blanca",
+        "description": "Camiseta de algodón 100% para uso diario.",
+        "price": 12.99,
+        "stock": 50
+    },
+    {
+        "title": "Jeans Slim Fit",
+        "description": "Pantalón vaquero azul corte slim para hombre.",
+        "price": 34.99,
+        "stock": 30
+    },
+    {
+        "title": "Vestido Floral",
+        "description": "Vestido corto con estampado floral para mujer.",
+        "price": 29.99,
+        "stock": 20
+    },
+    {
+        "title": "Sudadera con Capucha",
+        "description": "Sudadera gris con capucha y bolsillo frontal.",
+        "price": 24.99,
+        "stock": 40
+    },
+    {
+        "title": "Pantalón Jogger",
+        "description": "Jogger deportivo negro para hombre.",
+        "price": 19.99,
+        "stock": 35
+    },
+    {
+        "title": "Blusa de Encaje",
+        "description": "Blusa blanca de encaje para ocasiones especiales.",
+        "price": 22.99,
+        "stock": 15
+    },
+    {
+        "title": "Falda Plisada",
+        "description": "Falda midi plisada color rosa.",
+        "price": 21.99,
+        "stock": 18
+    },
+    {
+        "title": "Camisa de Lino",
+        "description": "Camisa de lino azul claro, manga larga.",
+        "price": 27.99,
+        "stock": 25
+    },
+    {
+        "title": "Shorts Denim",
+        "description": "Shorts vaqueros desgastados para mujer.",
+        "price": 17.99,
+        "stock": 22
+    },
+    {
+        "title": "Chaqueta Bomber",
+        "description": "Chaqueta bomber negra, ligera y moderna.",
+        "price": 39.99,
+        "stock": 12
+    },
+    {
+        "title": "Polo Clásico",
+        "description": "Polo de algodón color rojo para hombre.",
+        "price": 15.99,
+        "stock": 28
+    },
+    {
+        "title": "Leggings Deportivos",
+        "description": "Leggings elásticos para entrenamiento.",
+        "price": 14.99,
+        "stock": 32
+    },
+    {
+        "title": "Abrigo de Lana",
+        "description": "Abrigo largo de lana color camel.",
+        "price": 59.99,
+        "stock": 10
+    },
+    {
+        "title": "Camisa Cuadros",
+        "description": "Camisa de cuadros rojos y negros.",
+        "price": 18.99,
+        "stock": 20
+    },
+    {
+        "title": "Top Deportivo",
+        "description": "Top deportivo transpirable para mujer.",
+        "price": 13.99,
+        "stock": 25
+    },
+    {
+        "title": "Pantalón Cargo",
+        "description": "Pantalón cargo verde oliva con bolsillos.",
+        "price": 26.99,
+        "stock": 16
+    },
+    {
+        "title": "Chaleco Acolchado",
+        "description": "Chaleco acolchado azul marino.",
+        "price": 31.99,
+        "stock": 14
+    },
+    {
+        "title": "Falda Vaquera",
+        "description": "Falda vaquera azul claro, corte recto.",
+        "price": 19.99,
+        "stock": 19
+    },
+    {
+        "title": "Camiseta Estampada",
+        "description": "Camiseta blanca con estampado gráfico.",
+        "price": 13.99,
+        "stock": 27
+    },
+    {
+        "title": "Pantalón Chino",
+        "description": "Pantalón chino beige para hombre.",
+        "price": 23.99,
+        "stock": 21
+    },
+    {
+        "title": "Vestido Largo",
+        "description": "Vestido largo negro elegante.",
+        "price": 39.99,
+        "stock": 13
+    },
+    {
+        "title": "Cazadora Vaquera",
+        "description": "Cazadora vaquera azul clásico.",
+        "price": 36.99,
+        "stock": 17
+    },
+    {
+        "title": "Sudadera Oversize",
+        "description": "Sudadera oversize color lila.",
+        "price": 22.99,
+        "stock": 24
+    },
+    {
+        "title": "Blazer Negro",
+        "description": "Blazer negro clásico para mujer.",
+        "price": 44.99,
+        "stock": 11
+    },
+    {
+        "title": "Pantalón Palazzo",
+        "description": "Pantalón palazzo fluido color blanco.",
+        "price": 28.99,
+        "stock": 15
+    },
+    {
+        "title": "Camiseta Rayas",
+        "description": "Camiseta de rayas marineras azul y blanco.",
+        "price": 12.99,
+        "stock": 26
+    },
+    {
+        "title": "Mono Corto",
+        "description": "Mono corto estampado tropical.",
+        "price": 24.99,
+        "stock": 18
+    },
+    {
+        "title": "Camisa Manga Corta",
+        "description": "Camisa blanca manga corta para hombre.",
+        "price": 16.99,
+        "stock": 23
+    },
+    {
+        "title": "Falda Lápiz",
+        "description": "Falda lápiz negra para oficina.",
+        "price": 20.99,
+        "stock": 14
+    },
+    {
+        "title": "Sweater de Punto",
+        "description": "Sweater de punto grueso color mostaza.",
+        "price": 25.99,
+        "stock": 20
+    },
+    {
+        "title": "Pantalón Culotte",
+        "description": "Pantalón culotte azul marino.",
+        "price": 22.99,
+        "stock": 16
+    },
+    {
+        "title": "Top de Tirantes",
+        "description": "Top de tirantes color verde menta.",
+        "price": 10.99,
+        "stock": 30
+    },
+    {
+        "title": "Camisa Estampada",
+        "description": "Camisa con estampado geométrico.",
+        "price": 19.99,
+        "stock": 18
+    },
+    {
+        "title": "Chamarra Rompevientos",
+        "description": "Chamarra ligera rompevientos.",
+        "price": 27.99,
+        "stock": 12
+    },
+    {
+        "title": "Vestido Midi",
+        "description": "Vestido midi azul marino.",
+        "price": 32.99,
+        "stock": 15
+    },
+    {
+        "title": "Pantalón de Vestir",
+        "description": "Pantalón de vestir gris oscuro.",
+        "price": 29.99,
+        "stock": 17
+    },
+    {
+        "title": "Camiseta Sin Mangas",
+        "description": "Camiseta sin mangas color coral.",
+        "price": 11.99,
+        "stock": 22
+    },
+    {
+        "title": "Falda Corta",
+        "description": "Falda corta negra con botones.",
+        "price": 15.99,
+        "stock": 19
+    },
+    {
+        "title": "Camisa Oxford",
+        "description": "Camisa oxford celeste para hombre.",
+        "price": 21.99,
+        "stock": 20
+    },
+    {
+        "title": "Sweater Cuello Alto",
+        "description": "Sweater de cuello alto color gris.",
+        "price": 23.99,
+        "stock": 14
+    },
+    {
+        "title": "Pantalón Pijama",
+        "description": "Pantalón pijama de algodón suave.",
+        "price": 13.99,
+        "stock": 25
+    },
+    {
+        "title": "Blusa Estampada",
+        "description": "Blusa estampada de flores.",
+        "price": 16.99,
+        "stock": 18
+    },
+    {
+        "title": "Chaleco de Punto",
+        "description": "Chaleco de punto beige.",
+        "price": 18.99,
+        "stock": 13
+    },
+    {
+        "title": "Mono Largo",
+        "description": "Mono largo negro elegante.",
+        "price": 34.99,
+        "stock": 10
+    },
+    {
+        "title": "Camiseta Básica Negra",
+        "description": "Camiseta básica negra de algodón.",
+        "price": 12.99,
+        "stock": 28
+    },
+    {
+        "title": "Falda Larga",
+        "description": "Falda larga plisada color vino.",
+        "price": 22.99,
+        "stock": 12
+    },
+    {
+        "title": "Pantalón Recto",
+        "description": "Pantalón recto azul oscuro.",
+        "price": 24.99,
+        "stock": 16
+    },
+    {
+        "title": "Blusa de Seda",
+        "description": "Blusa de seda color marfil.",
+        "price": 29.99,
+        "stock": 11
+    },
+    {
+        "title": "Camisa Negra",
+        "description": "Camisa negra manga larga.",
+        "price": 18.99,
+        "stock": 17
+    },
+    {
+        "title": "Sweater Rayado",
+        "description": "Sweater rayado blanco y azul.",
+        "price": 20.99,
+        "stock": 15
+    }
+]

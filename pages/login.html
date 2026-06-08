@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión - Me Visto Como Quiero</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../css/design-system.css" />
+    <link rel="stylesheet" href="../css/nav-bar.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="../css/auth-forms.css" />
+    <script
+      src="https://kit.fontawesome.com/68c5d14b35.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <!-- ══ NAVBAR ══ -->
+    <header>
+      <nav class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar">
+        <div class="container-xxl site-navbar-inner">
+          <a class="navbar-brand site-navbar-brand" href="../index.html" aria-label="Inicio">
+            <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="logo-navbar" />
+            <span class="site-navbar-brand-copy">
+              <strong>Me Visto</strong>
+              <small>Como Quiero</small>
+            </span>
+          </a>
+          <button class="navbar-toggler site-navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir navegación">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse site-navbar-panel" id="navbarNav">
+            <ul class="navbar-nav site-navbar-menu mx-auto">
+              <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+              <li class="nav-item"><a class="nav-link" href="catalogo.html">Catálogo</a></li>
+              <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+              <li class="nav-item"><a class="nav-link" href="mi-coleccion.html">Vestidor</a></li>
+              <li class="nav-item"><a class="nav-link" href="contactanos.html">Contacto</a></li>
+            </ul>
+            <div class="site-navbar-actions">
+              <div id="authNav" class="site-navbar-auth">
+                <a class="site-nav-link" href="login.html">Ingresá</a>
+                <a class="site-nav-pill" href="register.html">Registrate</a>
+              </div>
+              <div id="userNav" class="site-navbar-user d-none">
+                <a class="site-nav-icon" href="carrito.html" title="Carrito" aria-label="Carrito">
+                  <i class="fas fa-shopping-bag"></i>
+                  <span class="site-nav-badge">0</span>
+                </a>
+                <a id="adminPanelItem" class="site-nav-link d-none" href="admin-panel.html">Panel</a>
+                <div class="nav-item dropdown">
+                  <a class="site-nav-profile dropdown-toggle" href="#" id="userDropdown"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff"
+                      alt="Usuario" class="rounded-circle" width="30" height="30" />
+                    <span id="usernameSpan">Usuario</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Mi perfil</a></li>
+                    <li><a class="dropdown-item" href="mis-pedidos.html"><i class="fas fa-box me-2"></i>Mis pedidos</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="auth-page">
+      <div class="auth-split">
+
+        <!-- ── Showcase (left) ── -->
+        <aside class="auth-showcase" id="authShowcase" aria-hidden="true">
+          <div
+            class="auth-showcase-bg"
+            style="background-image: url('../img/vintage9.jpg')"
+          ></div>
+          <div class="auth-showcase-overlay"></div>
+          <div class="auth-showcase-body">
+            <span class="auth-showcase-eyebrow">Bienvenida de nuevo</span>
+            <h1 class="auth-showcase-title">
+              Entrá y seguí<br />con tus <em>looks</em>.
+            </h1>
+            <p class="auth-showcase-desc">
+              Accedé a tus pedidos, favoritos y beneficios exclusivos de la
+              comunidad MVCQ.
+            </p>
+            <ul class="auth-perks">
+              <li>
+                <span class="auth-perk-icon"><i class="fas fa-heart"></i></span>
+                Tus prendas guardadas en un solo lugar
+              </li>
+              <li>
+                <span class="auth-perk-icon"><i class="fas fa-truck"></i></span>
+                Seguimiento simple de envíos
+              </li>
+              <li>
+                <span class="auth-perk-icon"
+                  ><i class="fas fa-percent"></i></span
+                >
+                Promos exclusivas para miembros
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- ── Form (right) ── -->
+        <div class="auth-form-side">
+          <div class="auth-form-box">
+
+            <!-- Logo -->
+            <a class="auth-form-logo" href="../index.html">
+              <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" />
+              <div class="auth-form-logo-text">
+                <strong>Me Visto</strong>
+                <small>Como Quiero</small>
+              </div>
+            </a>
+
+            <!-- Head -->
+            <div class="auth-head">
+              <span class="auth-head-eyebrow">Acceso</span>
+              <h2>Iniciar Sesión</h2>
+              <p>Ingresá con tu email y contraseña.</p>
+            </div>
+
+            <!-- Error alert -->
+            <div
+              id="loginError"
+              class="auth-alert auth-alert--danger d-none"
+              role="alert"
+            >
+              <i class="fas fa-circle-exclamation"></i>
+              <span>Credenciales incorrectas. Por favor, inténtalo de nuevo.</span>
+            </div>
+
+            <form id="loginForm" novalidate>
+
+              <!-- Email -->
+              <div class="auth-field">
+                <div class="auth-field-head">
+                  <label class="auth-label" for="email"
+                    >Correo Electrónico</label
+                  >
+                </div>
+                <div class="auth-input-wrap">
+                  <span class="auth-input-icon"
+                    ><i class="fas fa-envelope"></i
+                  ></span>
+                  <input
+                    type="email"
+                    class="auth-input"
+                    id="email"
+                    name="email"
+                    placeholder="tuemail@ejemplo.com"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="auth-field">
+                <div class="auth-field-head">
+                  <label class="auth-label" for="password">Contraseña</label>
+                  <a href="#" class="auth-forgot">¿Olvidaste tu contraseña?</a>
+                </div>
+                <div class="auth-input-wrap">
+                  <span class="auth-input-icon"
+                    ><i class="fas fa-lock"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="auth-input"
+                    id="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                  />
+                  <button
+                    class="auth-toggle-pw toggle-password"
+                    type="button"
+                    tabindex="-1"
+                    aria-label="Mostrar contraseña"
+                  >
+                    <i class="far fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Remember me -->
+              <label class="auth-remember">
+                <input
+                  type="checkbox"
+                  class="auth-remember-check"
+                  id="rememberMe"
+                  name="rememberMe"
+                />
+                <span class="auth-remember-text"
+                  >Recordarme en este dispositivo</span
+                >
+              </label>
+
+              <!-- Submit -->
+              <button type="submit" class="auth-submit-btn">
+                Iniciar Sesión
+              </button>
+
+              <!-- Social divider -->
+              <div class="auth-divider"><span>O continuá con</span></div>
+              <div class="auth-socials">
+                <a
+                  href="#"
+                  class="auth-social-btn auth-social-btn--google"
+                >
+                  <i class="fab fa-google"></i> Google
+                </a>
+                <a
+                  href="#"
+                  class="auth-social-btn auth-social-btn--facebook"
+                >
+                  <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+              </div>
+
+              <p class="auth-switch">
+                ¿No tenés cuenta?
+                <a href="register.html">Registrate gratis</a>
+              </p>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="site-footer custom-footer">
+      <section class="container py-2">
+        <div class="row align-items-start g-4 mb-4">
+          <div class="col-lg-5">
+            <div class="footer-brand-card">
+              <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="footer-logo mb-3"
+                style="max-width:90px;filter:brightness(0) invert(1)" />
+              <h3>Me Visto Como Quiero</h3>
+              <p class="mt-2">
+                Moda con personalidad para cada estilo.<br />
+                Descubrí lanzamientos, promos exclusivas y colecciones pensadas
+                para que comprar ropa se sienta simple y confiable.
+              </p>
+              <div class="footer-socials">
+                <a href="https://www.facebook.com/noelia.lenardon?mibextid=ZbWKwL" target="_blank" rel="noreferrer" aria-label="Facebook">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/mevistocomoquiero_ropafemenina/?hl=es-la" target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="footer-community-card">
+              <span class="footer-eyebrow">Comunidad MVCQ</span>
+              <h4 class="mt-1">¡Sumate a nuestra comunidad!</h4>
+              <p>
+                Seguinos en redes para lanzamientos, sorteos y novedades exclusivas.<br />
+                Compartí tu look usando <strong>#MeVistoComoQuiero</strong>.
+              </p>
+              <div class="footer-mini-points">
+                <span><i class="fas fa-users"></i> Comunidad real</span>
+                <span><i class="fas fa-hashtag"></i> #MeVistoComoQuiero</span>
+                <span><i class="fas fa-gift"></i> Sorteos y lanzamientos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mb-4 footer-links-row">
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>Explorá</h5>
+              <a href="catalogo.html">Catálogos</a>
+              <a href="productos.html">Productos</a>
+              <a href="promociones.html">Promociones</a>
+              <a href="mi-coleccion.html">Mis colecciones</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>La tienda</h5>
+              <a href="nosotros.html">Sobre nosotros</a>
+              <a href="contactanos.html">Contacto</a>
+              <a href="register.html">Crear cuenta</a>
+              <a href="login.html">Ingresar</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block footer-link-block--contact">
+              <h5>Atención</h5>
+              <p><i class="fas fa-map-marker-alt"></i> Atención online · envíos a todo el país</p>
+              <p><i class="fas fa-clock"></i> Lun a Sáb · 9:00 a 20:00</p>
+              <p><i class="fas fa-shield-alt"></i> Compra protegida y soporte personalizado</p>
+            </div>
+          </div>
+        </div>
+        <div class="site-footer-bottom">
+          <p>© 2026 Me Visto Como Quiero. Todos los derechos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="contactanos.html">Ayuda</a>
+            <a href="nosotros.html">Marca</a>
+            <a href="mi-coleccion.html">Mi Colección</a>
+          </div>
+        </div>
+      </section>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/nav-bar.js"></script>
+    <script>
+      /* Ken Burns on showcase image */
+      requestAnimationFrame(() =>
+        document.getElementById("authShowcase")?.classList.add("is-ready")
+      );
+
+      /* Real-time input validation */
+      document.getElementById("email")?.addEventListener("blur", function () {
+        this.classList.toggle("is-valid", this.validity.valid && this.value);
+        this.classList.toggle("is-invalid", !this.validity.valid && this.value);
+      });
+      document.getElementById("password")?.addEventListener("blur", function () {
+        this.classList.toggle("is-valid", this.value.length >= 1);
+      });
+    </script>
+    <script>
+      document.querySelectorAll(".toggle-password").forEach((button) => {
+        button.addEventListener("click", function () {
+          const passwordInput = this.previousElementSibling;
+          const type =
+            passwordInput.getAttribute("type") === "password"
+              ? "text"
+              : "password";
+          passwordInput.setAttribute("type", type);
+          this.querySelector("i").classList.toggle("fa-eye");
+          this.querySelector("i").classList.toggle("fa-eye-slash");
+        });
+      });
+
+      (function () {
+        "use strict";
+
+        // Recursively search for a JWT-like string (eyJ...) in any response shape
+        function findJWT(obj, depth = 0) {
+          if (depth > 5 || !obj) return null;
+          if (
+            typeof obj === "string" &&
+            obj.startsWith("eyJ") &&
+            obj.length > 20
+          )
+            return obj;
+          if (typeof obj === "object") {
+            for (const val of Object.values(obj)) {
+              const found = findJWT(val, depth + 1);
+              if (found) return found;
+            }
+          }
+          return null;
+        }
+
+        const form = document.getElementById("loginForm");
+        const errorAlert = document.getElementById("loginError");
+
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          if (!form.checkValidity()) {
+            event.stopPropagation();
+            form.classList.add("was-validated");
+            return;
+          }
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalBtnText = submitBtn.innerHTML;
+
+          try {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin me-2"></i>Ingresando...';
+
+            const res = await fetch("http://localhost:3000/auth/login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+            console.log("LOGIN RESPONSE:", JSON.stringify(data, null, 2));
+
+            if (!res.ok) {
+              throw new Error(data.message || "Credenciales incorrectas");
+            }
+
+            localStorage.setItem("isAuthenticated", "true");
+
+            // Extract token — cover every common NestJS response shape
+            const token =
+              data.token ||
+              data.access_token ||
+              data.accessToken ||
+              data.jwt ||
+              data.user?.token ||
+              data.user?.access_token ||
+              data.user?.accessToken ||
+              data.data?.token ||
+              data.data?.access_token ||
+              data.data?.accessToken ||
+              data.payload?.token ||
+              data.payload?.access_token ||
+              data.result?.token ||
+              data.result?.access_token ||
+              // Last resort: deep-search for any JWT-like string in the response
+              findJWT(data) ||
+              "";
+
+            if (!token) {
+              console.warn(
+                "⚠️ TOKEN NO ENCONTRADO en la respuesta. Estructura completa:",
+                JSON.parse(JSON.stringify(data)),
+              );
+            }
+
+            localStorage.setItem("token", token);
+            console.log(
+              "TOKEN GUARDADO:",
+              token ? token.substring(0, 30) + "..." : "(vacío)",
+            );
+            localStorage.setItem(
+              "username",
+              data.username ||
+                data.user?.username ||
+                data.data?.username ||
+                email.split("@")[0],
+            );
+
+            const role = (
+              data.role ||
+              data.userRole ||
+              data.rol ||
+              data.user?.role ||
+              data.user?.userRole ||
+              data.user?.rol ||
+              data.data?.role ||
+              data.data?.userRole ||
+              "user"
+            ).toLowerCase();
+            localStorage.setItem("userRole", role);
+
+            window.location.href =
+              role === "admin" ? "admin-panel.html" : "../index.html";
+          } catch (err) {
+            errorAlert.textContent = err.message;
+            errorAlert.classList.remove("d-none");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+          }
+        });
+
+        ["email", "password"].forEach((field) => {
+          document.getElementById(field).addEventListener("input", () => {
+            if (!errorAlert.classList.contains("d-none")) {
+              errorAlert.classList.add("d-none");
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
