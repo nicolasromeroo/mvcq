@@ -207,9 +207,12 @@
         <!-- ── Center: Mannequin ── -->
         <section class="vestidor-stage">
           <p class="vestidor-stage-hint">
-            <i class="fas fa-hand-pointer me-1"></i>
-            Hacé clic en una prenda o en una zona del maniquí
+            <i class="fas fa-up-down-left-right me-1"></i>
+            Arrastrá o hacé clic en una prenda para vestir el maniquí
           </p>
+          <button class="stage-zoom-btn" id="btnZoomOutfit" title="Ver outfit completo">
+            <i class="fas fa-expand-alt"></i>
+          </button>
 
           <!-- Mannequin + overlay zones -->
           <div class="mannequin-wrap">
@@ -325,22 +328,27 @@
             </svg>
 
             <!-- Clothing overlay zones -->
-            <div class="outfit-zone outfit-zone--outer" data-zone="outer">
+            <div class="outfit-zone outfit-zone--outer is-empty" data-zone="outer">
               <img alt="" />
+              <div class="zone-empty-hint"><i class="fas fa-wind"></i><span>Outer</span></div>
             </div>
-            <div class="outfit-zone outfit-zone--full" data-zone="full">
+            <div class="outfit-zone outfit-zone--full is-empty" data-zone="full">
               <img alt="" />
+              <div class="zone-empty-hint"><i class="fas fa-person-dress"></i><span>Vestido</span></div>
             </div>
-            <div class="outfit-zone outfit-zone--top" data-zone="top">
+            <div class="outfit-zone outfit-zone--top is-empty" data-zone="top">
               <img alt="" />
+              <div class="zone-empty-hint"><i class="fas fa-tshirt"></i><span>Top</span></div>
             </div>
-            <div class="outfit-zone outfit-zone--bottom" data-zone="bottom">
+            <div class="outfit-zone outfit-zone--bottom is-empty" data-zone="bottom">
               <img alt="" />
+              <div class="zone-empty-hint"><i class="fas fa-socks"></i><span>Bottom</span></div>
             </div>
           </div>
           <!-- /mannequin-wrap -->
 
           <!-- Slot picker buttons below mannequin -->
+          <p class="active-slot-label" id="activeSlotLabel">Editando: <strong>Top</strong></p>
           <div class="outfit-slots">
             <div
               class="outfit-slot is-active"
@@ -382,6 +390,14 @@
               </div>
               <span class="outfit-slot-label">Vestido</span>
             </div>
+          </div>
+
+          <!-- Outfit completion progress -->
+          <div class="outfit-progress-wrap" id="outfitProgressWrap">
+            <div class="outfit-progress-track">
+              <div class="outfit-progress-fill" id="outfitProgressFill"></div>
+            </div>
+            <span class="outfit-progress-label" id="outfitProgressLabel">Armá tu look</span>
           </div>
         </section>
         <!-- /vestidor-stage -->
@@ -555,6 +571,17 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- ══ FULLSCREEN OUTFIT VIEW ══ -->
+    <div id="stageFullscreen" class="stage-fullscreen" style="display:none">
+      <button class="stage-fs-close" id="btnCloseFullscreen">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="stage-fs-inner">
+        <div class="stage-fs-mannequin" id="fsMannequin"></div>
+        <aside class="stage-fs-panel" id="fsPanel"></aside>
       </div>
     </div>
 

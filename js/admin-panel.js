@@ -14,6 +14,69 @@ const LOOKBOOK_FALLBACKS = [
   "../img/vintage8.jpg",
 ];
 
+/* ── Size systems per category ── */
+const SIZE_SYSTEMS = {
+  ropa: {
+    hint: 'Ropa',
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+    defaults: ['M', 'L', 'XL'],
+  },
+  pantalones: {
+    hint: 'Cintura (pulgadas)',
+    sizes: ['26', '28', '30', '32', '34', '36', '38', '40', '42'],
+    defaults: ['28', '30', '32', '34'],
+  },
+  calzado: {
+    hint: 'Calzado (AR)',
+    sizes: ['35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45'],
+    defaults: ['37', '38', '39', '40', '41'],
+  },
+  unico: {
+    hint: 'Talla única',
+    sizes: ['Único'],
+    defaults: ['Único'],
+  },
+};
+
+const CATEGORY_TO_SYSTEM = {
+  'Remeras':    'ropa',
+  'Buzos':      'ropa',
+  'Camisas':    'ropa',
+  'Camperas':   'ropa',
+  'Vestidos':   'ropa',
+  'Polleras':   'ropa',
+  'Shorts':     'ropa',
+  'Pantalones': 'pantalones',
+  'Calzado':    'calzado',
+  'Accesorios': 'unico',
+  'Otro':       'ropa',
+};
+
+function updateSizeGrid(category, preselectSizes = null) {
+  const grid = document.getElementById('sizeGrid');
+  const tag  = document.getElementById('sizeSystemTag');
+  if (!grid) return;
+
+  const systemKey = CATEGORY_TO_SYSTEM[category] || 'ropa';
+  const system    = SIZE_SYSTEMS[systemKey];
+  const toCheck   = preselectSizes?.length ? preselectSizes : system.defaults;
+
+  if (tag) tag.textContent = system.hint;
+
+  const chips = `${system.sizes.map(size => `
+      <label class="pf-size-chip">
+        <input type="checkbox" name="sizes" value="${size}" ${toCheck.includes(size) ? 'checked' : ''} />
+        <span>${size}</span>
+      </label>`).join('')}`;
+
+  if (grid.children.length > 0) {
+    grid.classList.add('is-updating');
+    setTimeout(() => { grid.innerHTML = chips; grid.classList.remove('is-updating'); }, 130);
+  } else {
+    grid.innerHTML = chips;
+  }
+}
+
 /* ── Helpers ── */
 function esc(str) {
   return String(str)
@@ -833,6 +896,8 @@ function openProductForm(product = null) {
       stockInput.value = product.stock != null ? product.stock : "";
     if (activeInput) activeInput.checked = product.isActive !== false;
 
+    updateSizeGrid(product.category || '', product.sizes || null);
+
     // Show existing images as previews
     const mainPreview = document.getElementById("previewMain");
     const mainPlaceholder = document.getElementById("mainPlaceholder");
@@ -871,6 +936,7 @@ function closeProductFormFn() {
       newProductForm.style.display = "none";
       if (productFormSubmit) productFormSubmit.reset();
       editingProductId = null;
+      updateSizeGrid('');   // reset to ropa defaults
       // Reset previews
       document.querySelectorAll(".pf-upload-preview").forEach((img) => {
         img.style.display = "none";
@@ -900,9 +966,20 @@ function closeProductFormFn() {
 }
 
 if (btnAgregarProducto)
-  btnAgregarProducto.addEventListener("click", () => openProductForm());
+  btnAgregarProducto.addEventListener("click", () => {
+    openProductForm();
+    updateSizeGrid('');  // init with ropa defaults for new product
+  });
 if (closeProductForm)
   closeProductForm.addEventListener("click", closeProductFormFn);
+
+/* ── Size grid: update when category changes ── */
+const catSelectForSize = document.getElementById('productCategory');
+if (catSelectForSize) {
+  catSelectForSize.addEventListener('change', function () {
+    updateSizeGrid(this.value);
+  });
+}
 if (cancelProductForm)
   cancelProductForm.addEventListener("click", closeProductFormFn);
 if (productFormBackdrop)
@@ -1013,6 +1090,9 @@ if (productFormSubmit) {
     const fd = new FormData();
     fd.append("name", nameVal);
     fd.append("price", priceVal);
+    fd.append("category", categoryVal);
+    fd.append("gender", genderVal);
+    sizes.forEach((s) => fd.append("sizes[]", s));
 
     const skuVal = document.getElementById("productSku").value.trim();
     if (skuVal) fd.append("sku", skuVal);

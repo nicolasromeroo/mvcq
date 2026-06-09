@@ -28,6 +28,7 @@ let activeSlot     = 'top';
 let outfit         = {};
 let activeCat      = 'all';
 let searchQuery    = '';
+let draggedProductId = null;
 
 /* ═══════════════════════════════
    UTILITIES
@@ -116,7 +117,7 @@ function renderBrowserList() {
     const slot     = detectSlot(p);
     const equipped = outfit[slot]?.id === p.id;
     return `
-      <div class="browser-card${equipped?' is-equipped':''}" data-id="${esc(String(p.id))}">
+      <div class="browser-card${equipped?' is-equipped':''}" data-id="${esc(String(p.id))}" draggable="true">
         <span class="browser-card-slot-badge">${esc(SLOT_LABELS[slot]||slot)}</span>
         <img class="browser-card-img" src="${esc(getProductImg(p))}" alt="${esc(p.name||'')}"
              loading="lazy" onerror="this.src='${FALLBACK_IMG}'" />
@@ -127,10 +128,18 @@ function renderBrowserList() {
       </div>`;
   }).join('');
   listEl.querySelectorAll('.browser-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const prod = allProducts.find(p => String(p.id)===card.dataset.id);
-      if (!prod) return;
-      equipProduct(detectSlot(prod), prod);
+    const prod = allProducts.find(p => String(p.id)===card.dataset.id);
+    if (!prod) return;
+    card.addEventListener('click', () => equipProduct(detectSlot(prod), prod));
+    card.addEventListener('dragstart', e => {
+      draggedProductId = String(prod.id);
+      e.dataTransfer.setData('text/plain', String(prod.id));
+      e.dataTransfer.effectAllowed = 'copy';
+      card.classList.add('is-dragging');
+    });
+    card.addEventListener('dragend', () => {
+      draggedProductId = null;
+      card.classList.remove('is-dragging');
     });
   });
 }
@@ -143,17 +152,17 @@ function equipProduct(slot, product) {
   if (slot==='full') { delete outfit.top; delete outfit.bottom; }
   else if (slot==='top'||slot==='bottom') { delete outfit.full; }
   outfit[slot] = product;
-  saveOutfitDraft(); renderMannequin(); renderOutfitPanel(); renderBrowserList();
+  saveOutfitDraft(); renderMannequin(); renderOutfitPanel(); renderBrowserList(); updateProgress();
 }
 
 function unequipSlot(slot) {
   delete outfit[slot];
-  saveOutfitDraft(); renderMannequin(); renderOutfitPanel(); renderBrowserList();
+  saveOutfitDraft(); renderMannequin(); renderOutfitPanel(); renderBrowserList(); updateProgress();
 }
 
 function clearOutfit() {
   outfit = {};
-  saveOutfitDraft(); renderMannequin(); renderOutfitPanel(); renderBrowserList();
+  saveOutfitDraft(); renderMannequin(); renderOutfitPanel(); renderBrowserList(); updateProgress();
 }
 
 function saveOutfitDraft() {
@@ -163,6 +172,75 @@ function saveOutfitDraft() {
 function loadOutfitDraft() {
   try { const raw=localStorage.getItem(STORAGE_OUTFIT); if(raw) outfit=JSON.parse(raw); }
   catch(_){ outfit={}; }
+}
+
+/* ═══════════════════════════════
+   OUTFIT PROGRESS
+═══════════════════════════════ */
+
+function updateProgress() {
+  const count = Object.keys(outfit).length;
+  const fill  = document.getElementById('outfitProgressFill');
+  const label = document.getElementById('outfitProgressLabel');
+  if (fill)  fill.style.width = `${(count / 4) * 100}%`;
+  if (label) {
+    if (count === 0)      label.textContent = 'Armá tu look';
+    else if (count === 4) label.textContent = '¡Outfit completo!';
+    else                  label.textContent = `${count} prenda${count!==1?'s':''} seleccionada${count!==1?'s':''}`;
+  }
+}
+
+/* ═══════════════════════════════
+   FULLSCREEN VIEW
+═══════════════════════════════ */
+
+function openFullscreenView() {
+  const backdrop = document.getElementById('stageFullscreen');
+  if (!backdrop) return;
+
+  const fsMannequin = document.getElementById('fsMannequin');
+  if (fsMannequin) {
+    const src = document.querySelector('.mannequin-wrap');
+    if (src) fsMannequin.innerHTML = src.outerHTML;
+  }
+
+  const fsPanel = document.getElementById('fsPanel');
+  if (fsPanel) {
+    const items = Object.entries(outfit);
+    const total = items.reduce((s,[,p]) => s + Number(p?.price||0), 0);
+    fsPanel.innerHTML = `
+      <h3>Tu Look</h3>
+      ${!items.length ? `<p class="fs-empty-msg">Sin prendas seleccionadas</p>` : ''}
+      ${items.map(([slot,p]) => `
+        <div class="fs-item">
+          <span class="fs-item-label">${esc(SLOT_LABELS[slot]||slot)}</span>
+          <span class="fs-item-name">${esc(p.name||'Producto')}</span>
+          <span class="fs-item-price">${fmtPrice(p.price)}</span>
+        </div>`).join('')}
+      ${items.length ? `
+        <div class="fs-total">
+          <span class="fs-total-label">Total outfit</span>
+          <span class="fs-total-value">${fmtPrice(total)}</span>
+        </div>
+        <div class="fs-actions">
+          <button class="fs-btn fs-btn--cart" onclick="showToast('Función de carrito próximamente')">
+            <i class="fas fa-shopping-bag"></i> Agregar al carrito
+          </button>
+          <button class="fs-btn fs-btn--save" onclick="openSaveModal();closeFullscreenView()">
+            <i class="fas fa-bookmark"></i> Guardar outfit
+          </button>
+        </div>` : ''}
+    `;
+  }
+
+  backdrop.style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFullscreenView() {
+  const backdrop = document.getElementById('stageFullscreen');
+  if (backdrop) backdrop.style.display = 'none';
+  document.body.style.overflow = '';
 }
 
 /* ═══════════════════════════════
@@ -176,8 +254,26 @@ function renderMannequin() {
     const img = zoneEl.querySelector('img');
     if (!img) return;
     const prod = outfit[id];
-    if (prod) { img.style.display=''; img.src=getProductImg(prod); img.alt=prod.name||''; zoneEl.style.opacity='1'; }
-    else { zoneEl.style.opacity='0'; setTimeout(()=>{ img.src=''; img.style.display=''; },350); }
+    if (prod) {
+      const isNew = img.dataset.loadedId !== String(prod.id);
+      img.dataset.loadedId = String(prod.id);
+      img.style.display = '';
+      img.src = getProductImg(prod);
+      img.alt = prod.name || '';
+      zoneEl.style.opacity = '1';
+      zoneEl.classList.remove('is-empty');
+      if (isNew) {
+        zoneEl.classList.remove('item-entering');
+        void zoneEl.offsetWidth;
+        zoneEl.classList.add('item-entering');
+        setTimeout(() => zoneEl.classList.remove('item-entering'), 500);
+      }
+    } else {
+      zoneEl.style.opacity = '0';
+      zoneEl.classList.add('is-empty');
+      delete img.dataset.loadedId;
+      setTimeout(() => { img.src = ''; img.style.display = ''; }, 350);
+    }
   });
 
   document.querySelectorAll('.outfit-slot').forEach(btn => {
@@ -213,8 +309,14 @@ function setActiveSlot(id) {
     const z = document.querySelector(zone);
     if (!z) return;
     z.querySelector('.zone-active-ring')?.remove();
+    z.classList.toggle('is-active-zone', sid===id);
     if (sid===id) { const ring=document.createElement('div'); ring.className='zone-active-ring'; z.appendChild(ring); }
   });
+  const labelEl = document.getElementById('activeSlotLabel');
+  if (labelEl) {
+    const slotDef = SLOTS.find(s => s.id === id);
+    labelEl.innerHTML = `Editando: <strong>${slotDef ? slotDef.label : id}</strong>`;
+  }
 }
 
 /* ═══════════════════════════════
@@ -409,13 +511,45 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => setActiveSlot(btn.dataset.slot));
   });
 
-  /* Mannequin zone clicks */
+  /* Mannequin zone clicks + drag-and-drop targets */
   document.querySelectorAll('.outfit-zone').forEach(zone => {
     const slotId = zone.dataset.zone;
     if (!slotId) return;
-    zone.style.pointerEvents='auto';
-    zone.style.cursor='pointer';
+    zone.style.pointerEvents = 'auto';
+    zone.style.cursor = 'pointer';
     zone.addEventListener('click', () => setActiveSlot(slotId));
+
+    zone.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
+      zone.classList.add('drag-over');
+    });
+    zone.addEventListener('dragleave', e => {
+      if (!zone.contains(e.relatedTarget)) zone.classList.remove('drag-over');
+    });
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      const pid  = e.dataTransfer.getData('text/plain') || draggedProductId;
+      const prod = allProducts.find(p => String(p.id) === pid);
+      if (prod) { setActiveSlot(slotId); equipProduct(slotId, prod); }
+    });
+  });
+
+  /* Keyboard: Backspace / Delete → quitar prenda activa */
+  document.addEventListener('keydown', e => {
+    const tag = document.activeElement?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if ((e.key === 'Backspace' || e.key === 'Delete') && outfit[activeSlot]) {
+      unequipSlot(activeSlot);
+    }
+  });
+
+  /* Fullscreen view */
+  document.getElementById('btnZoomOutfit')?.addEventListener('click', openFullscreenView);
+  document.getElementById('btnCloseFullscreen')?.addEventListener('click', closeFullscreenView);
+  document.getElementById('stageFullscreen')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeFullscreenView();
   });
 
   /* Action buttons */
@@ -474,7 +608,16 @@ document.addEventListener('DOMContentLoaded', () => {
   setActiveSlot('top');
   renderMannequin();
   renderOutfitPanel();
+  updateProgress();
   loadProducts();
+
+  /* First-visit drag hint */
+  if (!localStorage.getItem('mvcq-drag-hint')) {
+    setTimeout(() => {
+      showToast('Tip: podés arrastrar prendas directo al maniquí');
+      localStorage.setItem('mvcq-drag-hint', '1');
+    }, 2200);
+  }
 
   /* Hash routing */
   if (window.location.hash==='#colecciones') switchTab('colecciones');

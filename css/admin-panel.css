@@ -1532,10 +1532,32 @@
 }
 
 /* Size chips */
+.pf-size-system-tag {
+  display: inline-block;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ap-bordeaux);
+  background: rgba(122, 43, 59, 0.08);
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  margin-left: 0.45rem;
+  vertical-align: middle;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
 .pf-size-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  min-height: 34px;
+  transition: opacity 0.2s ease;
+}
+
+.pf-size-grid.is-updating {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .pf-size-chip {
