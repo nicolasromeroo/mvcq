@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Staatliches&family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap"
       rel="stylesheet"
     />
 
@@ -390,7 +390,7 @@
       </div>
 
       <div class="para-quien-grid">
-        <a href="pages/catalogo.html?cat=ninos" class="pq-tile pq-tile--wide">
+        <a href="pages/productos.html?audiencia=ninos" class="pq-tile pq-tile--wide">
           <img
             src="img/caratulas-genero/nino-2.jpg"
             alt="Niños"
@@ -402,7 +402,7 @@
           </div>
         </a>
 
-        <a href="pages/catalogo.html?cat=hombre" class="pq-tile">
+        <a href="pages/productos.html?audiencia=hombre" class="pq-tile">
           <img
             src="img/caratulas-genero/hombre.avif"
             alt="Hombre"
@@ -414,7 +414,7 @@
           </div>
         </a>
 
-        <a href="pages/catalogo.html?cat=mujer" class="pq-tile">
+        <a href="pages/productos.html?audiencia=mujer" class="pq-tile">
           <img
             src="img/caratulas-genero/mujer.avif"
             alt="Mujer"
@@ -426,7 +426,7 @@
           </div>
         </a>
 
-        <a href="pages/catalogo.html?cat=tradicional" class="pq-tile">
+        <a href="pages/productos.html?audiencia=tradicional" class="pq-tile">
           <img
             src="img/caratulas-genero/old.avif"
             alt="Tradicional"
@@ -438,7 +438,7 @@
           </div>
         </a>
 
-        <a href="pages/catalogo.html?cat=adolescentes" class="pq-tile">
+        <a href="pages/productos.html?audiencia=adolescentes" class="pq-tile">
           <img
             src="img/caratulas-genero/adol.avif"
             alt="Adolescentes"
@@ -450,7 +450,7 @@
           </div>
         </a>
 
-        <a href="pages/catalogo.html" class="pq-tile pq-tile--dark">
+        <a href="pages/productos.html" class="pq-tile pq-tile--dark">
           <img
             src="img/caratulas-genero/ver-todo.avif"
             alt="Ver todo"
@@ -843,47 +843,6 @@
     </footer>
 
     <!-- ══════════════════════════════════════
-         COOKIE BANNER
-    ══════════════════════════════════════ -->
-    <div
-      class="cookie-banner"
-      id="cookieBanner"
-      role="dialog"
-      aria-label="Aviso de cookies"
-    >
-      <div class="cookie-banner__glow"></div>
-      <div class="cookie-banner__content">
-        <div class="cookie-banner__badge">
-          <i class="fas fa-cookie-bite me-1"></i> Cookies
-        </div>
-        <h3>Usamos cookies</h3>
-        <p>
-          Para mejorar tu experiencia de compra usamos cookies esenciales y de
-          análisis.
-        </p>
-        <div class="cookie-banner__chips">
-          <span><i class="fas fa-check-circle"></i> Esenciales</span>
-          <span><i class="fas fa-chart-bar"></i> Analíticas</span>
-          <span><i class="fas fa-lock"></i> Seguras</span>
-        </div>
-        <div class="cookie-banner__actions">
-          <button
-            class="cookie-banner__btn cookie-banner__btn--ghost"
-            onclick="cookieDecline()"
-          >
-            Rechazar
-          </button>
-          <button
-            class="cookie-banner__btn cookie-banner__btn--primary"
-            onclick="cookieAccept()"
-          >
-            Aceptar
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════
          SCRIPTS
     ══════════════════════════════════════ -->
     <script
@@ -1000,30 +959,6 @@
           });
         });
       })();
-
-      /* ── Cookie banner ── */
-      (function () {
-        if (localStorage.getItem("mvcq-cookies")) return;
-        setTimeout(() => {
-          const b = document.getElementById("cookieBanner");
-          if (b) b.classList.add("is-visible");
-        }, 1800);
-      })();
-
-      function cookieAccept() {
-        localStorage.setItem("mvcq-cookies", "accepted");
-        dismissCookie();
-      }
-      function cookieDecline() {
-        localStorage.setItem("mvcq-cookies", "declined");
-        dismissCookie();
-      }
-      function dismissCookie() {
-        const b = document.getElementById("cookieBanner");
-        if (!b) return;
-        b.classList.add("is-leaving");
-        setTimeout(() => b.remove(), 350);
-      }
 
       /* ── Newsletter ── */
       function handleNewsletterSubmit(e) {

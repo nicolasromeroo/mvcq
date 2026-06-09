@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Staatliches&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap"
       rel="stylesheet"
     />
 
@@ -172,7 +172,7 @@
           <i class="fas fa-person-dress"></i> Vestidor
         </button>
         <button class="mc-tab" data-tab="colecciones" role="tab">
-          <i class="fas fa-layer-group"></i> Mis Colecciones
+          <i class="fas fa-layer-group"></i> Mis Outfits
         </button>
       </div>
     </div>
@@ -442,9 +442,9 @@
     <div class="mc-tab-panel" data-panel="colecciones">
       <div class="colecciones-main">
         <div class="colecciones-header">
-          <h2>Mis Colecciones</h2>
-          <button class="btn-new-col" id="btnNewCol">
-            <i class="fas fa-plus me-1"></i> Nueva colección
+          <h2>Mis Outfits</h2>
+          <button class="btn-new-col" id="btnGoToVestidor">
+            <i class="fas fa-person-dress me-1"></i> Armar outfit
           </button>
         </div>
 
@@ -454,11 +454,11 @@
           class="colecciones-empty"
           style="display: none"
         >
-          <i class="fas fa-tshirt"></i>
-          <h3>Tu armario está vacío</h3>
+          <i class="fas fa-person-dress"></i>
+          <h3>Todavía no guardaste ningún outfit</h3>
           <p>
-            Usá el vestidor para armar outfits y guardarlos acá, o creá una
-            colección manual.
+            Usá el Vestidor para elegir prendas, vestir el maniquí y guardar tu
+            look favorito.
           </p>
           <button class="btn-vestidor-cta" id="btnNewColEmpty">
             <i class="fas fa-person-dress me-2"></i>Ir al Vestidor
@@ -500,77 +500,6 @@
             <i class="fas fa-bookmark me-1"></i> Guardar
           </button>
         </div>
-      </div>
-    </div>
-
-    <!-- New collection modal -->
-    <div id="newColModal" class="mc-modal-backdrop" style="display: none">
-      <div class="mc-modal">
-        <button class="mc-modal-close" id="mcModalClose">
-          <i class="fas fa-times"></i>
-        </button>
-        <h3>Nueva Colección</h3>
-        <p>Dale nombre, elegí una portada y empezá a armar tu look</p>
-        <form id="mcFormNewCol">
-          <div class="mc-form-group">
-            <label for="mcNombre">Nombre</label>
-            <input
-              type="text"
-              id="mcNombre"
-              placeholder="Ej: Outfit de verano, Look casual…"
-              required
-              maxlength="60"
-            />
-          </div>
-          <div class="mc-form-group">
-            <label for="mcDesc"
-              >Descripción
-              <span class="mc-char-count"
-                ><span id="mcDescCount">0</span>/200</span
-              ></label
-            >
-            <textarea
-              id="mcDesc"
-              placeholder="¿Para qué ocasión?"
-              maxlength="200"
-              rows="3"
-            ></textarea>
-          </div>
-          <div class="mc-form-group">
-            <label>Portada</label>
-            <div class="mc-cover-picker">
-              <div
-                class="mc-cover-option is-selected"
-                data-cover="../img/aestethic.jpg"
-              >
-                <img src="../img/aestethic.jpg" alt="Cover 1" />
-              </div>
-              <div class="mc-cover-option" data-cover="../img/vintage2.jpg">
-                <img src="../img/vintage2.jpg" alt="Cover 2" />
-              </div>
-              <div class="mc-cover-option" data-cover="../img/ropa-clara.jpg">
-                <img src="../img/ropa-clara.jpg" alt="Cover 3" />
-              </div>
-              <div class="mc-cover-option" data-cover="../img/vintage5.jpg">
-                <img src="../img/vintage5.jpg" alt="Cover 4" />
-              </div>
-              <div class="mc-cover-option" data-cover="../img/aestethic2.jpg">
-                <img src="../img/aestethic2.jpg" alt="Cover 5" />
-              </div>
-              <div class="mc-cover-option" data-cover="../img/vintage8.jpg">
-                <img src="../img/vintage8.jpg" alt="Cover 6" />
-              </div>
-            </div>
-          </div>
-          <div class="mc-form-actions">
-            <button type="button" class="mc-btn-cancel" id="mcBtnCancel">
-              Cancelar
-            </button>
-            <button type="submit" class="mc-btn-crear">
-              <i class="fas fa-sparkles me-1"></i>Crear
-            </button>
-          </div>
-        </form>
       </div>
     </div>
 

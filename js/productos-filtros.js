@@ -17,12 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ===== STATE ===== */
   const state = {
+    audiencias: new Set(),
     categorias: new Set(),
     tallas: new Set(),
     colores: new Set(),
     precioMin: 0,
     precioMax: 50000,
   };
+
+  /* ===== EXPOSE STATE ===== */
+  window.mvcqFilterState = state;
 
   /* ===== MOBILE PANEL ===== */
   function openPanel() {
@@ -52,6 +56,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /* ===== AUDIENCE CHECKBOXES ===== */
+  panel.querySelectorAll('input[name="audiencia"]').forEach((cb) => {
+    cb.addEventListener("change", () => {
+      if (cb.checked) {
+        state.audiencias.add(cb.value);
+      } else {
+        state.audiencias.delete(cb.value);
+      }
+      renderChips();
+      dispatchFilterChange();
+    });
+  });
+
   /* ===== CATEGORY CHECKBOXES ===== */
   panel.querySelectorAll('input[name="categoria"]').forEach((cb) => {
     cb.addEventListener("change", () => {
@@ -61,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         state.categorias.delete(cb.value);
       }
       renderChips();
+      dispatchFilterChange();
     });
   });
 
@@ -75,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         state.tallas.add(size);
       }
       renderChips();
+      dispatchFilterChange();
     });
   });
 
@@ -89,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
         state.colores.add(color);
       }
       renderChips();
+      dispatchFilterChange();
     });
   });
 
@@ -107,8 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChips();
   }
 
-  precioMin.addEventListener("input", updatePriceLabels);
-  precioMax.addEventListener("input", updatePriceLabels);
+  precioMin.addEventListener("input", () => {
+    updatePriceLabels();
+    dispatchFilterChange();
+  });
+  precioMax.addEventListener("input", () => {
+    updatePriceLabels();
+    dispatchFilterChange();
+  });
 
   /* ===== FILTER BADGE (toggle button) ===== */
   function updateFilterBadge(count) {
@@ -122,10 +148,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* ===== FILTER CHANGE BROADCAST ===== */
+  function dispatchFilterChange() {
+    document.dispatchEvent(
+      new CustomEvent("filtros:changed", { detail: state }),
+    );
+  }
+
+  const AUDIENCIA_LABELS = {
+    mujer: "Mujer",
+    hombre: "Hombre",
+    ninos: "Niños",
+    adolescentes: "Adolescentes",
+    tradicional: "Tradicional",
+  };
+
   /* ===== ACTIVE CHIPS ===== */
   function renderChips() {
     activeList.innerHTML = "";
     let count = 0;
+
+    state.audiencias.forEach((aud) => {
+      activeList.appendChild(
+        makeChip(AUDIENCIA_LABELS[aud] || aud, "audiencia", aud),
+      );
+      count++;
+    });
 
     state.categorias.forEach((cat) => {
       activeList.appendChild(makeChip(cat, "categoria", cat));
@@ -172,7 +220,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function removeFilter(type, value) {
-    if (type === "categoria") {
+    if (type === "audiencia") {
+      state.audiencias.delete(value);
+      const cb = panel.querySelector(
+        `input[name="audiencia"][value="${value}"]`,
+      );
+      if (cb) cb.checked = false;
+    } else if (type === "categoria") {
       state.categorias.delete(value);
       const cb = panel.querySelector(
         `input[name="categoria"][value="${value}"]`,
@@ -198,16 +252,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     renderChips();
+    dispatchFilterChange();
   }
 
   /* ===== CLEAR ALL ===== */
   clearAllBtn.addEventListener("click", () => {
+    state.audiencias.clear();
     state.categorias.clear();
     state.tallas.clear();
     state.colores.clear();
     state.precioMin = 0;
     state.precioMax = 50000;
 
+    panel
+      .querySelectorAll('input[name="audiencia"]')
+      .forEach((cb) => (cb.checked = false));
     panel
       .querySelectorAll('input[name="categoria"]')
       .forEach((cb) => (cb.checked = false));
@@ -223,6 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
     precioMaxLabel.textContent = formatPrice(50000);
 
     renderChips();
+    dispatchFilterChange();
   });
 
   /* ===== HELPERS ===== */

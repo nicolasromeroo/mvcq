@@ -286,7 +286,7 @@ async function cargarProductos(page = 1, sort = ordenActual) {
     contenedor.innerHTML = productos.map(buildCard).join("");
     attachCardEvents();
     renderPaginacion(data.totalPages || 1, data.page || page);
-    updateCount(data.total || productos.length);
+    applyClientFilters();
     if (page > 1) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -327,6 +327,71 @@ function renderError(msg) {
         <i class="fas fa-rotate-right me-1"></i>Reintentar
       </button>
     </div>`;
+}
+
+/* ─────────────────────────────
+   CLIENT-SIDE FILTER
+───────────────────────────── */
+const AUDIENCIA_KEYWORDS = {
+  mujer:        ['mujer', 'femenin', 'dama', 'chica', 'ella', 'woman'],
+  hombre:       ['hombre', 'masculin', 'caballero', 'varon', 'varón', 'man'],
+  ninos:        ['niño', 'niña', 'nino', 'nina', 'infant', 'bebe', 'bebé', 'kids', 'child'],
+  adolescentes: ['adolescente', 'teen', 'junior', 'joven'],
+  tradicional:  ['tradicional', 'clasico', 'clásico', 'classic'],
+};
+
+function applyClientFilters() {
+  const state = window.mvcqFilterState;
+  if (!state) return;
+
+  const checkedCats = [...state.categorias];
+  const checkedAuds = [...state.audiencias];
+
+  const cards = contenedor.querySelectorAll('.producto-card:not(.is-skeleton)');
+  let visible = 0;
+
+  cards.forEach((card) => {
+    const cat  = (card.dataset.categoria || '').toLowerCase();
+    const name = (card.dataset.nombre || '').toLowerCase();
+    const text = cat + ' ' + name;
+
+    const catMatch = !checkedCats.length || checkedCats.some((c) => text.includes(c));
+
+    const audMatch = !checkedAuds.length || checkedAuds.some((aud) => {
+      const kws = AUDIENCIA_KEYWORDS[aud] || [aud];
+      return kws.some((kw) => text.includes(kw));
+    });
+
+    const show = catMatch && audMatch;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  const total = cards.length;
+  const countEl = document.getElementById('productos-count');
+  if (countEl && total > 0) {
+    countEl.textContent = visible
+      ? `${visible.toLocaleString('es-AR')} producto${visible !== 1 ? 's' : ''}`
+      : '';
+  }
+
+  if (visible === 0 && total > 0) {
+    const empty = contenedor.querySelector('.productos-empty');
+    if (!empty) {
+      const div = document.createElement('div');
+      div.className = 'productos-empty js-filter-empty';
+      div.innerHTML = `
+        <div class="productos-empty-icon"><i class="fas fa-magnifying-glass"></i></div>
+        <h3>Sin resultados</h3>
+        <p>No encontramos productos con los filtros aplicados.<br>Probá ajustando o limpiando los filtros.</p>
+        <button class="btn-empty-action" onclick="document.getElementById('filtros-clear-all')?.click()">
+          <i class="fas fa-filter-circle-xmark me-1"></i>Limpiar filtros
+        </button>`;
+      contenedor.appendChild(div);
+    }
+  } else {
+    contenedor.querySelector('.js-filter-empty')?.remove();
+  }
 }
 
 /* ─────────────────────────────
@@ -839,7 +904,27 @@ function attachCardEvents() {
    INIT
 ───────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
+  /* Read URL params and pre-apply filters */
+  const urlParams = new URLSearchParams(window.location.search);
+  const audienciaParam = urlParams.get("audiencia");
+
+  if (audienciaParam) {
+    /* Pre-check the checkbox — productos-filtros.js listens for change events */
+    const cb = document.querySelector(`input[name="audiencia"][value="${audienciaParam}"]`);
+    if (cb) {
+      cb.checked = true;
+      cb.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    /* Update breadcrumb */
+    const LABELS = { mujer: "Mujer", hombre: "Hombre", ninos: "Niños", adolescentes: "Adolescentes", tradicional: "Tradicional" };
+    const crumb = document.querySelector(".breadcrumb-item.active");
+    if (crumb) crumb.textContent = LABELS[audienciaParam] || audienciaParam;
+  }
+
   cargarProductos(paginaActual);
+
+  /* Re-apply client filters whenever sidebar state changes */
+  document.addEventListener("filtros:changed", applyClientFilters);
 
   QV.init();
   SG.init();

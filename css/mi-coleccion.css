@@ -379,49 +379,49 @@
   transition: opacity 0.35s ease;
 }
 
-/* OUTER: jacket/cardigan – covers torso + arms */
+/* OUTER: jacket/cardigan – covers torso + arms, wider for sleeves */
 .outfit-zone--outer {
-  top:    16%;
-  left:   9%;
-  width:  82%;
-  height: 38%;
+  top:    15%;
+  left:   5%;
+  width:  90%;
+  height: 40%;
   border-radius: 44% 44% 22% 22% / 10% 10% 18% 18%;
 }
 
-/* TOP: remeras/blusas – torso only */
+/* TOP: remeras/blusas – torso */
 .outfit-zone--top {
   top:    17%;
-  left:   14%;
-  width:  72%;
-  height: 32%;
+  left:   12%;
+  width:  76%;
+  height: 34%;
   border-radius: 36% 36% 18% 18% / 8% 8% 14% 14%;
 }
 
 /* BOTTOM: jeans/faldas – hips + legs */
 .outfit-zone--bottom {
-  top:    48%;
-  left:   11%;
-  width:  78%;
-  height: 50%;
+  top:    46%;
+  left:   10%;
+  width:  80%;
+  height: 52%;
   border-radius: 6% 6% 20% 20% / 2% 2% 8% 8%;
 }
 
 /* FULL: vestidos – whole body */
 .outfit-zone--full {
-  top:    17%;
-  left:   11%;
-  width:  78%;
-  height: 81%;
+  top:    15%;
+  left:   10%;
+  width:  80%;
+  height: 83%;
   border-radius: 36% 36% 18% 18% / 8% 8% 8% 8%;
 }
 
 .outfit-zone img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center top;
   mix-blend-mode: multiply;
-  opacity: 0.86;
+  opacity: 0.92;
   display: block;
 }
 

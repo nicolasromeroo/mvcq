@@ -55,9 +55,16 @@ function getProductImg(prod) {
 
 function detectSlot(prod) {
   const c = ((prod.category||'') + ' ' + (prod.name||'')).toLowerCase();
-  if (/vestido|mono|enterizo|jumpsuit/.test(c))                          return 'full';
-  if (/campera|abrigo|saco|blazer|hoodie|chompa|polar|tapado/.test(c))  return 'outer';
-  if (/jean|pantalon|short|falda|pollera|leggin|calza/.test(c))         return 'bottom';
+  /* Exclude footwear and accessories — they don't belong on the mannequin zones */
+  if (/zapato|zapatilla|sandalia|bota|alpargata|calzado|mocasin|tacón|tacon|chancleta|ojotas?|pantufla|sneaker|shoe|boot/.test(c)) return null;
+  if (/bolso|cartera|cinturon|cinturón|accesori|collar|pulsera|arete|aro|anillo|reloj|sombrero|gorro|cap\b|hat\b|belt\b|bag\b|purse|medias\b|calcetin/.test(c)) return null;
+  /* Full-body garments */
+  if (/vestido|mono\b|enterizo|jumpsuit|overall|catsuit/.test(c)) return 'full';
+  /* Outerwear */
+  if (/campera|abrigo|saco\b|blazer|hoodie|chompa|polar|tapado|buzo|sweat|cardigan|chaqueta|sobretodo|impermeable|parka/.test(c)) return 'outer';
+  /* Bottoms */
+  if (/jean|pantalon|pantaloneta|short\b|falda|pollera|leggin|calza|bermuda/.test(c)) return 'bottom';
+  /* Default: top (remeras, blusas, camisas, etc.) */
   return 'top';
 }
 
@@ -99,7 +106,9 @@ function buildCategoryPills() {
 function applyFilter() {
   const q = searchQuery.toLowerCase();
   filteredProds = allProducts.filter(p => {
-    const matchCat = activeCat==='all' || detectSlot(p)===activeCat;
+    const slot = detectSlot(p);
+    if (slot === null) return false; // exclude footwear/accessories
+    const matchCat = activeCat==='all' || slot===activeCat;
     const matchQ   = !q || (p.name||'').toLowerCase().includes(q);
     return matchCat && matchQ && p.isActive!==false;
   });
@@ -379,8 +388,9 @@ function confirmSaveOutfit() {
     slot, id:p.id, name:p.name, price:p.price, image:getProductImg(p)
   }));
   const cols = getColecciones();
-  cols.push({ id:Date.now(), nombre:name, descripcion:`Outfit guardado desde el vestidor — ${prendas.length} prenda(s).`,
-    cover: prendas[0]?.image||FALLBACK_IMG, prendas, createdAt: new Date().toISOString() });
+  const coverImg = prendas.find(p => p.slot==='full' || p.slot==='top')?.image || prendas[0]?.image || FALLBACK_IMG;
+  cols.push({ id:Date.now(), nombre:name, descripcion:`${prendas.length} prenda${prendas.length!==1?'s':''} · Guardado desde el vestidor`,
+    cover: coverImg, prendas, createdAt: new Date().toISOString() });
   saveColecciones(cols);
   closeSaveModal();
   showToast('¡Outfit guardado en tus colecciones!');
@@ -426,8 +436,8 @@ function renderColecciones() {
           </div>
         </div>
         <div class="col-tile-actions">
-          ${cnt>0?`<button class="col-tile-btn btn-load-col" data-col-id="${col.id}" title="Cargar en vestidor"><i class="fas fa-tshirt"></i></button>`:''}
-          <button class="col-tile-btn btn-del-col" data-col-id="${col.id}" title="Eliminar"><i class="fas fa-trash"></i></button>
+          ${cnt>0?`<button class="col-tile-btn btn-load-col" data-col-id="${col.id}" title="Volver a poner en vestidor"><i class="fas fa-rotate-left"></i></button>`:''}
+          <button class="col-tile-btn btn-del-col" data-col-id="${col.id}" title="Eliminar outfit"><i class="fas fa-trash"></i></button>
         </div>
       </div>`;
   }).join('');
@@ -456,15 +466,6 @@ function renderColecciones() {
   });
 }
 
-/* ── New collection modal ── */
-function openNewColModal() {
-  const m = document.getElementById('newColModal');
-  if (m) m.style.display='flex';
-}
-function closeNewColModal() {
-  const m = document.getElementById('newColModal');
-  if (m) m.style.display='none';
-}
 
 /* ═══════════════════════════════
    TAB MANAGER
@@ -572,37 +573,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key==='Enter') confirmSaveOutfit();
   });
 
-  /* New collection modal */
-  document.getElementById('btnNewCol')?.addEventListener('click', openNewColModal);
+  /* Colecciones tab: "Armar outfit" and empty-state buttons both go to vestidor */
+  document.getElementById('btnGoToVestidor')?.addEventListener('click', () => switchTab('vestidor'));
   document.getElementById('btnNewColEmpty')?.addEventListener('click', () => switchTab('vestidor'));
-  document.getElementById('mcModalClose')?.addEventListener('click', closeNewColModal);
-  document.getElementById('mcBtnCancel')?.addEventListener('click',  closeNewColModal);
-  document.getElementById('newColModal')?.addEventListener('click', e => {
-    if (e.target===e.currentTarget) closeNewColModal();
-  });
-
-  document.getElementById('mcFormNewCol')?.addEventListener('submit', e => {
-    e.preventDefault();
-    const name  = document.getElementById('mcNombre')?.value.trim() || 'Mi Colección';
-    const desc  = document.getElementById('mcDesc')?.value.trim() || '';
-    const cover = document.querySelector('.mc-cover-option.is-selected')?.dataset.cover || FALLBACK_IMG;
-    const cols  = getColecciones();
-    cols.push({ id:Date.now(), nombre:name, descripcion:desc, cover, prendas:[], createdAt:new Date().toISOString() });
-    saveColecciones(cols);
-    closeNewColModal();
-    switchTab('colecciones');
-  });
-
-  document.querySelectorAll('.mc-cover-option').forEach(opt => {
-    opt.addEventListener('click', () => {
-      document.querySelectorAll('.mc-cover-option').forEach(o => o.classList.remove('is-selected'));
-      opt.classList.add('is-selected');
-    });
-  });
-
-  document.getElementById('mcDesc')?.addEventListener('input', function() {
-    const c = document.getElementById('mcDescCount'); if(c) c.textContent=this.value.length;
-  });
 
   /* Initial render */
   setActiveSlot('top');

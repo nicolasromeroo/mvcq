@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap"
       rel="stylesheet"
     />
     <link
@@ -295,6 +295,40 @@
             <button class="filtros-clear-all" id="filtros-clear-all">
               Limpiar todo
             </button>
+          </div>
+
+          <!-- Audience -->
+          <div class="filtro-section" data-section="audiencia">
+            <button class="filtro-section-toggle" aria-expanded="true">
+              ¿Para quién? <i class="fas fa-chevron-up"></i>
+            </button>
+            <div class="filtro-section-body">
+              <label class="filtro-check">
+                <input type="checkbox" name="audiencia" value="mujer" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Mujer</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="audiencia" value="hombre" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Hombre</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="audiencia" value="ninos" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Niños</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="audiencia" value="adolescentes" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Adolescentes</span>
+              </label>
+              <label class="filtro-check">
+                <input type="checkbox" name="audiencia" value="tradicional" />
+                <span class="filtro-check-box"></span>
+                <span class="filtro-check-label">Tradicional</span>
+              </label>
+            </div>
           </div>
 
           <!-- Category -->
