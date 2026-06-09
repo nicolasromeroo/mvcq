@@ -31,27 +31,53 @@
   <body>
     <!-- ══ NAVBAR ══ -->
     <header>
-      <nav class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar">
+      <nav
+        class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar"
+      >
         <div class="container-xxl site-navbar-inner">
-          <a class="navbar-brand site-navbar-brand" href="../index.html" aria-label="Inicio">
-            <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="logo-navbar" />
+          <a
+            class="navbar-brand site-navbar-brand"
+            href="../index.html"
+            aria-label="Inicio"
+          >
+            <img
+              src="../img/mvcqSinfondo.png"
+              alt="Logo MVCQ"
+              class="logo-navbar"
+            />
             <span class="site-navbar-brand-copy">
               <strong>Me Visto</strong>
               <small>Como Quiero</small>
             </span>
           </a>
-          <button class="navbar-toggler site-navbar-toggler" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir navegación">
+          <button
+            class="navbar-toggler site-navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Abrir navegación"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse site-navbar-panel" id="navbarNav">
+          <div
+            class="collapse navbar-collapse site-navbar-panel"
+            id="navbarNav"
+          >
             <ul class="navbar-nav site-navbar-menu mx-auto">
-              <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
-              <li class="nav-item"><a class="nav-link" href="catalogo.html">Catálogo</a></li>
-              <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
-              <li class="nav-item"><a class="nav-link" href="mi-coleccion.html">Vestidor</a></li>
-              <li class="nav-item"><a class="nav-link" href="contactanos.html">Contacto</a></li>
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="productos.html">Productos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="mi-coleccion.html">Vestidor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contactanos.html">Contacto</a>
+              </li>
             </ul>
             <div class="site-navbar-actions">
               <div id="authNav" class="site-navbar-auth">
@@ -59,23 +85,63 @@
                 <a class="site-nav-pill" href="register.html">Registrate</a>
               </div>
               <div id="userNav" class="site-navbar-user d-none">
-                <a class="site-nav-icon" href="carrito.html" title="Carrito" aria-label="Carrito">
+                <a
+                  class="site-nav-icon"
+                  href="carrito.html"
+                  title="Carrito"
+                  aria-label="Carrito"
+                >
                   <i class="fas fa-shopping-bag"></i>
                   <span class="site-nav-badge">0</span>
                 </a>
-                <a id="adminPanelItem" class="site-nav-link d-none" href="admin-panel.html">Panel</a>
+                <a
+                  id="adminPanelItem"
+                  class="site-nav-link d-none"
+                  href="admin-panel.html"
+                  >Panel</a
+                >
                 <div class="nav-item dropdown">
-                  <a class="site-nav-profile dropdown-toggle" href="#" id="userDropdown"
-                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff"
-                      alt="Usuario" class="rounded-circle" width="30" height="30" />
+                  <a
+                    class="site-nav-profile dropdown-toggle"
+                    href="#"
+                    id="userDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff"
+                      alt="Usuario"
+                      class="rounded-circle"
+                      width="30"
+                      height="30"
+                    />
                     <span id="usernameSpan">Usuario</span>
                   </a>
-                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Mi perfil</a></li>
-                    <li><a class="dropdown-item" href="mis-pedidos.html"><i class="fas fa-box me-2"></i>Mis pedidos</a></li>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="userDropdown"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="perfil.html"
+                        ><i class="fas fa-user me-2"></i>Mi perfil</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="mis-pedidos.html"
+                        ><i class="fas fa-box me-2"></i>Mis pedidos</a
+                      >
+                    </li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+                    <li>
+                      <a
+                        class="dropdown-item text-danger"
+                        href="#"
+                        onclick="logout()"
+                        ><i class="fas fa-sign-out-alt me-2"></i>Cerrar
+                        sesión</a
+                      >
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -87,12 +153,11 @@
 
     <main class="auth-page">
       <div class="auth-split">
-
         <!-- ── Showcase (left) ── -->
         <aside class="auth-showcase" id="authShowcase" aria-hidden="true">
           <div
             class="auth-showcase-bg"
-            style="background-image: url('../img/vintage3.jpg')"
+            style="background-image: url(&quot;../img/vintage3.jpg&quot;)"
           ></div>
           <div class="auth-showcase-overlay"></div>
           <div class="auth-showcase-body">
@@ -124,7 +189,6 @@
         <!-- ── Form (right) ── -->
         <div class="auth-form-side">
           <div class="auth-form-box">
-
             <!-- Logo -->
             <a class="auth-form-logo" href="../index.html">
               <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" />
@@ -148,9 +212,7 @@
               role="alert"
             >
               <i class="fas fa-circle-exclamation"></i>
-              <span
-                >Ha ocurrido un error. Por favor, inténtalo de nuevo.</span
-              >
+              <span>Ha ocurrido un error. Por favor, inténtalo de nuevo.</span>
             </div>
             <div
               id="registerSuccess"
@@ -162,7 +224,6 @@
             </div>
 
             <form id="registerForm" novalidate>
-
               <!-- Username -->
               <div class="auth-field">
                 <div class="auth-field-head">
@@ -240,7 +301,11 @@
                   </button>
                 </div>
                 <!-- Password strength -->
-                <div class="auth-pw-strength" id="pwStrengthWrap" style="display:none">
+                <div
+                  class="auth-pw-strength"
+                  id="pwStrengthWrap"
+                  style="display: none"
+                >
                   <div class="auth-pw-track">
                     <div class="auth-pw-fill" id="pwFill"></div>
                   </div>
@@ -303,11 +368,9 @@
                 ¿Ya tenés cuenta?
                 <a href="login.html">Iniciar sesión</a>
               </p>
-
             </form>
           </div>
         </div>
-
       </div>
     </main>
 
@@ -317,8 +380,12 @@
         <div class="row align-items-start g-4 mb-4">
           <div class="col-lg-5">
             <div class="footer-brand-card">
-              <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="footer-logo mb-3"
-                style="max-width:90px;filter:brightness(0) invert(1)" />
+              <img
+                src="../img/mvcqSinfondo.png"
+                alt="Logo MVCQ"
+                class="footer-logo mb-3"
+                style="max-width: 90px; filter: brightness(0) invert(1)"
+              />
               <h3>Me Visto Como Quiero</h3>
               <p class="mt-2">
                 Moda con personalidad para cada estilo.<br />
@@ -326,14 +393,28 @@
                 para que comprar ropa se sienta simple y confiable.
               </p>
               <div class="footer-socials">
-                <a href="https://www.facebook.com/noelia.lenardon?mibextid=ZbWKwL" target="_blank" rel="noreferrer" aria-label="Facebook">
+                <a
+                  href="https://www.facebook.com/noelia.lenardon?mibextid=ZbWKwL"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook"
+                >
                   <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://www.instagram.com/mevistocomoquiero_ropafemenina/?hl=es-la" target="_blank" rel="noreferrer" aria-label="Instagram">
+                <a
+                  href="https://www.instagram.com/mevistocomoquiero_ropafemenina/?hl=es-la"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                >
                   <i class="fab fa-instagram"></i>
                 </a>
-                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="#" aria-label="WhatsApp"
+                  ><i class="fab fa-whatsapp"></i
+                ></a>
+                <a href="#" aria-label="TikTok"
+                  ><i class="fab fa-tiktok"></i
+                ></a>
               </div>
             </div>
           </div>
@@ -342,7 +423,8 @@
               <span class="footer-eyebrow">Comunidad MVCQ</span>
               <h4 class="mt-1">¡Sumate a nuestra comunidad!</h4>
               <p>
-                Seguinos en redes para lanzamientos, sorteos y novedades exclusivas.<br />
+                Seguinos en redes para lanzamientos, sorteos y novedades
+                exclusivas.<br />
                 Compartí tu look usando <strong>#MeVistoComoQuiero</strong>.
               </p>
               <div class="footer-mini-points">
@@ -375,9 +457,15 @@
           <div class="col-md-4">
             <div class="footer-link-block footer-link-block--contact">
               <h5>Atención</h5>
-              <p><i class="fas fa-map-marker-alt"></i> Atención online · envíos a todo el país</p>
+              <p>
+                <i class="fas fa-map-marker-alt"></i> Atención online · envíos a
+                todo el país
+              </p>
               <p><i class="fas fa-clock"></i> Lun a Sáb · 9:00 a 20:00</p>
-              <p><i class="fas fa-shield-alt"></i> Compra protegida y soporte personalizado</p>
+              <p>
+                <i class="fas fa-shield-alt"></i> Compra protegida y soporte
+                personalizado
+              </p>
             </div>
           </div>
         </div>
@@ -402,7 +490,7 @@
     <script>
       /* ── Ken Burns ── */
       requestAnimationFrame(() =>
-        document.getElementById("authShowcase")?.classList.add("is-ready")
+        document.getElementById("authShowcase")?.classList.add("is-ready"),
       );
 
       /* ── Show/hide password ── */
@@ -469,20 +557,20 @@
         const ok = this.value.trim().length >= 3;
         this.classList.toggle("is-valid", ok && !!this.value);
         this.classList.toggle("is-invalid", !ok && !!this.value);
-        usernameMsg.textContent = !ok && this.value ? "Mínimo 3 caracteres." : "";
-        usernameMsg.className = !ok && this.value
-          ? "auth-field-msg is-visible"
-          : "auth-field-msg";
+        usernameMsg.textContent =
+          !ok && this.value ? "Mínimo 3 caracteres." : "";
+        usernameMsg.className =
+          !ok && this.value ? "auth-field-msg is-visible" : "auth-field-msg";
       });
 
       emailInput?.addEventListener("blur", function () {
         const ok = this.validity.valid;
         this.classList.toggle("is-valid", ok && !!this.value);
         this.classList.toggle("is-invalid", !ok && !!this.value);
-        emailMsg.textContent = !ok && this.value ? "Ingresá un email válido." : "";
-        emailMsg.className = !ok && this.value
-          ? "auth-field-msg is-visible"
-          : "auth-field-msg";
+        emailMsg.textContent =
+          !ok && this.value ? "Ingresá un email válido." : "";
+        emailMsg.className =
+          !ok && this.value ? "auth-field-msg is-visible" : "auth-field-msg";
       });
 
       /* ── Form submit ── */
@@ -523,8 +611,8 @@
             emailInput.focus();
             return;
           }
-          if (!password || password.length < 6) {
-            setError("La contraseña debe tener al menos 6 caracteres.");
+          if (!password || password.length < 8) {
+            setError("La contraseña debe tener al menos 8 caracteres.");
             pwInput.classList.add("is-invalid");
             pwInput.focus();
             return;
@@ -545,11 +633,14 @@
             submitBtn.innerHTML =
               '<i class="fas fa-spinner fa-spin me-2"></i>Creando tu cuenta…';
 
-            const res = await fetch("https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com/auth/register", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ username, email, password }),
-            });
+            const res = await fetch(
+              "https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com/auth/register",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password }),
+              },
+            );
 
             const data = await res.json();
 
@@ -557,7 +648,7 @@
               throw new Error(
                 Array.isArray(data.message)
                   ? data.message[0]
-                  : data.message || "Error al registrarse"
+                  : data.message || "Error al registrarse",
               );
             }
 

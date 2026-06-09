@@ -916,6 +916,190 @@ h1, h2, h3,
 }
 
 /* =========================================================
+   NOSOTROS / FILOSOFÍA
+   ========================================================= */
+
+.nosotros-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 580px;
+  background: var(--c-ink, #1a1614);
+}
+
+.nosotros-img-col {
+  position: relative;
+  overflow: hidden;
+}
+
+.nosotros-img-frame {
+  position: relative;
+  height: 100%;
+  min-height: 480px;
+}
+
+.nosotros-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.78;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nosotros-img-col:hover .nosotros-img {
+  transform: scale(1.05);
+}
+
+.nosotros-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(10, 5, 3, 0.7) 100%
+  );
+  pointer-events: none;
+}
+
+.nosotros-img-badge {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--c-gold, #c4986b);
+  color: var(--c-ink, #1a1614);
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.1;
+  box-shadow: 0 8px 28px rgba(196, 152, 107, 0.45);
+}
+
+.nosotros-img-badge-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nosotros-img-badge-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.nosotros-content-col {
+  padding: 4rem 3.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nosotros-eyebrow {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-gold, #c4986b);
+  margin-bottom: 1rem;
+}
+
+.nosotros-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 400;
+  color: var(--c-cream, #faf7f2);
+  line-height: 1.08;
+  margin-bottom: 1.25rem;
+}
+
+.nosotros-title em {
+  font-style: italic;
+  color: var(--c-gold, #c4986b);
+}
+
+.nosotros-lead {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  color: var(--c-mist, #a89e97);
+  line-height: 1.75;
+  max-width: 44ch;
+  margin-bottom: 2.5rem;
+  border-left: 2px solid var(--c-gold, #c4986b);
+  padding-left: 1rem;
+}
+
+.nosotros-pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.75rem 2.25rem;
+}
+
+.nosotros-pillar {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+
+.pillar-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--c-gold, #c4986b);
+  opacity: 0.35;
+  line-height: 1;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.nosotros-pillar h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--c-cream, #faf7f2);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.nosotros-pillar p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  color: var(--c-warm-gray, #6a5f58);
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 991px) {
+  .nosotros-section {
+    grid-template-columns: 1fr;
+  }
+  .nosotros-img-frame {
+    min-height: 320px;
+  }
+  .nosotros-content-col {
+    padding: 2.5rem 1.75rem 3rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .nosotros-pillars {
+    grid-template-columns: 1fr;
+  }
+  .nosotros-content-col {
+    padding: 2rem 1.25rem 2.5rem;
+  }
+}
+
+/* =========================================================
    FOOTER
    ========================================================= */
 
