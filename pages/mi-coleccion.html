@@ -664,21 +664,43 @@
     <script src="../js/favorites-utils.js"></script>
     <script src="../js/mi-coleccion.js"></script>
     <script>
-      /* Mobile section: show/hide based on screen width, show cart count */
       (function() {
+        const OUTFITS_KEY = 'mvcq-colecciones-v2';
+
+        function renderMobileOutfits() {
+          const grid = document.getElementById('mcMobileOutfitGrid');
+          if (!grid) return;
+          let cols = [];
+          try { const r = localStorage.getItem(OUTFITS_KEY); cols = r ? JSON.parse(r) : []; } catch(_){}
+          if (!cols.length) return;
+          grid.innerHTML = cols.map(col => {
+            const cnt  = col.prendas?.length || 0;
+            const date = new Date(col.createdAt).toLocaleDateString('es-AR', {day:'numeric', month:'short'});
+            const img  = col.cover || '../img/aestethic.jpg';
+            const name = col.nombre ? col.nombre.replace(/</g,'&lt;').replace(/>/g,'&gt;') : 'Outfit';
+            return `<div class="mc-mob-outfit-card">
+              <img src="${img}" alt="${name}" onerror="this.src='../img/aestethic.jpg'"/>
+              <div class="mc-mob-outfit-info"><strong>${name}</strong><span>${cnt} prenda${cnt!==1?'s':''} · ${date}</span></div>
+            </div>`;
+          }).join('');
+          const noMsg = grid.querySelector('.mc-mobile-no-outfits');
+          if (noMsg) noMsg.style.display = 'none';
+        }
+
         function initMobileBanner() {
           const banner = document.getElementById('mcMobileBanner');
           const vestidorPanels = document.querySelectorAll('.mc-tab-panel, .mc-page-header');
           const isMobile = window.innerWidth < 768;
           if (banner) banner.style.display = isMobile ? 'block' : 'none';
-          vestidorPanels.forEach(el => {
-            if (isMobile) el.style.display = 'none';
-          });
+          /* Clear or set inline display so CSS can take over when switching to desktop */
+          vestidorPanels.forEach(el => { el.style.display = isMobile ? 'none' : ''; });
+          if (isMobile) renderMobileOutfits();
           /* Update mobile cart count badge */
           const count = typeof getCartCount === 'function' ? getCartCount() : 0;
           const countEl = document.getElementById('mobCartCount');
           if (countEl) countEl.textContent = count > 0 ? ` (${count})` : '';
         }
+
         document.addEventListener('DOMContentLoaded', initMobileBanner);
         window.addEventListener('resize', initMobileBanner);
       })();

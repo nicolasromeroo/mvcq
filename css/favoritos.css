@@ -11,8 +11,8 @@
 
 /* ── Hero banner ── */
 .favoritos-hero {
-  background: linear-gradient(135deg, #2c1a14 0%, #4b2319 60%, #7a2b3b 100%);
-  padding: 3.5rem 0 3rem;
+  background: linear-gradient(135deg, #2c1a14 0%, #4b2319 58%, #7a2b3b 100%);
+  padding: 4rem 0 3.5rem;
   color: #fff;
   position: relative;
   overflow: hidden;
@@ -22,32 +22,42 @@
   position: absolute;
   inset: 0;
   background: url('../img/aestethic.jpg') center/cover no-repeat;
-  opacity: 0.12;
+  opacity: 0.13;
 }
 .favoritos-hero-inner {
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 .favoritos-hero-eyebrow {
-  font-size: 0.72rem;
+  font-size: 0.67rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.6);
+  color: #c4986b;
   display: block;
-  margin-bottom: 0.6rem;
+  margin-bottom: 1rem;
+}
+.favoritos-hero-eyebrow::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: rgba(196, 152, 107, 0.55);
+  margin: 0.5rem auto 0;
 }
 .favoritos-hero-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 3rem;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 600;
   line-height: 1.0;
-  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.8rem;
   color: #fff;
 }
 .favoritos-hero-count {
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.6);
 }
 
 /* ── Top bar ── */

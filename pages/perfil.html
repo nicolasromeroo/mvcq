@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Cuenta · Me Visto Como Quiero</title>
+    <meta name="description" content="Tu perfil y configuración en Me Visto Como Quiero." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/68c5d14b35.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../css/design-system.css" />
+    <link rel="stylesheet" href="../css/nav-bar.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/perfil.css" />
+  </head>
+
+  <body class="perfil-page">
+    <!-- ══ NAVBAR ══ -->
+    <header>
+      <nav class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar">
+        <div class="container-xxl site-navbar-inner">
+          <a class="navbar-brand site-navbar-brand" href="../index.html" aria-label="Inicio">
+            <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="logo-navbar" />
+            <span class="site-navbar-brand-copy">
+              <strong>Me Visto</strong>
+              <small>Como Quiero</small>
+            </span>
+          </a>
+          <button class="navbar-toggler site-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir navegación">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse site-navbar-panel" id="navbarNav">
+            <ul class="navbar-nav site-navbar-menu mx-auto">
+              <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+              <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+              <li class="nav-item"><a class="nav-link" href="mi-coleccion.html">Vestidor</a></li>
+              <li class="nav-item"><a class="nav-link" href="contactanos.html">Contacto</a></li>
+            </ul>
+            <div class="site-navbar-actions">
+              <div id="authNav" class="site-navbar-auth">
+                <a class="site-nav-link" href="login.html">Ingresá</a>
+                <a class="site-nav-pill" href="register.html">Registrate</a>
+              </div>
+              <div id="userNav" class="site-navbar-user d-none">
+                <a class="site-nav-icon" href="favoritos.html" title="Mis favoritos" aria-label="Mis favoritos">
+                  <i class="far fa-heart"></i>
+                  <span class="site-nav-fav-badge" style="display:none">0</span>
+                </a>
+                <a class="site-nav-icon" href="carrito.html" title="Carrito" aria-label="Carrito">
+                  <i class="fas fa-shopping-bag"></i>
+                  <span class="site-nav-badge">0</span>
+                </a>
+                <a id="adminPanelItem" class="site-nav-link d-none" href="admin-panel.html">Panel</a>
+                <div class="nav-item dropdown">
+                  <a class="site-nav-profile dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff" alt="Usuario" class="rounded-circle" width="30" height="30" />
+                    <span id="usernameSpan">Usuario</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item active" href="perfil.html"><i class="fas fa-user me-2"></i>Mi perfil</a></li>
+                    <li><a class="dropdown-item" href="favoritos.html"><i class="far fa-heart me-2"></i>Mis favoritos</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ══ HERO BANNER ══ -->
+    <div class="perfil-hero">
+      <div class="container perfil-hero-inner">
+        <span class="perfil-hero-eyebrow">Tu espacio personal</span>
+        <h1 class="perfil-hero-title" id="heroTitle">Mi Cuenta</h1>
+        <p class="perfil-hero-sub" id="heroSub">Cargando…</p>
+      </div>
+    </div>
+
+    <!-- ══ CONTENT ══ -->
+    <main class="perfil-main">
+      <div class="container">
+
+        <!-- Profile overview card -->
+        <div class="perfil-overview-card">
+          <div class="perfil-overview-left">
+            <div class="perfil-avatar-wrap">
+              <img id="perfilAvatar" src="https://ui-avatars.com/api/?name=U&background=7a2b3b&color=fff" alt="Avatar" class="perfil-avatar" />
+              <span class="perfil-role-badge" id="perfilRoleBadge">Cliente</span>
+            </div>
+            <div class="perfil-overview-info">
+              <h2 class="perfil-name" id="perfilName">–</h2>
+              <p class="perfil-email" id="perfilEmail">–</p>
+            </div>
+          </div>
+          <div class="perfil-stats-row">
+            <a href="favoritos.html" class="perfil-stat">
+              <span class="perfil-stat-num" id="statFavs">–</span>
+              <span class="perfil-stat-label">Favoritos</span>
+            </a>
+            <div class="perfil-stat-divider"></div>
+            <a href="mi-coleccion.html#colecciones" class="perfil-stat">
+              <span class="perfil-stat-num" id="statOutfits">–</span>
+              <span class="perfil-stat-label">Outfits</span>
+            </a>
+            <div class="perfil-stat-divider"></div>
+            <div class="perfil-stat">
+              <span class="perfil-stat-num" id="statPoints">–</span>
+              <span class="perfil-stat-label">Puntos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main grid -->
+        <div class="perfil-grid">
+
+          <!-- Seguridad -->
+          <section class="perfil-card" id="secSeguridad">
+            <div class="perfil-card-header">
+              <i class="fas fa-lock perfil-card-icon"></i>
+              <div>
+                <h3 class="perfil-card-title">Seguridad</h3>
+                <p class="perfil-card-desc">Cambiá tu contraseña en cualquier momento.</p>
+              </div>
+            </div>
+            <form id="changePasswordForm" class="perfil-form" novalidate>
+              <div class="perfil-form-field">
+                <label for="currentPassword">Contraseña actual</label>
+                <div class="perfil-input-wrap">
+                  <input type="password" id="currentPassword" name="currentPassword" placeholder="Tu contraseña actual" autocomplete="current-password" />
+                  <button type="button" class="perfil-eye-btn" data-target="currentPassword" aria-label="Mostrar contraseña">
+                    <i class="far fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="perfil-form-field">
+                <label for="newPassword">Nueva contraseña</label>
+                <div class="perfil-input-wrap">
+                  <input type="password" id="newPassword" name="newPassword" placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+                  <button type="button" class="perfil-eye-btn" data-target="newPassword" aria-label="Mostrar contraseña">
+                    <i class="far fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="perfil-form-field">
+                <label for="confirmPassword">Confirmar contraseña</label>
+                <div class="perfil-input-wrap">
+                  <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repetí la nueva contraseña" autocomplete="new-password" />
+                  <button type="button" class="perfil-eye-btn" data-target="confirmPassword" aria-label="Mostrar contraseña">
+                    <i class="far fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+              <div id="pwFeedback" class="perfil-feedback" style="display:none"></div>
+              <button type="submit" class="perfil-btn perfil-btn--primary" id="btnChangePassword">
+                <i class="fas fa-lock me-2"></i>Cambiar contraseña
+              </button>
+            </form>
+          </section>
+
+          <!-- Puntos -->
+          <section class="perfil-card perfil-card--points" id="secPuntos">
+            <div class="perfil-card-header">
+              <i class="fas fa-star perfil-card-icon" style="color:#f4c65a"></i>
+              <div>
+                <h3 class="perfil-card-title">Mis Puntos</h3>
+                <p class="perfil-card-desc">Ganás puntos con cada compra.</p>
+              </div>
+            </div>
+            <div class="puntos-display">
+              <span class="puntos-big" id="puntosTotal">0</span>
+              <span class="puntos-unit">pts</span>
+            </div>
+            <div class="puntos-breakdown" id="puntosBreakdown">
+              <!-- rendered by JS -->
+            </div>
+            <div class="puntos-prox">
+              <i class="fas fa-gift me-2" style="color:#c4986b"></i>
+              <span>Próximamente: canjeá puntos por descuentos exclusivos.</span>
+            </div>
+          </section>
+
+          <!-- Actividad -->
+          <section class="perfil-card perfil-card--actividad">
+            <div class="perfil-card-header">
+              <i class="fas fa-bolt perfil-card-icon"></i>
+              <div>
+                <h3 class="perfil-card-title">Mi Actividad</h3>
+                <p class="perfil-card-desc">Accesos rápidos a tus secciones.</p>
+              </div>
+            </div>
+            <div class="perfil-links-list">
+              <a href="favoritos.html" class="perfil-link-row">
+                <div class="perfil-link-left">
+                  <div class="perfil-link-icon"><i class="far fa-heart"></i></div>
+                  <div>
+                    <span class="perfil-link-name">Mis favoritos</span>
+                    <span class="perfil-link-meta" id="linkFavsCount">– prendas guardadas</span>
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right perfil-link-arrow"></i>
+              </a>
+              <a href="mi-coleccion.html#colecciones" class="perfil-link-row">
+                <div class="perfil-link-left">
+                  <div class="perfil-link-icon"><i class="fas fa-layer-group"></i></div>
+                  <div>
+                    <span class="perfil-link-name">Mis outfits guardados</span>
+                    <span class="perfil-link-meta" id="linkOutfitsCount">– outfits</span>
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right perfil-link-arrow"></i>
+              </a>
+              <a href="carrito.html" class="perfil-link-row">
+                <div class="perfil-link-left">
+                  <div class="perfil-link-icon"><i class="fas fa-shopping-bag"></i></div>
+                  <div>
+                    <span class="perfil-link-name">Mi carrito</span>
+                    <span class="perfil-link-meta" id="linkCartCount">– artículos</span>
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right perfil-link-arrow"></i>
+              </a>
+              <a href="productos.html" class="perfil-link-row">
+                <div class="perfil-link-left">
+                  <div class="perfil-link-icon"><i class="fas fa-shirt"></i></div>
+                  <div>
+                    <span class="perfil-link-name">Explorar productos</span>
+                    <span class="perfil-link-meta">Nuevas colecciones disponibles</span>
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right perfil-link-arrow"></i>
+              </a>
+            </div>
+          </section>
+
+          <!-- Configuración & Zona peligrosa -->
+          <section class="perfil-card perfil-card--config">
+            <div class="perfil-card-header">
+              <i class="fas fa-sliders perfil-card-icon"></i>
+              <div>
+                <h3 class="perfil-card-title">Configuración</h3>
+                <p class="perfil-card-desc">Preferencias de tu cuenta.</p>
+              </div>
+            </div>
+            <div class="perfil-config-list">
+              <div class="perfil-config-row">
+                <div class="perfil-config-info">
+                  <span class="perfil-config-name">Notificaciones</span>
+                  <span class="perfil-config-meta">Recibir alertas de novedades y promociones</span>
+                </div>
+                <label class="perfil-toggle" aria-label="Notificaciones">
+                  <input type="checkbox" id="toggleNotif" checked />
+                  <span class="perfil-toggle-track"></span>
+                </label>
+              </div>
+              <div class="perfil-config-row">
+                <div class="perfil-config-info">
+                  <span class="perfil-config-name">Recordar vestidor</span>
+                  <span class="perfil-config-meta">Guardar automáticamente el último outfit</span>
+                </div>
+                <label class="perfil-toggle" aria-label="Recordar vestidor">
+                  <input type="checkbox" id="toggleVestidor" checked />
+                  <span class="perfil-toggle-track"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="perfil-danger-zone">
+              <button class="perfil-btn perfil-btn--logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+              </button>
+            </div>
+          </section>
+
+        </div>
+        <!-- /perfil-grid -->
+
+      </div>
+    </main>
+
+    <!-- Toast -->
+    <div id="perfilToastStack" class="perfil-toast-stack" aria-live="polite"></div>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="site-footer custom-footer">
+      <section class="container py-2">
+        <div class="row align-items-start g-4 mb-4">
+          <div class="col-lg-5">
+            <div class="footer-brand-card">
+              <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="footer-logo mb-3"
+                style="max-width:90px;filter:brightness(0) invert(1)" />
+              <h3>Me Visto Como Quiero</h3>
+              <p class="mt-2">Moda con personalidad para cada estilo.<br />Descubrí lanzamientos, promos exclusivas y colecciones pensadas para que comprar ropa se sienta simple y confiable.</p>
+              <div class="footer-socials">
+                <a href="https://www.facebook.com/noelia.lenardon?mibextid=ZbWKwL" target="_blank" rel="noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/mevistocomoquiero_ropafemenina/?hl=es-la" target="_blank" rel="noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="footer-community-card">
+              <span class="footer-eyebrow">Comunidad MVCQ</span>
+              <h4 class="mt-1">¡Sumate a nuestra comunidad!</h4>
+              <p>Seguinos en redes para lanzamientos, sorteos y novedades exclusivas.<br />Compartí tu look usando <strong>#MeVistoComoQuiero</strong>.</p>
+              <div class="footer-mini-points">
+                <span><i class="fas fa-users"></i> Comunidad real</span>
+                <span><i class="fas fa-hashtag"></i> #MeVistoComoQuiero</span>
+                <span><i class="fas fa-gift"></i> Sorteos y lanzamientos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mb-4 footer-links-row">
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>Explorá</h5>
+              <a href="productos.html">Productos</a>
+              <a href="promociones.html">Promociones</a>
+              <a href="mi-coleccion.html">Vestidor virtual</a>
+              <a href="favoritos.html">Mis favoritos</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block">
+              <h5>La tienda</h5>
+              <a href="nosotros.html">Sobre nosotros</a>
+              <a href="contactanos.html">Contacto</a>
+              <a href="register.html">Crear cuenta</a>
+              <a href="login.html">Ingresar</a>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="footer-link-block footer-link-block--contact">
+              <h5>Atención</h5>
+              <p><i class="fas fa-map-marker-alt"></i> Atención online · envíos a todo el país</p>
+              <p><i class="fas fa-clock"></i> Lun a Sáb · 9:00 a 20:00</p>
+              <p><i class="fas fa-shield-alt"></i> Compra protegida y soporte personalizado</p>
+            </div>
+          </div>
+        </div>
+        <div class="site-footer-bottom">
+          <p>© 2026 Me Visto Como Quiero. Todos los derechos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="contactanos.html">Ayuda</a>
+            <a href="nosotros.html">Marca</a>
+            <a href="perfil.html">Mi cuenta</a>
+          </div>
+        </div>
+      </section>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/nav-bar.js"></script>
+    <script src="../js/cart-utils.js"></script>
+    <script src="../js/favorites-utils.js"></script>
+    <script src="../js/perfil.js"></script>
+  </body>
+</html>

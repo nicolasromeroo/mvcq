@@ -12,9 +12,9 @@
 
 /* ── Page header ── */
 .mc-page-header {
-  background: #0a0a0a;
+  background: linear-gradient(135deg, #2c1a14 0%, #4b2319 58%, #7a2b3b 100%);
   color: #fff;
-  padding: 3.5rem 0 0;
+  padding: 4rem 0 0;
   position: relative;
   overflow: hidden;
 }
@@ -24,41 +24,64 @@
   position: absolute;
   inset: 0;
   background: url('../img/aestethic2.jpg') center/cover no-repeat;
-  opacity: 0.08;
+  opacity: 0.13;
+}
+
+/* Subtle bottom fade so the tab bar reads as part of the header */
+.mc-page-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(44,26,20,0.35));
+  pointer-events: none;
 }
 
 .mc-page-header-inner {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 0 1.5rem 2.5rem;
+  padding: 0 1.5rem 2.8rem;
 }
 
 .mc-page-header-eyebrow {
   display: inline-block;
-  font-size: 0.68rem;
+  font-size: 0.67rem;
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: #c4986b;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Thin gold ornamental rule beneath the eyebrow */
+.mc-page-header-eyebrow::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: rgba(196, 152, 107, 0.55);
+  margin: 0.5rem auto 0;
 }
 
 .mc-page-header h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 600;
   color: #fff;
-  line-height: 1.05;
-  margin: 0 0 0.7rem;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.8rem;
 }
 
 .mc-page-header p {
-  font-size: 0.92rem;
-  color: rgba(255,255,255,0.65);
-  max-width: 480px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  max-width: 440px;
   margin: 0 auto 2rem;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 /* ── Tab bar ── */
@@ -68,6 +91,8 @@
   gap: 0;
   background: rgba(255,255,255,0.06);
   border-top: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  z-index: 2;
 }
 
 .mc-tab {
@@ -1636,6 +1661,40 @@
   text-align: center;
   padding: 1.5rem 0;
   margin: 0;
+}
+
+/* Tarjetas de outfit en la sección mobile */
+.mc-mob-outfit-card {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #faf8f6;
+  border: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+}
+.mc-mob-outfit-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+.mc-mob-outfit-info {
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mc-mob-outfit-info strong {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mc-mob-outfit-info span {
+  font-size: 0.7rem;
+  color: #999;
 }
 
 .footer-bottom-links a:hover { color: #c4986b; }
