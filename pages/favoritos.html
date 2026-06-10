@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mis Favoritos · Me Visto Como Quiero</title>
+    <meta name="description" content="Tus prendas guardadas en Me Visto Como Quiero." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/68c5d14b35.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../css/design-system.css" />
+    <link rel="stylesheet" href="../css/nav-bar.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/favoritos.css" />
+  </head>
+
+  <body>
+    <!-- ══ NAVBAR ══ -->
+    <header>
+      <nav class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar">
+        <div class="container-xxl site-navbar-inner">
+          <a class="navbar-brand site-navbar-brand" href="../index.html" aria-label="Inicio">
+            <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="logo-navbar" />
+            <span class="site-navbar-brand-copy">
+              <strong>Me Visto</strong>
+              <small>Como Quiero</small>
+            </span>
+          </a>
+          <button class="navbar-toggler site-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir navegación">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse site-navbar-panel" id="navbarNav">
+            <ul class="navbar-nav site-navbar-menu mx-auto">
+              <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+              <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+              <li class="nav-item"><a class="nav-link" href="mi-coleccion.html">Vestidor</a></li>
+              <li class="nav-item"><a class="nav-link" href="contactanos.html">Contacto</a></li>
+            </ul>
+            <div class="site-navbar-actions">
+              <div id="authNav" class="site-navbar-auth">
+                <a class="site-nav-link" href="login.html">Ingresá</a>
+                <a class="site-nav-pill" href="register.html">Registrate</a>
+              </div>
+              <div id="userNav" class="site-navbar-user d-none">
+                <a class="site-nav-icon active" href="favoritos.html" title="Mis favoritos" aria-label="Mis favoritos">
+                  <i class="fas fa-heart"></i>
+                  <span class="site-nav-fav-badge" style="display:none">0</span>
+                </a>
+                <a class="site-nav-icon" href="carrito.html" title="Carrito" aria-label="Carrito">
+                  <i class="fas fa-shopping-bag"></i>
+                  <span class="site-nav-badge">0</span>
+                </a>
+                <a id="adminPanelItem" class="site-nav-link d-none" href="admin-panel.html">Panel</a>
+                <div class="nav-item dropdown">
+                  <a class="site-nav-profile dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff" alt="Usuario" class="rounded-circle" width="30" height="30" />
+                    <span id="usernameSpan">Usuario</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Mi perfil</a></li>
+                    <li><a class="dropdown-item" href="mis-pedidos.html"><i class="fas fa-box me-2"></i>Mis pedidos</a></li>
+                    <li><a class="dropdown-item" href="favoritos.html"><i class="far fa-heart me-2"></i>Mis favoritos</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="favoritos-page">
+      <!-- Hero -->
+      <div class="favoritos-hero">
+        <div class="container favoritos-hero-inner">
+          <span class="favoritos-hero-eyebrow">Mi lista</span>
+          <h1 class="favoritos-hero-title">Mis Favoritos</h1>
+          <p class="favoritos-hero-count" id="favHeroCount">Cargando…</p>
+        </div>
+      </div>
+
+      <!-- Top bar -->
+      <div class="favoritos-topbar">
+        <div class="container favoritos-topbar-inner">
+          <span class="favoritos-result-count" id="favCount"></span>
+          <button class="favoritos-clear-btn" id="clearFavsBtn" style="display:none">
+            <i class="fas fa-trash-alt me-1"></i>Limpiar lista
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="container favoritos-grid-wrap">
+        <div class="favoritos-grid" id="favGrid">
+          <!-- Rendered by favoritos.js -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast -->
+    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="site-footer custom-footer">
+      <section class="container py-2">
+        <div class="site-footer-bottom">
+          <p>© 2026 Me Visto Como Quiero. Todos los derechos reservados.</p>
+          <div class="footer-bottom-links">
+            <a href="productos.html">Productos</a>
+            <a href="contactanos.html">Ayuda</a>
+            <a href="carrito.html">Carrito</a>
+          </div>
+        </div>
+      </section>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/nav-bar.js"></script>
+    <script src="../js/cart-utils.js"></script>
+    <script src="../js/favorites-utils.js"></script>
+    <script src="../js/favoritos.js"></script>
+  </body>
+</html>

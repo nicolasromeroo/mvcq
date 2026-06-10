@@ -142,6 +142,8 @@ function buildCard(producto, index) {
     producto.reviewCount || producto.cantidadResenas || 0
   );
 
+  const precioNum = Number(producto.price) || 0;
+  const envioGratis = precioNum >= 15000;
   const colors = (producto.colors || producto.colores || []).slice(0, 5);
   const colorDotsHTML = colors
     .map(
@@ -194,7 +196,7 @@ function buildCard(producto, index) {
           alt="${nombre} — look"
           loading="lazy"
         />
-        <button class="producto-wishlist" aria-label="Guardar en favoritos">
+        <button class="producto-wishlist" aria-label="Guardar en favoritos" data-product-id="${id}">
           <i class="far fa-heart"></i>
         </button>
         ${
@@ -225,6 +227,7 @@ function buildCard(producto, index) {
               : ""
           }
         </div>
+        ${envioGratis ? `<span class="prod-envio-gratis"><i class="fas fa-truck"></i> Envío gratis</span>` : ""}
         <div class="producto-card-actions">
           <button
             class="producto-add-btn${agotado ? " is-disabled" : ""}"
@@ -333,12 +336,28 @@ function renderError(msg) {
    CLIENT-SIDE FILTER
 ───────────────────────────── */
 const AUDIENCIA_KEYWORDS = {
-  mujer:        ['mujer', 'femenin', 'dama', 'chica', 'ella', 'woman'],
-  hombre:       ['hombre', 'masculin', 'caballero', 'varon', 'varón', 'man'],
-  ninos:        ['niño', 'niña', 'nino', 'nina', 'infant', 'bebe', 'bebé', 'kids', 'child'],
+  mujer:        ['mujer', 'femenin', 'dama', 'chica', 'woman', 'fem'],
+  hombre:       ['hombre', 'masculin', 'caballero', 'varon', 'man', 'masc'],
+  ninos:        ['niño', 'niña', 'nino', 'nina', 'infant', 'bebe', 'bebé', 'kids', 'child', 'nena', 'nene'],
   adolescentes: ['adolescente', 'teen', 'junior', 'joven'],
   tradicional:  ['tradicional', 'clasico', 'clásico', 'classic'],
 };
+
+/* Match a filter token against text, handling singular/plural automatically */
+function tokenMatches(filterVal, text) {
+  const f = filterVal.toLowerCase().trim();
+  const t = text.toLowerCase();
+  if (!f) return true;
+  if (t.includes(f)) return true;
+  /* Try stem: strip trailing 's' or 'es' to handle singular/plural */
+  const stem = f.endsWith('es') && f.length > 4
+    ? f.slice(0, -2)
+    : f.endsWith('s') && f.length > 3
+      ? f.slice(0, -1)
+      : f;
+  if (stem !== f && t.includes(stem)) return true;
+  return false;
+}
 
 function applyClientFilters() {
   const state = window.mvcqFilterState;
@@ -347,37 +366,47 @@ function applyClientFilters() {
   const checkedCats = [...state.categorias];
   const checkedAuds = [...state.audiencias];
 
+  /* Nothing active → restore all cards */
+  if (!checkedCats.length && !checkedAuds.length) {
+    contenedor.querySelectorAll('.producto-card').forEach((c) => (c.style.display = ''));
+    contenedor.querySelector('.js-filter-empty')?.remove();
+    return;
+  }
+
   const cards = contenedor.querySelectorAll('.producto-card:not(.is-skeleton)');
   let visible = 0;
 
   cards.forEach((card) => {
-    const cat  = (card.dataset.categoria || '').toLowerCase();
-    const name = (card.dataset.nombre || '').toLowerCase();
-    const text = cat + ' ' + name;
+    /* Use name + category (fallback) for matching */
+    const cardText = [
+      card.dataset.nombre     || '',
+      card.dataset.categoria  || '',
+      card.dataset.descripcion || '',
+    ].join(' ').toLowerCase();
 
-    const catMatch = !checkedCats.length || checkedCats.some((c) => text.includes(c));
+    const catMatch = !checkedCats.length ||
+      checkedCats.some((c) => tokenMatches(c, cardText));
 
-    const audMatch = !checkedAuds.length || checkedAuds.some((aud) => {
-      const kws = AUDIENCIA_KEYWORDS[aud] || [aud];
-      return kws.some((kw) => text.includes(kw));
-    });
+    const audMatch = !checkedAuds.length ||
+      checkedAuds.some((aud) => {
+        const kws = AUDIENCIA_KEYWORDS[aud] || [aud];
+        return kws.some((kw) => cardText.includes(kw));
+      });
 
     const show = catMatch && audMatch;
     card.style.display = show ? '' : 'none';
     if (show) visible++;
   });
 
-  const total = cards.length;
   const countEl = document.getElementById('productos-count');
-  if (countEl && total > 0) {
+  if (countEl) {
     countEl.textContent = visible
       ? `${visible.toLocaleString('es-AR')} producto${visible !== 1 ? 's' : ''}`
       : '';
   }
 
-  if (visible === 0 && total > 0) {
-    const empty = contenedor.querySelector('.productos-empty');
-    if (!empty) {
+  if (visible === 0 && cards.length > 0) {
+    if (!contenedor.querySelector('.js-filter-empty')) {
       const div = document.createElement('div');
       div.className = 'productos-empty js-filter-empty';
       div.innerHTML = `
@@ -567,6 +596,7 @@ const QV = {
     this.selectedSize = null;
     this.selectedColor = null;
     this.productId = card.dataset.productId || null;
+    this._card = card;
 
     /* Reset color group */
     const colorGroup = document.getElementById("qvColorGroup");
@@ -658,6 +688,15 @@ const QV = {
 
     /* Async enrichment — fires after modal is visible */
     if (this.productId) this._enrich(this.productId);
+
+    /* Restore heart state in modal */
+    const heartBtn = document.getElementById("qvHeartBtn");
+    if (heartBtn && typeof isFavorited === "function") {
+      const liked = isFavorited(this.productId);
+      heartBtn.classList.toggle("is-liked", liked);
+      const icon = heartBtn.querySelector("i");
+      if (icon) icon.className = liked ? "fas fa-heart" : "far fa-heart";
+    }
 
     /* Show */
     modal.style.display = "flex";
@@ -810,7 +849,16 @@ const QV = {
         if (sizeErr) sizeErr.style.display = "";
         return;
       }
-      // TODO: POST /cart/add { productId, size, qty }
+      const item = {
+        productId: this.productId,
+        name: document.getElementById("qvProductName")?.textContent || "",
+        categoria: document.getElementById("qvCat")?.textContent || "",
+        price: parseFloat(this._card?.dataset?.precio) || 0,
+        image: this._card?.dataset?.img || "",
+        size: this.selectedSize,
+        qty: this.qty,
+      };
+      if (typeof addToCart === "function") addToCart(item);
       toast(
         `Talle ${this.selectedSize} × ${this.qty} agregado al carrito`,
         "success",
@@ -825,7 +873,18 @@ const QV = {
       btn.classList.toggle("is-liked");
       const liked = btn.classList.contains("is-liked");
       btn.querySelector("i").className = liked ? "fas fa-heart" : "far fa-heart";
-      // TODO: POST /wishlist/toggle { productId }
+      if (typeof toggleFavorite === "function" && this._card) {
+        const product = {
+          productId: this.productId,
+          name: this._card.dataset.nombre || "",
+          categoria: this._card.dataset.categoria || "",
+          price: parseFloat(this._card.dataset.precio) || 0,
+          precioOriginal: parseFloat(this._card.dataset.precioOrig) || 0,
+          image: this._card.dataset.img || "",
+          imageHover: this._card.dataset.imgHover || "",
+        };
+        toggleFavorite(product);
+      }
       toast(
         liked ? "Guardado en favoritos" : "Eliminado de favoritos",
         liked ? "heart" : "info",
@@ -898,6 +957,16 @@ function attachCardEvents() {
       if (card) QV.open(card);
     });
   });
+
+  /* Restore heart/favorites state */
+  if (typeof isFavorited === "function") {
+    contenedor.querySelectorAll(".producto-wishlist[data-product-id]").forEach((btn) => {
+      const liked = isFavorited(btn.dataset.productId);
+      btn.classList.toggle("is-liked", liked);
+      const icon = btn.querySelector("i");
+      if (icon) icon.className = liked ? "fas fa-heart" : "far fa-heart";
+    });
+  }
 }
 
 /* ─────────────────────────────
@@ -936,19 +1005,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = e.target.closest(".producto-wishlist");
     if (!btn) return;
     e.preventDefault();
-    btn.classList.toggle("is-liked");
-    const icon = btn.querySelector("i");
-    if (icon) {
-      icon.classList.toggle("far");
-      icon.classList.toggle("fas");
+    const card = btn.closest(".producto-card");
+    if (typeof toggleFavorite === "function" && card) {
+      const product = {
+        productId: card.dataset.productId || "",
+        name: card.dataset.nombre || "",
+        categoria: card.dataset.categoria || "",
+        price: parseFloat(card.dataset.precio) || 0,
+        precioOriginal: parseFloat(card.dataset.precioOrig) || 0,
+        image: card.dataset.img || "",
+        imageHover: card.dataset.imgHover || "",
+      };
+      const liked = toggleFavorite(product);
+      btn.classList.toggle("is-liked", liked);
+      const icon = btn.querySelector("i");
+      if (icon) { icon.className = liked ? "fas fa-heart" : "far fa-heart"; }
+      toast(
+        liked ? "Guardado en favoritos" : "Eliminado de favoritos",
+        liked ? "heart" : "info",
+        liked ? "fa-heart" : "fa-heart-crack"
+      );
+    } else {
+      btn.classList.toggle("is-liked");
+      const icon = btn.querySelector("i");
+      if (icon) { icon.classList.toggle("far"); icon.classList.toggle("fas"); }
     }
-    const liked = btn.classList.contains("is-liked");
-    // TODO: POST /wishlist/toggle { productId }
-    toast(
-      liked ? "Guardado en favoritos" : "Eliminado de favoritos",
-      liked ? "heart" : "info",
-      liked ? "fa-heart" : "fa-heart-crack"
-    );
   });
 
   /* Add to cart on cards → opens Quick View for size selection */

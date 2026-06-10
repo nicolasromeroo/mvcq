@@ -1,0 +1,378 @@
+/* =====================================================
+   favoritos.css — Me Visto Como Quiero
+   Favorites page styles (reuses productos card system)
+   ===================================================== */
+
+.favoritos-page {
+  padding-top: var(--site-nav-height, 78px);
+  background: #faf8f6;
+  min-height: 100vh;
+}
+
+/* ── Hero banner ── */
+.favoritos-hero {
+  background: linear-gradient(135deg, #2c1a14 0%, #4b2319 60%, #7a2b3b 100%);
+  padding: 3.5rem 0 3rem;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.favoritos-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../img/aestethic.jpg') center/cover no-repeat;
+  opacity: 0.12;
+}
+.favoritos-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+.favoritos-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  display: block;
+  margin-bottom: 0.6rem;
+}
+.favoritos-hero-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.0;
+  margin: 0 0 0.5rem;
+  color: #fff;
+}
+.favoritos-hero-count {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.65);
+}
+
+/* ── Top bar ── */
+.favoritos-topbar {
+  background: rgba(250, 248, 246, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(88, 62, 49, 0.08);
+  padding: 0.75rem 0;
+  position: sticky;
+  top: var(--site-nav-height, 78px);
+  z-index: 90;
+}
+.favoritos-topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.favoritos-result-count {
+  font-size: 0.78rem;
+  color: #999;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.favoritos-clear-btn {
+  border: none;
+  background: none;
+  color: #c0392b;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  transition: background 0.15s;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.favoritos-clear-btn:hover { background: rgba(192, 57, 43, 0.07); }
+
+/* ── Grid (reuses .productos-grid classes) ── */
+.favoritos-grid-wrap {
+  padding: 2rem 0 5rem;
+}
+.favoritos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 18px;
+  margin-bottom: 48px;
+}
+
+/* ── Favorite card variant (extends producto-card) ── */
+.fav-card {
+  background: #fff;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: favCardReveal 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: var(--card-delay, 0ms);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+.fav-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+@keyframes favCardReveal {
+  from { opacity: 0; transform: translateY(20px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.fav-card-img {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #f2edea;
+  cursor: pointer;
+}
+.fav-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+.fav-card:hover .fav-card-img img {
+  transform: scale(1.04);
+}
+
+/* Remove from favorites button */
+.fav-remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #7a2b3b;
+  color: #fff;
+  font-size: 0.82rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(122, 43, 59, 0.3);
+  transition: background 0.2s, transform 0.2s;
+}
+.fav-remove-btn:hover {
+  background: #c0392b;
+  transform: scale(1.08);
+}
+
+/* Sale tag */
+.fav-badge-sale {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 5;
+  padding: 4px 10px;
+  background: #7a2b3b;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Card info */
+.fav-card-info {
+  padding: 12px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+.fav-card-cat {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a0a0a0;
+}
+.fav-card-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.3;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.fav-card-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-top: 3px;
+}
+.fav-card-price-old {
+  font-size: 0.8rem;
+  color: #b8b8b8;
+  text-decoration: line-through;
+  font-weight: 400;
+  margin-left: 5px;
+}
+.fav-envio-gratis {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #00a650;
+  margin-top: 2px;
+}
+.fav-envio-gratis i { font-size: 0.65rem; }
+
+.fav-card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+.fav-add-btn {
+  flex: 1;
+  height: 38px;
+  border: none;
+  border-radius: 0;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: background 0.25s;
+}
+.fav-add-btn:hover { background: #7a2b3b; }
+
+/* ── Empty state ── */
+.favoritos-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  text-align: center;
+  gap: 0.75rem;
+}
+.favoritos-empty-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(122, 43, 59, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #7a2b3b;
+  margin-bottom: 0.5rem;
+}
+.favoritos-empty h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #2c1a14;
+  margin: 0;
+}
+.favoritos-empty p {
+  color: #999;
+  font-size: 0.88rem;
+  margin: 0;
+  line-height: 1.65;
+}
+.btn-ir-tienda {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.8rem;
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s;
+}
+.btn-ir-tienda:hover { background: #7a2b3b; color: #fff; }
+
+/* ── Toast stack ── */
+.toast-stack {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.55rem;
+  pointer-events: none;
+}
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.82rem 1.2rem;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  transform: translateX(calc(100% + 2.5rem));
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: auto;
+  max-width: 320px;
+  white-space: nowrap;
+}
+.toast-item.is-visible { transform: translateX(0); }
+.toast-item--success { background: #1a1a1a; color: #fff; }
+.toast-item--heart   { background: #7a2b3b; color: #fff; }
+.toast-item--info    { background: #2d4480; color: #fff; }
+.toast-icon {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .favoritos-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .favoritos-grid { grid-template-columns: repeat(2, 1fr); gap: 16px 10px; }
+  .favoritos-hero-title { font-size: 2.2rem; }
+}
+@media (max-width: 480px) {
+  .favoritos-grid { grid-template-columns: repeat(2, 1fr); gap: 12px 8px; }
+  .fav-card-info { padding: 10px 8px 12px; }
+  .fav-card-name { font-size: 0.78rem; }
+  .fav-card-price { font-size: 0.9rem; }
+}
+@media (max-width: 576px) {
+  .toast-stack { bottom: 1rem; right: 1rem; left: 1rem; }
+  .toast-item { max-width: 100%; white-space: normal; }
+}

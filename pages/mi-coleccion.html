@@ -93,6 +93,15 @@
               <div id="userNav" class="site-navbar-user d-none">
                 <a
                   class="site-nav-icon"
+                  href="favoritos.html"
+                  title="Mis favoritos"
+                  aria-label="Mis favoritos"
+                >
+                  <i class="far fa-heart"></i>
+                  <span class="site-nav-fav-badge" style="display:none">0</span>
+                </a>
+                <a
+                  class="site-nav-icon"
                   href="carrito.html"
                   title="Carrito"
                   aria-label="Carrito"
@@ -138,6 +147,11 @@
                         ><i class="fas fa-box me-2"></i>Mis pedidos</a
                       >
                     </li>
+                    <li>
+                      <a class="dropdown-item" href="favoritos.html"
+                        ><i class="far fa-heart me-2"></i>Mis favoritos</a
+                      >
+                    </li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
                       <a
@@ -174,6 +188,45 @@
         <button class="mc-tab" data-tab="colecciones" role="tab">
           <i class="fas fa-layer-group"></i> Mis Outfits
         </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         MOBILE ONLY — shown instead of dressing room
+    ══════════════════════════════════════ -->
+    <div class="mc-mobile-banner" id="mcMobileBanner">
+      <div class="container">
+        <div class="mc-mobile-notice">
+          <div class="mc-mobile-notice-icon">
+            <i class="fas fa-desktop"></i>
+          </div>
+          <div class="mc-mobile-notice-body">
+            <h2>El Vestidor Virtual<br>es para escritorio</h2>
+            <p>
+              En tu celular podés ir directo a lo que importa:
+              explorar productos, ver tu carrito o revisar tus favoritos.
+            </p>
+          </div>
+        </div>
+        <div class="mc-mobile-actions">
+          <a href="productos.html" class="mc-mob-btn mc-mob-btn--primary">
+            <i class="fas fa-shirt me-2"></i>Ver productos
+          </a>
+          <a href="carrito.html" class="mc-mob-btn mc-mob-btn--secondary">
+            <i class="fas fa-shopping-bag me-2"></i>Mi carrito
+            <span class="mc-mob-cart-count" id="mobCartCount"></span>
+          </a>
+          <a href="favoritos.html" class="mc-mob-btn mc-mob-btn--outline">
+            <i class="far fa-heart me-2"></i>Mis favoritos
+          </a>
+        </div>
+        <!-- Outfits section (works on mobile too) -->
+        <div class="mc-mobile-outfits" id="mcMobileOutfits">
+          <h3 class="mc-mobile-outfits-title">Tus outfits guardados</h3>
+          <div id="mcMobileOutfitGrid" class="mc-mobile-outfit-grid">
+            <p class="mc-mobile-no-outfits">Todavía no guardaste ningún outfit. ¡Usá el vestidor virtual desde una computadora!</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -607,6 +660,28 @@
     ></script>
     <script src="../js/auth.js"></script>
     <script src="../js/nav-bar.js"></script>
+    <script src="../js/cart-utils.js"></script>
+    <script src="../js/favorites-utils.js"></script>
     <script src="../js/mi-coleccion.js"></script>
+    <script>
+      /* Mobile section: show/hide based on screen width, show cart count */
+      (function() {
+        function initMobileBanner() {
+          const banner = document.getElementById('mcMobileBanner');
+          const vestidorPanels = document.querySelectorAll('.mc-tab-panel, .mc-page-header');
+          const isMobile = window.innerWidth < 768;
+          if (banner) banner.style.display = isMobile ? 'block' : 'none';
+          vestidorPanels.forEach(el => {
+            if (isMobile) el.style.display = 'none';
+          });
+          /* Update mobile cart count badge */
+          const count = typeof getCartCount === 'function' ? getCartCount() : 0;
+          const countEl = document.getElementById('mobCartCount');
+          if (countEl) countEl.textContent = count > 0 ? ` (${count})` : '';
+        }
+        document.addEventListener('DOMContentLoaded', initMobileBanner);
+        window.addEventListener('resize', initMobileBanner);
+      })();
+    </script>
   </body>
 </html>

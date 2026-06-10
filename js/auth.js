@@ -15,6 +15,7 @@ function logout() {
   localStorage.removeItem("userRole");
   localStorage.removeItem("username");
   localStorage.removeItem("token");
+  localStorage.removeItem("mvcq_userId");
   // Detect if we're in /pages/ or root
   const inPages = window.location.pathname.includes("/pages/");
   window.location.href = inPages ? "../index.html" : "index.html";

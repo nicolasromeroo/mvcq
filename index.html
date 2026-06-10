@@ -119,6 +119,15 @@
               <div id="userNav" class="site-navbar-user d-none">
                 <a
                   class="site-nav-icon"
+                  href="pages/favoritos.html"
+                  title="Mis favoritos"
+                  aria-label="Mis favoritos"
+                >
+                  <i class="far fa-heart"></i>
+                  <span class="site-nav-fav-badge" style="display:none">0</span>
+                </a>
+                <a
+                  class="site-nav-icon"
                   href="pages/carrito.html"
                   title="Carrito"
                   aria-label="Carrito"
@@ -164,6 +173,11 @@
                     <li>
                       <a class="dropdown-item" href="pages/mis-pedidos.html">
                         <i class="fas fa-box me-2"></i>Mis pedidos
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="pages/favoritos.html">
+                        <i class="far fa-heart me-2"></i>Mis favoritos
                       </a>
                     </li>
                     <li><hr class="dropdown-divider" /></li>
@@ -274,17 +288,6 @@
                   data-hero-cta="0"
                 >
                   Ver colección <i class="fas fa-arrow-right ms-1"></i>
-                </a>
-                <a
-                  href="pages/catalogo.html"
-                  class="btn-ed"
-                  style="
-                    color: rgba(255, 255, 255, 0.72);
-                    background: transparent;
-                    padding-left: 0;
-                  "
-                >
-                  Explorar todo
                 </a>
               </div>
             </div>
@@ -800,10 +803,11 @@
           <div class="col-md-4">
             <div class="footer-link-block">
               <h5>Explorá</h5>
-              <a href="pages/catalogo.html">Catálogos</a>
+              <a href="pages/productos.html">Catálogos</a>
               <a href="pages/productos.html">Productos</a>
               <a href="pages/promociones.html">Promociones</a>
               <a href="pages/mi-coleccion.html">Mis colecciones</a>
+              <a href="pages/favoritos.html">Mis favoritos</a>
             </div>
           </div>
           <div class="col-md-4">
@@ -851,6 +855,10 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <!-- Shared utilities -->
+    <script src="./js/cart-utils.js"></script>
+    <script src="./js/favorites-utils.js"></script>
 
     <!-- Site config must load before products-inicio so sections can be toggled -->
     <script src="./js/site-config.js"></script>
