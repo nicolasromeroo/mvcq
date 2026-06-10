@@ -226,10 +226,6 @@ function initCheckout() {
       const token = localStorage.getItem('token');
       const userId = await getMvcqUserId();
 
-      /* TODO: Replace with real Stripe checkout session creation:
-         POST /stripe/checkout-session
-         Body: { userId, items: cart.items.map(...), successUrl, cancelUrl }
-      */
       const res = await fetch(`${CARRITO_API}/stripe/checkout-session`, {
         method: 'POST',
         headers: {
@@ -250,21 +246,24 @@ function initCheckout() {
         })
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        const url = data.url || data.checkoutUrl || data.sessionUrl;
-        if (url) {
-          window.location.href = url;
-          return;
-        }
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        const msg = errData?.message || 'Error al procesar el pago';
+        throw new Error(Array.isArray(msg) ? msg.join(', ') : String(msg));
       }
-      /* Fallback: show success toast if session URL not returned */
+
+      const data = await res.json();
+      const url = data.url || data.checkoutUrl || data.sessionUrl;
+      if (url) {
+        window.location.href = url;
+        return;
+      }
       carritoToast('Pedido enviado. Te contactaremos para confirmar.', 'success', 'fa-check');
       clearLocalCart();
       setTimeout(() => reRender(), 500);
     } catch (err) {
       console.error('[checkout]', err);
-      carritoToast('No se pudo procesar. Intentá de nuevo.', 'warn', 'fa-triangle-exclamation');
+      carritoToast(err.message || 'No se pudo procesar. Intentá de nuevo.', 'warn', 'fa-triangle-exclamation');
     } finally {
       const btn2 = document.getElementById('checkoutBtn');
       if (btn2) {

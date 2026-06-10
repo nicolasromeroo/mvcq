@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mis Pedidos · Me Visto Como Quiero</title>
+    <meta name="description" content="Historial de pedidos y compras en Me Visto Como Quiero." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=Staatliches&display=swap" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/68c5d14b35.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../css/design-system.css" />
+    <link rel="stylesheet" href="../css/nav-bar.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/mis-pedidos.css" />
+  </head>
+
+  <body>
+    <!-- ══ NAVBAR ══ -->
+    <header>
+      <nav class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar">
+        <div class="container-xxl site-navbar-inner">
+          <a class="navbar-brand site-navbar-brand" href="../index.html" aria-label="Inicio">
+            <img src="../img/mvcqSinfondo.png" alt="Logo MVCQ" class="logo-navbar" />
+            <span class="site-navbar-brand-copy">
+              <strong>Me Visto</strong>
+              <small>Como Quiero</small>
+            </span>
+          </a>
+          <button class="navbar-toggler site-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir navegación">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse site-navbar-panel" id="navbarNav">
+            <ul class="navbar-nav site-navbar-menu mx-auto">
+              <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
+              <li class="nav-item"><a class="nav-link" href="productos.html">Productos</a></li>
+              <li class="nav-item"><a class="nav-link" href="mi-coleccion.html">Vestidor</a></li>
+              <li class="nav-item"><a class="nav-link" href="contactanos.html">Contacto</a></li>
+            </ul>
+            <div class="site-navbar-actions">
+              <div id="authNav" class="site-navbar-auth">
+                <a class="site-nav-link" href="login.html">Ingresá</a>
+                <a class="site-nav-pill" href="register.html">Registrate</a>
+              </div>
+              <div id="userNav" class="site-navbar-user d-none">
+                <a class="site-nav-icon" href="favoritos.html" title="Mis favoritos" aria-label="Mis favoritos">
+                  <i class="far fa-heart"></i>
+                  <span class="site-nav-fav-badge" style="display:none">0</span>
+                </a>
+                <a class="site-nav-icon" href="carrito.html" title="Carrito" aria-label="Carrito">
+                  <i class="fas fa-shopping-bag"></i>
+                  <span class="site-nav-badge">0</span>
+                </a>
+                <a id="adminPanelItem" class="site-nav-link d-none" href="admin-panel.html">Panel</a>
+                <div class="nav-item dropdown">
+                  <a class="site-nav-profile dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://ui-avatars.com/api/?name=Usuario&background=e63946&color=fff" alt="Usuario" class="rounded-circle" width="30" height="30" />
+                    <span id="usernameSpan">Usuario</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user me-2"></i>Mi perfil</a></li>
+                    <li><a class="dropdown-item active" href="mis-pedidos.html"><i class="fas fa-box me-2"></i>Mis pedidos</a></li>
+                    <li><a class="dropdown-item" href="favoritos.html"><i class="far fa-heart me-2"></i>Mis favoritos</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- ══ PAGE ══ -->
+    <main class="mp-page">
+      <div class="mp-container">
+
+        <!-- Success banner (shown after Stripe redirect) -->
+        <div class="mp-success-banner" id="successBanner" style="display:none">
+          <i class="fas fa-check-circle"></i>
+          <div>
+            <strong>¡Pago exitoso! Tu pedido está confirmado.</strong>
+            <span>En breve recibirás más información sobre el estado de tu compra.</span>
+          </div>
+        </div>
+
+        <!-- ══ ADMIN VIEW ══ -->
+        <div id="adminView" style="display:none">
+          <div class="mp-header">
+            <div class="mp-header-left">
+              <h1>Registro de Pedidos</h1>
+              <p>Gestión completa de compras y pedidos de clientes</p>
+            </div>
+            <span class="mp-badge mp-badge--paid">
+              <i class="fas fa-shield-alt"></i> Vista Admin
+            </span>
+          </div>
+
+          <!-- Stats -->
+          <div class="mp-stats-row" id="adminStats">
+            <div class="mp-stat-card">
+              <div class="mp-stat-icon" style="background:#7a2b3b"><i class="fas fa-receipt"></i></div>
+              <div class="mp-stat-body">
+                <span class="mp-stat-label">Total pedidos</span>
+                <strong class="mp-stat-value" id="statTotal">—</strong>
+              </div>
+            </div>
+            <div class="mp-stat-card">
+              <div class="mp-stat-icon" style="background:#27ae60"><i class="fas fa-check-circle"></i></div>
+              <div class="mp-stat-body">
+                <span class="mp-stat-label">Pagados</span>
+                <strong class="mp-stat-value" id="statPagados">—</strong>
+              </div>
+            </div>
+            <div class="mp-stat-card">
+              <div class="mp-stat-icon" style="background:#e67e22"><i class="fas fa-clock"></i></div>
+              <div class="mp-stat-body">
+                <span class="mp-stat-label">Pendientes</span>
+                <strong class="mp-stat-value" id="statPendientes">—</strong>
+              </div>
+            </div>
+            <div class="mp-stat-card">
+              <div class="mp-stat-icon" style="background:#2980b9"><i class="fas fa-dollar-sign"></i></div>
+              <div class="mp-stat-body">
+                <span class="mp-stat-label">Facturado</span>
+                <strong class="mp-stat-value" id="statFacturado">—</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="mp-toolbar">
+            <div class="mp-search">
+              <i class="fas fa-search"></i>
+              <input type="text" id="adminSearch" placeholder="Buscar por cliente, ID o email…" />
+            </div>
+            <select class="mp-filter-select" id="adminStatusFilter">
+              <option value="">Todos los estados</option>
+              <option value="pending">Pendiente</option>
+              <option value="awaiting_payment">Esperando pago</option>
+              <option value="paid">Pagado</option>
+              <option value="processing">En proceso</option>
+              <option value="shipped">Enviado</option>
+              <option value="delivered">Entregado</option>
+              <option value="cancelled">Cancelado</option>
+              <option value="refunded">Reembolsado</option>
+            </select>
+          </div>
+
+          <!-- Table -->
+          <div class="mp-table-wrap" id="adminTableWrap">
+            <div class="mp-loading" id="adminLoading">
+              <i class="fas fa-spinner fa-spin"></i> Cargando pedidos…
+            </div>
+            <table class="mp-table" id="adminTable" style="display:none">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody"></tbody>
+            </table>
+            <div class="mp-empty" id="adminEmpty" style="display:none">
+              <div class="mp-empty-icon"><i class="fas fa-receipt"></i></div>
+              <h3>Sin pedidos</h3>
+              <p>No hay pedidos que coincidan con el filtro.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ USER VIEW ══ -->
+        <div id="userView" style="display:none">
+          <div class="mp-header">
+            <div class="mp-header-left">
+              <h1>Mis Pedidos</h1>
+              <p>Historial completo de tus compras y facturas</p>
+            </div>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="mp-toolbar" id="userToolbar" style="display:none">
+            <div class="mp-search">
+              <i class="fas fa-search"></i>
+              <input type="text" id="userSearch" placeholder="Buscar pedido…" />
+            </div>
+            <select class="mp-filter-select" id="userStatusFilter">
+              <option value="">Todos</option>
+              <option value="paid">Pagados</option>
+              <option value="processing">En proceso</option>
+              <option value="shipped">Enviados</option>
+              <option value="delivered">Entregados</option>
+              <option value="cancelled">Cancelados</option>
+            </select>
+          </div>
+
+          <!-- Orders list -->
+          <div id="userLoading" class="mp-loading">
+            <i class="fas fa-spinner fa-spin"></i> Cargando tus pedidos…
+          </div>
+          <div class="mp-orders-list" id="userOrdersList"></div>
+          <div class="mp-empty" id="userEmpty" style="display:none">
+            <div class="mp-empty-icon"><i class="fas fa-box-open"></i></div>
+            <h3>Todavía no hiciste ningún pedido</h3>
+            <p>Explorá nuestra colección y encontrá algo que te encante.</p>
+            <a href="productos.html" class="mp-btn mp-btn--primary">
+              <i class="fas fa-arrow-right"></i> Ver productos
+            </a>
+          </div>
+        </div>
+
+        <!-- Not logged in -->
+        <div id="unauthView" style="display:none">
+          <div class="mp-empty">
+            <div class="mp-empty-icon"><i class="fas fa-lock"></i></div>
+            <h3>Iniciá sesión para ver tus pedidos</h3>
+            <p>Necesitás una cuenta para acceder al historial de compras.</p>
+            <a href="login.html?return=mis-pedidos.html" class="mp-btn mp-btn--primary">
+              <i class="fas fa-sign-in-alt"></i> Ingresar
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ══ ADMIN: Order detail modal ══ -->
+    <div class="mp-modal-backdrop" id="orderModal">
+      <div class="mp-modal">
+        <div class="mp-modal-head">
+          <h3><i class="fas fa-receipt me-2" style="color:#7a2b3b"></i>Detalle del pedido</h3>
+          <button class="mp-modal-close" id="closeModal" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="mp-modal-body" id="modalBody"></div>
+      </div>
+    </div>
+
+    <!-- ══ Toast stack ══ -->
+    <div id="mpToastStack" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:2000;display:flex;flex-direction:column;gap:.5rem;"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/cart-utils.js"></script>
+    <script src="../js/favorites-utils.js"></script>
+    <script src="../js/nav-bar.js"></script>
+    <script src="../js/mis-pedidos.js"></script>
+  </body>
+</html>
