@@ -88,6 +88,22 @@
 .mp-success-banner strong { display: block; font-size: .98rem; }
 .mp-success-banner span { font-size: .85rem; opacity: .85; }
 
+.mp-pending-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fdf3e6;
+  border: 1.5px solid #c4986b;
+  border-radius: var(--mp-radius);
+  padding: 1rem 1.4rem;
+  margin-bottom: 2rem;
+  color: #6b4423;
+}
+
+.mp-pending-banner i { font-size: 1.4rem; color: #c4986b; flex-shrink: 0; }
+.mp-pending-banner strong { display: block; font-size: .98rem; }
+.mp-pending-banner span { font-size: .85rem; opacity: .85; }
+
 /* ── Stats row (ADMIN only) ── */
 .mp-stats-row {
   display: grid;

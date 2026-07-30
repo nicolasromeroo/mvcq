@@ -208,70 +208,185 @@ function initCupon() {
   });
 }
 
-/* ── Checkout ── */
+/* ── Checkout: Stripe ── */
+async function checkoutWithStripe() {
+  const cart = getLocalCart();
+  const token = localStorage.getItem('token');
+  const userId = await getMvcqUserId();
+
+  const res = await fetch(`${CARRITO_API}/stripe/checkout-session`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      userId,
+      items: cart.items.map(i => ({
+        productId: i.productId,
+        name: i.name,
+        price: i.price,
+        quantity: i.qty,
+        size: i.size
+      })),
+      successUrl: `${window.location.origin}/pages/mis-pedidos.html?checkout=success&via=stripe`,
+      cancelUrl: `${window.location.origin}/pages/carrito.html`
+    })
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    const msg = errData?.message || 'Error al procesar el pago con Stripe';
+    throw new Error(Array.isArray(msg) ? msg.join(', ') : String(msg));
+  }
+
+  const data = await res.json();
+  const url = data.url || data.checkoutUrl || data.sessionUrl;
+  if (url) {
+    window.location.href = url;
+    return;
+  }
+  carritoToast('Pedido enviado. Te contactaremos para confirmar.', 'success', 'fa-check');
+  clearLocalCart();
+  setTimeout(() => reRender(), 500);
+}
+
+/* ── Checkout: MercadoPago ── */
+async function checkoutWithMercadoPago() {
+  const cart = getLocalCart();
+  const token = localStorage.getItem('token');
+
+  const res = await fetch(`${CARRITO_API}/mercadopago/checkout-preference`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      items: cart.items.map(i => ({
+        productId: i.productId,
+        name: i.name,
+        price: i.price,
+        quantity: i.qty,
+        size: i.size,
+        image: i.image
+      })),
+      successUrl: `${window.location.origin}/pages/mis-pedidos.html?checkout=success&via=mercadopago`,
+      failureUrl: `${window.location.origin}/pages/carrito.html?checkout=failure&via=mercadopago`,
+      pendingUrl: `${window.location.origin}/pages/mis-pedidos.html?checkout=pending&via=mercadopago`
+    })
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    const msg = errData?.message || 'Error al procesar el pago con MercadoPago';
+    throw new Error(Array.isArray(msg) ? msg.join(', ') : String(msg));
+  }
+
+  const data = await res.json();
+  const url = data.url || data.sandboxUrl;
+  if (url) {
+    window.location.href = url;
+    return;
+  }
+  throw new Error('No se pudo iniciar el pago con MercadoPago');
+}
+
+/* ── Payment method modal ── */
+let _selectedPaymentMethod = null;
+
+function openPaymentModal() {
+  const overlay = document.getElementById('pmModalOverlay');
+  if (!overlay) return;
+  const totalEl = document.getElementById('totalVal');
+  const modalTotalEl = document.getElementById('pmModalTotal');
+  if (modalTotalEl) modalTotalEl.textContent = totalEl?.textContent || '$0';
+  overlay.classList.add('is-open');
+  document.body.classList.add('pm-modal-open');
+}
+
+function closePaymentModal() {
+  const overlay = document.getElementById('pmModalOverlay');
+  if (!overlay) return;
+  overlay.classList.remove('is-open');
+  document.body.classList.remove('pm-modal-open');
+}
+
+function setPaymentModalLoading(isLoading) {
+  const btn = document.getElementById('pmContinueBtn');
+  if (!btn) return;
+  const label = btn.querySelector('.pm-continue-label');
+  const spinner = btn.querySelector('.pm-continue-spinner');
+  btn.disabled = isLoading;
+  if (label) label.style.display = isLoading ? 'none' : '';
+  if (spinner) spinner.style.display = isLoading ? '' : 'none';
+}
+
+function initPaymentModal() {
+  const overlay = document.getElementById('pmModalOverlay');
+  const options = document.querySelectorAll('.pm-option');
+  const continueBtn = document.getElementById('pmContinueBtn');
+  if (!overlay || !continueBtn) return;
+
+  options.forEach((opt) => {
+    opt.addEventListener('click', () => {
+      options.forEach((o) => {
+        o.classList.remove('is-selected');
+        o.setAttribute('aria-checked', 'false');
+      });
+      opt.classList.add('is-selected');
+      opt.setAttribute('aria-checked', 'true');
+      _selectedPaymentMethod = opt.dataset.method;
+      continueBtn.disabled = false;
+    });
+  });
+
+  document.getElementById('pmModalClose')?.addEventListener('click', closePaymentModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closePaymentModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closePaymentModal();
+  });
+
+  continueBtn.addEventListener('click', async () => {
+    if (!_selectedPaymentMethod) return;
+    setPaymentModalLoading(true);
+    try {
+      if (_selectedPaymentMethod === 'stripe') {
+        await checkoutWithStripe();
+      } else {
+        await checkoutWithMercadoPago();
+      }
+    } catch (err) {
+      console.error('[checkout]', err);
+      carritoToast(err.message || 'No se pudo procesar. Intentá de nuevo.', 'warn', 'fa-triangle-exclamation');
+      setPaymentModalLoading(false);
+    }
+  });
+}
+
+/* ── Checkout entry point ── */
 function initCheckout() {
-  document.getElementById('checkoutBtn')?.addEventListener('click', async () => {
+  document.getElementById('checkoutBtn')?.addEventListener('click', () => {
     const isAuth = localStorage.getItem('isAuthenticated') === 'true';
     if (!isAuth) {
       window.location.href = 'login.html?return=carrito.html';
       return;
     }
-
-    const btn = document.getElementById('checkoutBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Procesando…';
-
-    try {
-      const cart = getLocalCart();
-      const token = localStorage.getItem('token');
-      const userId = await getMvcqUserId();
-
-      const res = await fetch(`${CARRITO_API}/stripe/checkout-session`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          userId,
-          items: cart.items.map(i => ({
-            productId: i.productId,
-            name: i.name,
-            price: i.price,
-            quantity: i.qty,
-            size: i.size
-          })),
-          successUrl: `${window.location.origin}/pages/mis-pedidos.html?checkout=success`,
-          cancelUrl: `${window.location.origin}/pages/carrito.html`
-        })
-      });
-
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        const msg = errData?.message || 'Error al procesar el pago';
-        throw new Error(Array.isArray(msg) ? msg.join(', ') : String(msg));
-      }
-
-      const data = await res.json();
-      const url = data.url || data.checkoutUrl || data.sessionUrl;
-      if (url) {
-        window.location.href = url;
-        return;
-      }
-      carritoToast('Pedido enviado. Te contactaremos para confirmar.', 'success', 'fa-check');
-      clearLocalCart();
-      setTimeout(() => reRender(), 500);
-    } catch (err) {
-      console.error('[checkout]', err);
-      carritoToast(err.message || 'No se pudo procesar. Intentá de nuevo.', 'warn', 'fa-triangle-exclamation');
-    } finally {
-      const btn2 = document.getElementById('checkoutBtn');
-      if (btn2) {
-        btn2.disabled = false;
-        btn2.innerHTML = '<i class="fas fa-lock me-1"></i>Finalizar compra';
-      }
-    }
+    openPaymentModal();
   });
+  initPaymentModal();
+}
+
+/* ── Handle redirect back from a failed/cancelled payment ── */
+function checkPaymentReturnStatus() {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('checkout');
+  if (status === 'failure') {
+    carritoToast('Tu pago no pudo completarse. Podés intentar de nuevo cuando quieras.', 'warn', 'fa-triangle-exclamation');
+    history.replaceState({}, '', window.location.pathname);
+  }
 }
 
 /* ── Init ── */
@@ -280,4 +395,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initClearBtn();
   initCupon();
   initCheckout();
+  checkPaymentReturnStatus();
 });

@@ -161,7 +161,7 @@
             <div class="resumen-trust">
               <div class="trust-item">
                 <i class="fas fa-lock"></i>
-                <span>Pago 100% seguro con Stripe</span>
+                <span>Pago 100% seguro con Stripe o MercadoPago</span>
               </div>
               <div class="trust-item">
                 <i class="fas fa-truck"></i>
@@ -176,6 +176,51 @@
         </aside>
       </div>
     </main>
+
+    <!-- ══ PAYMENT METHOD MODAL ══ -->
+    <div class="pm-modal-overlay" id="pmModalOverlay">
+      <div class="pm-modal" role="dialog" aria-modal="true" aria-labelledby="pmModalTitle">
+        <button class="pm-modal-close" id="pmModalClose" type="button" aria-label="Cerrar">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="pm-modal-header">
+          <span class="pm-modal-eyebrow">Checkout seguro</span>
+          <h2 id="pmModalTitle">Elegí cómo pagar</h2>
+          <p class="pm-modal-sub">Vas a pagar <strong id="pmModalTotal">$0</strong> · Confirmás el método en el siguiente paso</p>
+        </div>
+
+        <div class="pm-options" role="radiogroup" aria-label="Método de pago">
+          <button class="pm-option" data-method="stripe" type="button" role="radio" aria-checked="false">
+            <span class="pm-option-icon pm-option-icon--stripe"><i class="fab fa-cc-stripe"></i></span>
+            <span class="pm-option-info">
+              <span class="pm-option-name">Tarjeta de crédito / débito</span>
+              <span class="pm-option-desc">Visa, Mastercard, Amex · Procesado por Stripe</span>
+            </span>
+            <span class="pm-option-check"><i class="fas fa-check"></i></span>
+          </button>
+
+          <button class="pm-option" data-method="mercadopago" type="button" role="radio" aria-checked="false">
+            <span class="pm-option-icon pm-option-icon--mp"><i class="fas fa-wallet"></i></span>
+            <span class="pm-option-info">
+              <span class="pm-option-name">MercadoPago</span>
+              <span class="pm-option-desc">Tarjetas, dinero en cuenta o efectivo · Hasta 12 cuotas</span>
+            </span>
+            <span class="pm-option-check"><i class="fas fa-check"></i></span>
+          </button>
+        </div>
+
+        <button class="pm-continue-btn" id="pmContinueBtn" type="button" disabled>
+          <span class="pm-continue-label"><i class="fas fa-lock me-2"></i>Continuar al pago</span>
+          <span class="pm-continue-spinner" style="display:none"><i class="fas fa-spinner fa-spin"></i></span>
+        </button>
+
+        <div class="pm-modal-trust">
+          <i class="fas fa-shield-alt"></i>
+          <span>Tus datos de pago se procesan de forma segura y encriptada. MVCQ nunca almacena tu información de tarjeta.</span>
+        </div>
+      </div>
+    </div>
 
     <!-- Toast stack -->
     <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>

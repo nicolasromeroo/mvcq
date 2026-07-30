@@ -464,11 +464,14 @@ async function cancelMyOrder(orderId, btn) {
 document.addEventListener('DOMContentLoaded', () => {
   const { isAuth, isAdmin, token } = getAuthState();
 
-  // Show success banner if redirected from Stripe
+  // Show a status banner if redirected back from Stripe or MercadoPago
   const params = new URLSearchParams(window.location.search);
-  if (params.get('checkout') === 'success') {
+  const checkoutStatus = params.get('checkout');
+  if (checkoutStatus === 'success') {
     document.getElementById('successBanner').style.display = '';
-    // Remove query param without reload
+    history.replaceState({}, '', window.location.pathname);
+  } else if (checkoutStatus === 'pending') {
+    document.getElementById('pendingBanner').style.display = '';
     history.replaceState({}, '', window.location.pathname);
   }
 
