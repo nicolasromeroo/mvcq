@@ -664,3 +664,9 @@
 @media (max-width: 520px) {
   .mp-track-row .mp-btn { width: 100%; justify-content: center; }
 }
+
+.mp-track-label-btn {
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 0.6rem;
+}

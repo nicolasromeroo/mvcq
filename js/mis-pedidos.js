@@ -237,6 +237,107 @@ async function updateOrderStatus(orderId, newStatus) {
   }
 }
 
+/**
+ * Etiqueta de envío para pegar en el paquete.
+ *
+ * Formato 10×15 cm, que es el estándar de las etiquetas adhesivas y entra
+ * derecho en una hoja A6. Lleva los datos que pide el correo en el mostrador:
+ * destinatario, DNI, teléfono y dirección completa con CP.
+ */
+function printShippingLabel(orderId) {
+  const order = allAdminOrders.find(o => o.id === orderId);
+  if (!order) return;
+
+  const s = order.shipping;
+  if (!s) {
+    mpToast('Este pedido no tiene dirección de envío', 'warn', 'fa-triangle-exclamation');
+    return;
+  }
+
+  const orderNum = order.id.slice(-6).toUpperCase();
+  const calle = [s.street, s.number].filter(Boolean).join(' ');
+  const unidad = [s.floor && `Piso ${s.floor}`, s.apartment && `Depto ${s.apartment}`]
+    .filter(Boolean).join(' · ');
+  const bultos = (order.items || []).reduce((n, i) => n + i.quantity, 0);
+
+  const html = `<!doctype html><html lang="es"><head>
+    <meta charset="UTF-8"/>
+    <title>Etiqueta #${orderNum}</title>
+    <style>
+      @page { size: 10cm 15cm; margin: 0; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: #000; }
+      .label {
+        width: 10cm; height: 15cm; padding: 0.5cm;
+        display: flex; flex-direction: column; border: 1px solid #000;
+      }
+      .row-top { display: flex; justify-content: space-between; align-items: flex-start;
+                 border-bottom: 2px solid #000; padding-bottom: .25cm; }
+      .brand { font-size: 12pt; font-weight: bold; letter-spacing: .02em; }
+      .ordernum { font-size: 15pt; font-weight: bold; }
+      .block { margin-top: .35cm; }
+      .caption { font-size: 7pt; text-transform: uppercase; letter-spacing: .1em; color: #444; }
+      .to-name { font-size: 15pt; font-weight: bold; line-height: 1.15; margin-top: .08cm; }
+      .to-addr { font-size: 11pt; line-height: 1.35; margin-top: .12cm; }
+      .cp { font-size: 17pt; font-weight: bold; margin-top: .18cm; }
+      .from { font-size: 8pt; line-height: 1.3; color: #222; }
+      .mode { margin-top: .3cm; padding: .18cm .3cm; border: 1.5px solid #000;
+              font-size: 9pt; font-weight: bold; text-align: center; }
+      .spacer { flex: 1; }
+      .foot { border-top: 1px dashed #666; padding-top: .22cm;
+              font-size: 8pt; display: flex; justify-content: space-between; }
+      @media print { .label { border: none; } }
+    </style>
+  </head><body>
+    <div class="label">
+      <div class="row-top">
+        <div>
+          <div class="brand">ME VISTO COMO QUIERO</div>
+          <div class="caption">Pedido</div>
+        </div>
+        <div class="ordernum">#${orderNum}</div>
+      </div>
+
+      <div class="block">
+        <div class="caption">Destinatario</div>
+        <div class="to-name">${mpEsc(s.recipientName)}</div>
+        <div class="to-addr">
+          ${mpEsc(calle)}${unidad ? ` — ${mpEsc(unidad)}` : ''}<br/>
+          ${mpEsc(s.city)}, ${mpEsc(s.province)}<br/>
+          DNI ${mpEsc(s.dni)} · Tel ${mpEsc(s.phone)}
+        </div>
+        <div class="cp">CP ${mpEsc(s.postalCode)}</div>
+        ${s.reference ? `<div class="to-addr"><em>Ref: ${mpEsc(s.reference)}</em></div>` : ''}
+      </div>
+
+      <div class="mode">
+        ${s.deliveryMode === 'branch'
+          ? `RETIRO EN SUCURSAL — ${mpEsc(s.branchName || '')}`
+          : 'ENTREGA A DOMICILIO'}
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="block from">
+        <div class="caption">Remitente</div>
+        Me Visto Como Quiero — Córdoba, Argentina<br/>
+        mevistocomoquiero.ar
+      </div>
+
+      <div class="foot">
+        <span>${bultos} artículo${bultos !== 1 ? 's' : ''}</span>
+        <span>${fmtDate(order.createdAt)}</span>
+      </div>
+    </div>
+  </body></html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  win.print();
+}
+
 /** Guarda correo y número de seguimiento del pedido (solo admin). */
 async function saveTracking(orderId, btn) {
   const { token } = getAuthState();
@@ -320,6 +421,9 @@ function openOrderModal(orderId) {
     ${order.shipping ? `
     <div class="mp-track-box">
       <div class="mp-ship-title"><i class="fas fa-barcode me-2"></i>Despacho</div>
+      <button class="mp-btn mp-btn--outline mp-track-label-btn" onclick="printShippingLabel('${mpEsc(order.id)}')">
+        <i class="fas fa-tag"></i> Imprimir etiqueta de envío
+      </button>
       <div class="mp-track-row">
         <input type="text" id="trackCarrier" placeholder="Correo (Andreani, OCA…)" value="${mpEsc(order.shippingCarrier ?? '')}" />
         <input type="text" id="trackCode" placeholder="Número de seguimiento" value="${mpEsc(order.trackingCode ?? '')}" />
