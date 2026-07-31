@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mis Favoritos · Me Visto Como Quiero</title>
-    <meta name="description" content="Tus prendas guardadas en Me Visto Como Quiero." />
+    <title>Legales · Me Visto Como Quiero</title>
+    <meta name="description" content="Términos y condiciones, derecho de arrepentimiento y Defensa del Consumidor." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,10 +16,11 @@
     <link rel="stylesheet" href="../css/design-system.css" />
     <link rel="stylesheet" href="../css/nav-bar.css" />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/favoritos.css" />
+    <link rel="stylesheet" href="../css/legales.css" />
   </head>
 
   <body>
+
     <!-- ══ NAVBAR ══ -->
     <header>
       <nav class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar">
@@ -75,39 +76,196 @@
         </div>
       </nav>
     </header>
+    <main class="legal-main">
+      <div class="legal-container">
 
-    <main class="favoritos-page">
-      <!-- Hero -->
-      <div class="favoritos-hero">
-        <div class="container favoritos-hero-inner">
-          <span class="favoritos-hero-eyebrow">Mi lista</span>
-          <h1 class="favoritos-hero-title">Mis Favoritos</h1>
-          <p class="favoritos-hero-count" id="favHeroCount">Cargando…</p>
-        </div>
-      </div>
+        <header class="legal-hero">
+          <span class="legal-eyebrow">Información legal</span>
+          <h1>Términos, condiciones y derechos del consumidor</h1>
+          <p>Todo lo que necesitás saber sobre comprar en Me Visto Como Quiero.</p>
+        </header>
 
-      <!-- Top bar -->
-      <div class="favoritos-topbar">
-        <div class="container favoritos-topbar-inner">
-          <span class="favoritos-result-count" id="favCount"></span>
-          <button class="favoritos-clear-btn" id="clearFavsBtn" style="display:none">
-            <i class="fas fa-trash-alt me-1"></i>Limpiar lista
-          </button>
-        </div>
-      </div>
+        <!-- Accesos rápidos: lo que la normativa exige que sea fácil de encontrar -->
+        <div class="legal-quick">
+          <a class="legal-quick-card legal-quick-card--highlight" href="arrepentimiento.html">
+            <span class="legal-quick-icon"><i class="fas fa-rotate-left"></i></span>
+            <span class="legal-quick-copy">
+              <strong>Botón de arrepentimiento</strong>
+              <small>Cancelá tu compra dentro de los 10 días corridos</small>
+            </span>
+            <i class="fas fa-chevron-right legal-quick-arrow"></i>
+          </a>
 
-      <!-- Grid -->
-      <div class="container favoritos-grid-wrap">
-        <div class="favoritos-grid" id="favGrid">
-          <!-- Rendered by favoritos.js -->
+          <a class="legal-quick-card" href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+             target="_blank" rel="noopener noreferrer">
+            <span class="legal-quick-icon"><i class="fas fa-scale-balanced"></i></span>
+            <span class="legal-quick-copy">
+              <strong>Defensa del Consumidor</strong>
+              <small>Formulario oficial de reclamos · argentina.gob.ar</small>
+            </span>
+            <i class="fas fa-arrow-up-right-from-square legal-quick-arrow"></i>
+          </a>
+
+          <a class="legal-quick-card" href="contactanos.html">
+            <span class="legal-quick-icon"><i class="fas fa-envelope"></i></span>
+            <span class="legal-quick-copy">
+              <strong>Contactanos</strong>
+              <small>Escribinos y te respondemos a la brevedad</small>
+            </span>
+            <i class="fas fa-chevron-right legal-quick-arrow"></i>
+          </a>
         </div>
+
+        <nav class="legal-toc" aria-label="Índice">
+          <span class="legal-toc-title">En esta página</span>
+          <ol>
+            <li><a href="#tyc">Términos y condiciones</a></li>
+            <li><a href="#compras">Compras y pagos</a></li>
+            <li><a href="#envios">Envíos y entregas</a></li>
+            <li><a href="#arrepentimiento">Derecho de arrepentimiento</a></li>
+            <li><a href="#cambios">Cambios y devoluciones</a></li>
+            <li><a href="#datos">Datos personales</a></li>
+            <li><a href="#reclamos">Reclamos</a></li>
+          </ol>
+        </nav>
+
+        <section class="legal-section" id="tyc">
+          <h2>1. Términos y condiciones</h2>
+          <p>
+            Estos términos regulan el uso del sitio de Me Visto Como Quiero y la compra
+            de productos a través de él. Al realizar un pedido, aceptás estas condiciones
+            en su totalidad.
+          </p>
+          <p>
+            Para comprar necesitás crear una cuenta con datos reales y actualizados. Sos
+            responsable de la confidencialidad de tu contraseña y de la actividad que
+            ocurra en tu cuenta.
+          </p>
+          <p>
+            Podemos modificar estos términos en cualquier momento. Los cambios rigen
+            desde su publicación en esta página y no afectan a los pedidos ya
+            confirmados, que se rigen por las condiciones vigentes al momento de la compra.
+          </p>
+        </section>
+
+        <section class="legal-section" id="compras">
+          <h2>2. Compras y pagos</h2>
+          <p>
+            Los precios están expresados en pesos argentinos (ARS) e incluyen IVA. El
+            precio que se aplica a tu compra es el vigente al momento de confirmar el
+            pedido.
+          </p>
+          <p>
+            Los pagos se procesan a través de Mercado Pago. No almacenamos datos de tu
+            tarjeta en ningún momento: esa información viaja directamente a la pasarela
+            de pago.
+          </p>
+          <p>
+            La compra queda confirmada recién cuando el pago es acreditado. Si un producto
+            queda sin stock después de confirmado el pedido, te contactamos para ofrecerte
+            el reintegro total o un reemplazo, a tu elección.
+          </p>
+        </section>
+
+        <section class="legal-section" id="envios">
+          <h2>3. Envíos y entregas</h2>
+          <p>
+            Realizamos envíos a todo el país. El costo se calcula según el código postal
+            de destino y se muestra antes de confirmar la compra, nunca después.
+          </p>
+          <p>
+            Los plazos de entrega se informan al momento de la cotización y se cuentan en
+            días hábiles desde el despacho, no desde la compra. Son estimados por el correo
+            y pueden variar por causas ajenas a nosotros.
+          </p>
+          <p>
+            Una vez despachado tu pedido vas a poder ver el número de seguimiento en
+            <a href="mis-pedidos.html">Mis Pedidos</a>. Es tu responsabilidad que la
+            dirección informada sea correcta y que haya alguien para recibir el paquete.
+          </p>
+        </section>
+
+        <section class="legal-section legal-section--highlight" id="arrepentimiento">
+          <h2>4. Derecho de arrepentimiento</h2>
+          <p>
+            Conforme al artículo 34 de la Ley 24.240 de Defensa del Consumidor, tenés
+            derecho a <strong>revocar la compra dentro de los 10 días corridos</strong>
+            contados desde la entrega del producto, sin necesidad de expresar motivo y
+            sin penalidad alguna.
+          </p>
+          <p>
+            El producto debe estar sin uso y en las mismas condiciones en que lo
+            recibiste. Los gastos de devolución corren por nuestra cuenta.
+          </p>
+          <p>
+            Para ejercerlo no necesitás registrarte ni iniciar sesión: completá el
+            formulario del botón de arrepentimiento y te respondemos dentro de las
+            24 horas hábiles.
+          </p>
+          <a class="legal-btn" href="arrepentimiento.html">
+            <i class="fas fa-rotate-left"></i> Ir al botón de arrepentimiento
+          </a>
+        </section>
+
+        <section class="legal-section" id="cambios">
+          <h2>5. Cambios y devoluciones</h2>
+          <p>
+            Además del derecho de arrepentimiento, aceptamos cambios por talle o color
+            dentro de los 30 días de recibido el producto, sujeto a disponibilidad de
+            stock y siempre que la prenda esté sin uso y con sus etiquetas.
+          </p>
+          <p>
+            Si el producto llegó fallado o no se corresponde con lo que pediste,
+            escribinos apenas lo recibas: el cambio y los costos de envío corren
+            íntegramente por nuestra cuenta.
+          </p>
+        </section>
+
+        <section class="legal-section" id="datos">
+          <h2>6. Datos personales</h2>
+          <p>
+            Los datos que nos brindás se usan exclusivamente para procesar tu pedido,
+            gestionar el envío y contactarte por cuestiones relacionadas con tu compra.
+            No los vendemos ni los cedemos a terceros con fines comerciales.
+          </p>
+          <p>
+            Compartimos con el correo únicamente lo indispensable para la entrega
+            (destinatario, DNI, teléfono y dirección), y con la pasarela de pago lo
+            necesario para procesar la transacción.
+          </p>
+          <p>
+            Conforme a la Ley 25.326 de Protección de Datos Personales, podés solicitar
+            el acceso, la rectificación o la supresión de tus datos escribiéndonos desde
+            <a href="contactanos.html">Contactanos</a>.
+          </p>
+        </section>
+
+        <section class="legal-section" id="reclamos">
+          <h2>7. Reclamos</h2>
+          <p>
+            Si tenés un problema con tu compra, el camino más rápido es escribirnos
+            directamente. Estamos para resolverlo.
+          </p>
+          <p>
+            También podés presentar un reclamo ante la autoridad de aplicación a través
+            del formulario oficial de la Dirección Nacional de Defensa del Consumidor.
+          </p>
+          <div class="legal-actions">
+            <a class="legal-btn" href="contactanos.html">
+              <i class="fas fa-envelope"></i> Contactanos
+            </a>
+            <a class="legal-btn legal-btn--ghost"
+               href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+               target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-scale-balanced"></i> Defensa del Consumidor
+            </a>
+          </div>
+        </section>
+
+        <p class="legal-updated">Última actualización: julio de 2026</p>
       </div>
     </main>
 
-    <!-- Toast -->
-    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
-
-    <!-- ══ FOOTER ══ -->
     <footer class="site-footer custom-footer">
       <section class="container py-2">
         <div class="row align-items-start g-4 mb-4">
@@ -200,6 +358,5 @@
     <script src="../js/nav-bar.js"></script>
     <script src="../js/cart-utils.js"></script>
     <script src="../js/favorites-utils.js"></script>
-    <script src="../js/favoritos.js"></script>
   </body>
 </html>

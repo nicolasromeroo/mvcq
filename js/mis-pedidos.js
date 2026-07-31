@@ -436,6 +436,95 @@ function openOrderModal(orderId) {
   document.getElementById('orderModal').classList.add('is-open');
 }
 
+/* ══ ARREPENTIMIENTO (admin) ═════════════════════════════ */
+
+const ARREP_STATUS = {
+  pending:   { label: 'Pendiente', cls: 'mp-badge--awaiting',  icon: 'fa-hourglass-half' },
+  processed: { label: 'Resuelta',  cls: 'mp-badge--paid',      icon: 'fa-check-circle' },
+  rejected:  { label: 'Rechazada', cls: 'mp-badge--cancelled', icon: 'fa-times-circle' },
+};
+
+let allArrepRequests = [];
+
+async function initArrepPanel() {
+  const { token } = getAuthState();
+  try {
+    const res = await fetch(`${MP_API}/legal/arrepentimiento`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    allArrepRequests = await res.json();
+  } catch (err) {
+    console.error('[arrepentimiento]', err);
+    return; // el panel de pedidos sigue funcionando igual
+  }
+
+  if (!allArrepRequests.length) return;
+  document.getElementById('arrepPanel').style.display = '';
+  renderArrepRequests();
+}
+
+function renderArrepRequests() {
+  const pendientes = allArrepRequests.filter(r => r.status === 'pending').length;
+  const countEl = document.getElementById('arrepPending');
+  if (countEl) countEl.textContent = pendientes ? `${pendientes} sin responder` : '';
+
+  document.getElementById('arrepList').innerHTML = allArrepRequests.map(r => {
+    const s = ARREP_STATUS[r.status] ?? ARREP_STATUS.pending;
+    // El pedido puede no haberse podido vincular: el cliente escribe el número a mano.
+    const pedido = r.order
+      ? `<a href="#" onclick="openOrderModal('${mpEsc(r.orderId)}');return false;">#${mpEsc(r.orderId.slice(-6).toUpperCase())}</a> · ${fmtARS(r.order.total)}`
+      : `<em>sin vincular</em> (declaró "${mpEsc(r.declaredOrderNumber)}")`;
+
+    return `
+      <div class="mp-arrep-card">
+        <div class="mp-arrep-card-head">
+          <span class="mp-badge ${s.cls}"><i class="fas ${s.icon}"></i> ${s.label}</span>
+          <span class="mp-arrep-date">${fmtDate(r.createdAt)} ${fmtTime(r.createdAt)}</span>
+        </div>
+        <div class="mp-arrep-body">
+          <div><strong>${mpEsc(r.fullName)}</strong> · ${mpEsc(r.email)}${r.phone ? ` · ${mpEsc(r.phone)}` : ''}</div>
+          <div>Pedido: ${pedido}</div>
+          ${r.reason ? `<div class="mp-arrep-reason">“${mpEsc(r.reason)}”</div>` : ''}
+        </div>
+        ${r.status === 'pending' ? `
+        <div class="mp-arrep-actions">
+          <button class="mp-btn mp-btn--primary" onclick="setArrepStatus('${mpEsc(r.id)}','processed',this)">
+            <i class="fas fa-check"></i> Marcar resuelta
+          </button>
+          <button class="mp-btn mp-btn--outline" onclick="setArrepStatus('${mpEsc(r.id)}','rejected',this)">
+            <i class="fas fa-times"></i> Rechazar
+          </button>
+        </div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+async function setArrepStatus(id, status, btn) {
+  const { token } = getAuthState();
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  try {
+    const res = await fetch(`${MP_API}/legal/arrepentimiento/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ status }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const updated = await res.json();
+    const local = allArrepRequests.find(r => r.id === id);
+    if (local) local.status = updated.status;
+    renderArrepRequests();
+    mpToast('Solicitud actualizada', 'success', 'fa-check');
+  } catch (err) {
+    console.error('[arrepentimiento]', err);
+    mpToast('No se pudo actualizar', 'error', 'fa-exclamation-circle');
+    btn.disabled = false;
+    btn.innerHTML = original;
+  }
+}
+
 /* ══ USER VIEW ═══════════════════════════════════════════ */
 
 let allUserOrders = [];
@@ -683,6 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (isAdmin) {
     document.getElementById('adminView').style.display = '';
     initAdminView();
+    initArrepPanel();
   } else {
     document.getElementById('userView').style.display = '';
     initUserView();

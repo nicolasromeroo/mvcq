@@ -1619,3 +1619,17 @@ h1, h2, h3,
 /* For section headers with eyebrow + title + subtitle */
 .section-header--center { text-align: center; }
 .section-header--center .section-subtitle { margin: 0 auto; }
+
+/* El botón de arrepentimiento es obligatorio (Res. 424/2020) y tiene que ser
+   fácil de encontrar, así que se destaca del resto de los links del footer. */
+.footer-bottom-links a.footer-arrep-link {
+  color: #fff4ee;
+  border: 1px solid rgba(255, 244, 238, 0.45);
+  border-radius: 999px;
+  padding: 0.22rem 0.75rem;
+}
+.footer-bottom-links a.footer-arrep-link:hover {
+  color: #1a1614;
+  background: #c4986b;
+  border-color: #c4986b;
+}

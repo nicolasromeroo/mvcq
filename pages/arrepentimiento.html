@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mis Favoritos · Me Visto Como Quiero</title>
-    <meta name="description" content="Tus prendas guardadas en Me Visto Como Quiero." />
+    <title>Botón de arrepentimiento · Me Visto Como Quiero</title>
+    <meta name="description" content="Cancelá tu compra dentro de los 10 días corridos, sin costo, conforme a la Ley 24.240." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,10 +16,11 @@
     <link rel="stylesheet" href="../css/design-system.css" />
     <link rel="stylesheet" href="../css/nav-bar.css" />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/favoritos.css" />
+    <link rel="stylesheet" href="../css/legales.css" />
   </head>
 
   <body>
+
     <!-- ══ NAVBAR ══ -->
     <header>
       <nav class="navbar navbar-expand-lg fixed-top contenedor-estilos-nav site-navbar">
@@ -75,39 +76,89 @@
         </div>
       </nav>
     </header>
+    <main class="legal-main">
+      <div class="legal-container legal-container--narrow">
 
-    <main class="favoritos-page">
-      <!-- Hero -->
-      <div class="favoritos-hero">
-        <div class="container favoritos-hero-inner">
-          <span class="favoritos-hero-eyebrow">Mi lista</span>
-          <h1 class="favoritos-hero-title">Mis Favoritos</h1>
-          <p class="favoritos-hero-count" id="favHeroCount">Cargando…</p>
+        <header class="legal-hero">
+          <span class="legal-eyebrow">Ley 24.240 · Artículo 34</span>
+          <h1>Botón de arrepentimiento</h1>
+          <p>
+            Podés cancelar tu compra dentro de los 10 días corridos desde que recibiste
+            el producto, sin dar explicaciones y sin ningún costo.
+          </p>
+        </header>
+
+        <div class="legal-note">
+          <i class="fas fa-circle-info"></i>
+          <div>
+            <strong>No necesitás iniciar sesión.</strong>
+            Completá el formulario y te confirmamos por email dentro de las 24 horas
+            hábiles. Los gastos de devolución corren por nuestra cuenta.
+          </div>
         </div>
-      </div>
 
-      <!-- Top bar -->
-      <div class="favoritos-topbar">
-        <div class="container favoritos-topbar-inner">
-          <span class="favoritos-result-count" id="favCount"></span>
-          <button class="favoritos-clear-btn" id="clearFavsBtn" style="display:none">
-            <i class="fas fa-trash-alt me-1"></i>Limpiar lista
+        <form class="legal-form" id="arrepForm" novalidate>
+          <div class="legal-form-grid">
+            <label class="legal-field legal-field--wide">
+              <span>Número de pedido <b>*</b></span>
+              <input type="text" name="declaredOrderNumber" placeholder="#A1B2C3" required />
+              <em>Lo encontrás en Mis Pedidos o en el mail de confirmación.</em>
+            </label>
+
+            <label class="legal-field legal-field--wide">
+              <span>Nombre y apellido <b>*</b></span>
+              <input type="text" name="fullName" autocomplete="name" required />
+            </label>
+
+            <label class="legal-field">
+              <span>Email <b>*</b></span>
+              <input type="email" name="email" autocomplete="email" required />
+              <em>Acá te enviamos la confirmación.</em>
+            </label>
+
+            <label class="legal-field">
+              <span>Teléfono <em>(opcional)</em></span>
+              <input type="tel" name="phone" autocomplete="tel" />
+            </label>
+
+            <label class="legal-field legal-field--wide">
+              <span>Motivo <em>(opcional)</em></span>
+              <textarea name="reason" rows="4"
+                placeholder="No hace falta que expliques nada, pero si querés contarnos nos ayuda a mejorar."></textarea>
+            </label>
+          </div>
+
+          <button class="legal-btn legal-btn--block" id="arrepSubmit" type="submit">
+            <span class="arrep-label"><i class="fas fa-paper-plane"></i> Enviar solicitud</span>
+            <span class="arrep-spinner" style="display:none"><i class="fas fa-spinner fa-spin"></i></span>
           </button>
-        </div>
-      </div>
 
-      <!-- Grid -->
-      <div class="container favoritos-grid-wrap">
-        <div class="favoritos-grid" id="favGrid">
-          <!-- Rendered by favoritos.js -->
+          <p class="legal-form-msg" id="arrepMsg" role="status" aria-live="polite" style="display:none"></p>
+        </form>
+
+        <div class="legal-success" id="arrepSuccess" style="display:none">
+          <span class="legal-success-icon"><i class="fas fa-check"></i></span>
+          <h2>Solicitud recibida</h2>
+          <p id="arrepSuccessMsg"></p>
+          <p class="legal-success-id">Código de seguimiento: <strong id="arrepSuccessId"></strong></p>
+          <a class="legal-btn legal-btn--ghost" href="../index.html">Volver al inicio</a>
+        </div>
+
+        <div class="legal-help">
+          <p>
+            ¿Tenés dudas o preferís hablarlo con nosotros?
+            <a href="contactanos.html">Contactanos</a>.
+          </p>
+          <p>
+            También podés presentar un reclamo ante
+            <a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario"
+               target="_blank" rel="noopener noreferrer">Defensa del Consumidor</a>,
+            o leer los <a href="legales.html">términos y condiciones</a> completos.
+          </p>
         </div>
       </div>
     </main>
 
-    <!-- Toast -->
-    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
-
-    <!-- ══ FOOTER ══ -->
     <footer class="site-footer custom-footer">
       <section class="container py-2">
         <div class="row align-items-start g-4 mb-4">
@@ -200,6 +251,6 @@
     <script src="../js/nav-bar.js"></script>
     <script src="../js/cart-utils.js"></script>
     <script src="../js/favorites-utils.js"></script>
-    <script src="../js/favoritos.js"></script>
+    <script src="../js/arrepentimiento.js"></script>
   </body>
 </html>
