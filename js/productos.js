@@ -43,6 +43,17 @@ function formatPrecio(n) {
   });
 }
 
+/* Storewide payment perks (matches copy on pages/promociones.html
+   and pages/carrito.html) — shown as a compact line on every card. */
+const DESCUENTO_TRANSFERENCIA = 0.1; // 10% OFF, igual que "10% OFF abonando en EFECTIVO"
+const CUOTAS_SIN_INTERES = 12; // igual que "Hasta 12 cuotas sin interés" en el carrito
+
+function formatPrecioTransferencia(precio) {
+  const v = Number(precio);
+  if (isNaN(v)) return null;
+  return formatPrecio(v * (1 - DESCUENTO_TRANSFERENCIA));
+}
+
 function resolveImg(producto) {
   const img =
     producto.imageUrl ||
@@ -210,15 +221,11 @@ function buildCard(producto, index) {
       <div class="producto-info">
         <span class="producto-cat">${categoria}</span>
         <h3 class="producto-nombre">${nombre}</h3>
-        ${
-          rating > 0
-            ? `<div class="prod-rating">
-                <span class="prod-stars">${renderStars(rating)}</span>
-                ${reviewCount > 0 ? `<span class="prod-review-cnt">(${reviewCount})</span>` : ""}
-               </div>`
-            : ""
-        }
-        ${colorDotsHTML ? `<div class="prod-colors">${colorDotsHTML}</div>` : ""}
+        <div class="prod-rating${rating > 0 ? "" : " is-hidden"}">
+          <span class="prod-stars">${renderStars(rating)}</span>
+          ${reviewCount > 0 ? `<span class="prod-review-cnt">(${reviewCount})</span>` : ""}
+        </div>
+        <div class="prod-colors${colors.length ? "" : " is-hidden"}">${colorDotsHTML}</div>
         <div class="producto-precio-row">
           <span class="producto-precio">${formatPrecio(producto.price)}</span>
           ${
@@ -227,7 +234,11 @@ function buildCard(producto, index) {
               : ""
           }
         </div>
-        ${envioGratis ? `<span class="prod-envio-gratis"><i class="fas fa-truck"></i> Envío gratis</span>` : ""}
+        <div class="producto-financiacion">
+          <span class="producto-fin-line">${formatPrecioTransferencia(producto.price)} con transferencia</span>
+          <span class="producto-fin-line producto-fin-cuotas">Hasta ${CUOTAS_SIN_INTERES} cuotas sin interés</span>
+        </div>
+        <span class="prod-envio-gratis${envioGratis ? "" : " is-hidden"}"><i class="fas fa-truck"></i> Envío gratis</span>
         <div class="producto-card-actions">
           <button
             class="producto-add-btn${agotado ? " is-disabled" : ""}"

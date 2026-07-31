@@ -66,6 +66,16 @@ function obtenerCategoriaProducto(producto) {
   return producto.category || producto.categoria || "Nueva temporada";
 }
 
+/* Storewide payment perks (matches copy on pages/promociones.html and
+   pages/carrito.html) — shown as a compact second line under the price. */
+const DESCUENTO_TRANSFERENCIA = 0.1; // 10% OFF, igual que "10% OFF abonando en EFECTIVO"
+
+function formatearPrecioTransferencia(precio) {
+  const valorNumerico = Number(precio);
+  if (Number.isNaN(valorNumerico)) return null;
+  return formatearPrecio(valorNumerico * (1 - DESCUENTO_TRANSFERENCIA));
+}
+
 function renderizarProductosDestacados(productos) {
   if (!contenedorDeProductos) {
     return;
@@ -78,41 +88,31 @@ function renderizarProductosDestacados(productos) {
     return;
   }
 
-  // Función para agregar badges de urgencia según el índice
-  function obtenerBadgeUrgencia(index) {
-    const badges = [
-      '<span class="badge bg-danger" style="position: absolute; top: 25px; right: 18px; z-index: 2;">⭐ BESTSELLER</span>',
-      '<span class="badge bg-warning text-dark" style="position: absolute; top: 25px; right: 18px; z-index: 2;">⏰ STOCK LIMITADO</span>',
-      '<span class="badge bg-success" style="position: absolute; top: 25px; right: 18px; z-index: 2;">✨ NUEVO</span>',
-      '<span class="badge bg-danger" style="position: absolute; top: 25px; right: 18px; z-index: 2;">🔥 TRENDING</span>',
-      '<span class="badge bg-info" style="position: absolute; top: 25px; right: 18px; z-index: 2;">💎 PREMIUM</span>',
-      '<span class="badge bg-danger" style="position: absolute; top: 25px; right: 18px; z-index: 2;">⭐ BESTSELLER</span>',
-    ];
-    return badges[index % badges.length];
-  }
-
   contenedorDeProductos.innerHTML = productos
-    .map(
-      (producto, index) => `
-    <div class="col-12 col-sm-6 col-lg-4 destacados-col" style="--card-delay:${index * 90}ms">
+    .map((producto, index) => {
+      const precioTransferencia = formatearPrecioTransferencia(producto.price);
+      return `
+    <div class="destacados-col" style="--card-delay:${index * 90}ms">
       <article class="destacados-card h-100">
-        <div class="destacados-card-media" style="position: relative;">
+        <div class="destacados-card-media">
           <span class="destacados-badge">${obtenerCategoriaProducto(producto)}</span>
-          ${obtenerBadgeUrgencia(index)}
-          <img src="${resolverImagenProducto(producto)}" class="card-img-top" alt="${obtenerNombreProducto(producto)}">
+          <img src="${resolverImagenProducto(producto)}" alt="${obtenerNombreProducto(producto)}">
         </div>
         <div class="destacados-card-body">
           <p class="destacados-eyebrow">Selección destacada</p>
           <h5 class="card-title destacados-card-title">${obtenerNombreProducto(producto)}</h5>
           <div class="destacados-card-footer">
-            <p class="destacados-price">${formatearPrecio(producto.price)}</p>
-            <a href="pages/productos.html" class="destacados-link">Comprar Ahora →</a>
+            <div class="destacados-price-block">
+              <p class="destacados-price">${formatearPrecio(producto.price)}</p>
+              ${precioTransferencia ? `<span class="destacados-price-sub">${precioTransferencia} con transferencia</span>` : ""}
+            </div>
+            <a href="pages/productos.html" class="destacados-link">Ver producto →</a>
           </div>
         </div>
       </article>
     </div>
-  `,
-    )
+  `;
+    })
     .join("");
 }
 

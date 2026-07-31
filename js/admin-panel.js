@@ -87,6 +87,21 @@ function esc(str) {
     .replace(/'/g, "&#39;");
 }
 
+function buildAdminPriceHTML(prod) {
+  const price = Number(prod.price);
+  const orig = Number(prod.originalPrice);
+  if (orig && orig > price) {
+    const pct = Math.round((1 - price / orig) * 100);
+    return `
+      <span class="admin-card-price-row">
+        <span class="admin-card-price">${fmtPrice(price)}</span>
+        <span class="admin-card-price-old">${fmtPrice(orig)}</span>
+        <span class="admin-card-discount-badge">-${pct}%</span>
+      </span>`;
+  }
+  return `<span class="admin-card-price">${fmtPrice(price)}</span>`;
+}
+
 function fmtPrice(p) {
   const n = Number(p);
   if (Number.isNaN(n)) return "Consultar";
@@ -495,7 +510,7 @@ function buildProductCard(prod, index = 0) {
             <span class="admin-card-sku">${esc(prod.sku || "—")}</span>
           </div>
           <h3 class="admin-card-name" title="${esc(getName(prod))}">${esc(getName(prod))}</h3>
-          <span class="admin-card-price">${fmtPrice(prod.price)}</span>
+          ${buildAdminPriceHTML(prod)}
 
           <!-- Stock meter -->
           <div class="admin-card-stock">
@@ -886,6 +901,8 @@ function openProductForm(product = null) {
     const priceInput = document.getElementById("productPrice");
     const stockInput = document.getElementById("productStock");
     const activeInput = document.getElementById("productIsActive");
+    const origPriceInput = document.getElementById("productOriginalPrice");
+    const discountInput = document.getElementById("productDiscount");
 
     if (nameInput) nameInput.value = product.name || "";
     if (skuInput) skuInput.value = product.sku || "";
@@ -895,6 +912,21 @@ function openProductForm(product = null) {
     if (stockInput)
       stockInput.value = product.stock != null ? product.stock : "";
     if (activeInput) activeInput.checked = product.isActive !== false;
+
+    // Descuento existente: precargar precio original + % calculado
+    const origPrice = Number(product.originalPrice);
+    const curPrice = Number(product.price);
+    if (origPriceInput) {
+      origPriceInput.value =
+        origPrice && origPrice > curPrice ? origPrice : "";
+    }
+    if (discountInput) {
+      discountInput.value =
+        origPrice && origPrice > curPrice
+          ? Math.round((1 - curPrice / origPrice) * 100)
+          : "";
+    }
+    updateDiscountHint();
 
     updateSizeGrid(product.category || '', product.sizes || null);
 
@@ -1040,6 +1072,49 @@ setupImageUpload(
   "secondPlaceholder",
 );
 
+/* ── Discount calculator: Precio original + % → Precio de venta ──
+   El precio de venta sigue siendo editable a mano; esto solo lo
+   autocompleta como ayuda cuando cargan un precio original y un %. */
+function updateDiscountHint() {
+  const hint = document.getElementById("discountHint");
+  if (!hint) return;
+  const origVal = Number(document.getElementById("productOriginalPrice")?.value);
+  const pctVal = Number(document.getElementById("productDiscount")?.value);
+
+  if (origVal > 0 && pctVal > 0) {
+    const final = origVal * (1 - pctVal / 100);
+    hint.textContent = `Con ${pctVal}% de descuento sobre ${fmtPrice(origVal)}, el precio de venta queda en ${fmtPrice(final)}. En la tienda se va a ver el precio original tachado.`;
+    hint.classList.add("is-active");
+  } else if (origVal > 0) {
+    hint.textContent = `Cargá el % de descuento para calcular el precio de venta, o escribilo vos mismo/a en "Precio de venta".`;
+    hint.classList.remove("is-active");
+  } else {
+    hint.textContent =
+      "Cargá un precio original y un % de descuento para calcular el precio de venta automáticamente. Si dejás el precio original vacío, el producto se publica sin oferta.";
+    hint.classList.remove("is-active");
+  }
+}
+
+function recalcDiscountPrice() {
+  const origInput = document.getElementById("productOriginalPrice");
+  const pctInput = document.getElementById("productDiscount");
+  const priceInput = document.getElementById("productPrice");
+  const origVal = Number(origInput?.value);
+  const pctVal = Number(pctInput?.value);
+
+  if (origVal > 0 && pctVal > 0 && priceInput) {
+    priceInput.value = (origVal * (1 - pctVal / 100)).toFixed(2);
+  }
+  updateDiscountHint();
+}
+
+const productOriginalPriceInput = document.getElementById("productOriginalPrice");
+const productDiscountInput = document.getElementById("productDiscount");
+if (productOriginalPriceInput)
+  productOriginalPriceInput.addEventListener("input", recalcDiscountPrice);
+if (productDiscountInput)
+  productDiscountInput.addEventListener("input", recalcDiscountPrice);
+
 /* ── SKU Generator ── */
 const btnGenerateSKU = document.getElementById("btnGenerateSKU");
 if (btnGenerateSKU) {
@@ -1090,6 +1165,10 @@ if (productFormSubmit) {
     const fd = new FormData();
     fd.append("name", nameVal);
     fd.append("price", priceVal);
+    // Siempre se envía (aunque sea vacío) para que, al editar, borrar el
+    // precio original también borre el descuento en el backend.
+    const origPriceVal = document.getElementById("productOriginalPrice").value;
+    fd.append("originalPrice", origPriceVal || "");
     fd.append("category", categoryVal);
     fd.append("gender", genderVal);
     sizes.forEach((s) => fd.append("sizes[]", s));

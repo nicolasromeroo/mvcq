@@ -411,9 +411,43 @@
                     <i class="fas fa-dollar-sign me-2"></i>Precio & Stock
                   </legend>
                   <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                      <label class="pf-label" for="productOriginalPrice"
+                        >Precio original</label
+                      >
+                      <div class="pf-input-icon-wrap">
+                        <span class="pf-input-icon">$</span>
+                        <input
+                          type="number"
+                          class="pf-input pf-input-with-icon"
+                          id="productOriginalPrice"
+                          min="0"
+                          step="0.01"
+                          placeholder="Sin descuento"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="pf-label" for="productDiscount"
+                        >Calculadora: % de descuento</label
+                      >
+                      <div class="pf-input-icon-wrap">
+                        <span class="pf-input-icon"
+                          ><i class="fas fa-percent"></i
+                        ></span>
+                        <input
+                          type="number"
+                          class="pf-input pf-input-with-icon"
+                          id="productDiscount"
+                          min="0"
+                          max="95"
+                          placeholder="0"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3">
                       <label class="pf-label" for="productPrice"
-                        >Precio <span class="pf-req">*</span></label
+                        >Precio de venta <span class="pf-req">*</span></label
                       >
                       <div class="pf-input-icon-wrap">
                         <span class="pf-input-icon">$</span>
@@ -428,7 +462,7 @@
                         />
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <label class="pf-label" for="productStock">Stock</label>
                       <div class="pf-input-icon-wrap">
                         <span class="pf-input-icon"
@@ -443,23 +477,13 @@
                         />
                       </div>
                     </div>
-                    <div class="col-md-4">
-                      <label class="pf-label" for="productDiscount"
-                        >Descuento %</label
-                      >
-                      <div class="pf-input-icon-wrap">
-                        <span class="pf-input-icon"
-                          ><i class="fas fa-percent"></i
-                        ></span>
-                        <input
-                          type="number"
-                          class="pf-input pf-input-with-icon"
-                          id="productDiscount"
-                          min="0"
-                          max="100"
-                          placeholder="0"
-                        />
-                      </div>
+                    <div class="col-12">
+                      <p class="pf-hint" id="discountHint">
+                        Cargá un precio original y un % de descuento para
+                        calcular el precio de venta automáticamente. Si dejás
+                        el precio original vacío, el producto se publica sin
+                        oferta.
+                      </p>
                     </div>
                   </div>
                 </fieldset>

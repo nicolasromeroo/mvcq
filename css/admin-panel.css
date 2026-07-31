@@ -538,6 +538,28 @@
   color: var(--ap-bordeaux);
 }
 
+.admin-card-price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.admin-card-price-old {
+  font-size: 0.82rem;
+  color: #a89e97;
+  text-decoration: line-through;
+}
+
+.admin-card-discount-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: #1a8f4c;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+}
+
 /* Stock meter */
 .admin-card-stock {
   display: flex;
@@ -1467,6 +1489,19 @@
 .pf-req {
   color: #e74c3c;
   margin-left: 2px;
+}
+
+/* Discount calculator hint / live preview */
+.pf-hint {
+  margin: 0.25rem 0 0;
+  font-size: 0.78rem;
+  color: var(--ap-text-muted, #8a7c76);
+  line-height: 1.5;
+}
+
+.pf-hint.is-active {
+  color: #1a8f4c;
+  font-weight: 600;
 }
 
 /* Inputs */

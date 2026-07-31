@@ -771,7 +771,8 @@
   transform: translateY(0);
 }
 
-/* Envío gratis chip */
+/* Envío gratis chip — always occupies its slot (via .is-hidden) so every
+   card reserves the same vertical space whether or not it qualifies. */
 .prod-envio-gratis {
   display: inline-flex;
   align-items: center;
@@ -780,8 +781,30 @@
   font-weight: 700;
   color: #00a650;
   margin-top: 2px;
+  min-height: 1.1em;
 }
 .prod-envio-gratis i { font-size: 0.65rem; }
+.prod-envio-gratis.is-hidden { visibility: hidden; }
+
+/* Financing microcopy — always rendered, keeps every card equally full */
+.producto-financiacion {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 1px;
+}
+
+.producto-fin-line {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #7a6a5f;
+  line-height: 1.4;
+}
+
+.producto-fin-cuotas {
+  color: #a0a0a0;
+  font-weight: 400;
+}
 
 .producto-ver-btn {
   flex: 1;
@@ -1254,13 +1277,17 @@
   background: rgba(122, 43, 59, 0.9);
 }
 
-/* ── Star Rating on Card ── */
+/* ── Star Rating on Card ──
+   Always rendered (hidden via .is-hidden when there's no rating) so every
+   card reserves the same height, instead of some cards being shorter. */
 .prod-rating {
   display: flex;
   align-items: center;
   gap: 4px;
   margin: 1px 0;
+  min-height: 14px;
 }
+.prod-rating.is-hidden { visibility: hidden; }
 .prod-stars {
   color: #f4b942;
   font-size: 0.6rem;
@@ -1271,12 +1298,14 @@
   color: #bbb;
 }
 
-/* ── Color Dots on Card ── */
+/* ── Color Dots on Card ── same reserved-space treatment ── */
 .prod-colors {
   display: flex;
   gap: 4px;
   margin: 2px 0;
+  min-height: 15px;
 }
+.prod-colors.is-hidden { visibility: hidden; }
 .prod-color-dot {
   display: block;
   width: 11px;

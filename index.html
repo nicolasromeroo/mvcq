@@ -4,6 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Me Visto Como Quiero | Moda con Personalidad</title>
+
+    <!-- Anti-flash: hide sections the admin disabled BEFORE first paint,
+         using the last known config cached by js/site-config.js. Prevents
+         the "flash then disappear" glitch on sections toggled off in the panel. -->
+    <script>
+      (function () {
+        try {
+          var cached = JSON.parse(
+            localStorage.getItem("mvcq_site_config_cache") || "null"
+          );
+          if (!cached) return;
+          var hidden = [];
+          [
+            "marquee",
+            "hero",
+            "categories",
+            "promoBanner",
+            "featured",
+            "trust",
+            "newsletter",
+          ].forEach(function (key) {
+            if (cached[key] && cached[key].visible === false) hidden.push(key);
+          });
+          if (hidden.length) {
+            document.documentElement.setAttribute(
+              "data-hide-sections",
+              hidden.join(" ")
+            );
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      html[data-hide-sections~="marquee"] #promoMarquee,
+      html[data-hide-sections~="hero"] #heroBanner,
+      html[data-hide-sections~="categories"] [data-section="categories"],
+      html[data-hide-sections~="promoBanner"] [data-section="promoBanner"],
+      html[data-hide-sections~="featured"] [data-section="featured"],
+      html[data-hide-sections~="trust"] [data-section="trust"],
+      html[data-hide-sections~="newsletter"] [data-section="newsletter"] {
+        display: none !important;
+      }
+    </style>
     <meta
       name="description"
       content="Tienda de ropa online con estilo propio. Descubrí colecciones exclusivas, ofertas y las últimas tendencias en Me Visto Como Quiero."
@@ -527,11 +570,11 @@
     </section>
 
     <!-- NOSOTROS -->
-    <section class="nosotros-section">
+    <section class="nosotros-section editorial-block">
       <div class="nosotros-img-col">
         <div class="nosotros-img-frame">
           <img
-            src="../img/vintage1.jpg"
+            src="img/vintage1.jpg"
             class="nosotros-img"
             alt="Nuestra Historia"
           />
@@ -596,108 +639,161 @@
       </div>
     </section>
 
-    <section class="valores-container py-5 bg-light">
-      <div class="container">
-        <h2 class="text-center mb-5">Nuestros Valores</h2>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <i class="fas fa-recycle fa-3x text-success mb-3"></i>
-                <h3 class="h5 mb-3">Sostenibilidad</h3>
-                <p>
-                  Comprometidos con la moda responsable y la reducción de
-                  impacto ambiental.
-                </p>
-              </div>
+    <!-- NUESTROS VALORES -->
+    <section class="nosotros-section editorial-block">
+      <div class="nosotros-content-col">
+        <span class="nosotros-eyebrow">Nuestros valores</span>
+        <h2 class="nosotros-title">Moda con<br /><em>Propósito</em></h2>
+        <p class="nosotros-lead">
+          Elegimos cada prenda y cada alianza pensando en algo más que la
+          temporada: en el impacto que dejamos puesto por puesto.
+        </p>
+
+        <div class="nosotros-pillars">
+          <div class="nosotros-pillar">
+            <span class="pillar-num">01</span>
+            <div>
+              <h3>Sostenibilidad</h3>
+              <p>
+                Curaduría consciente y reducción real del impacto ambiental
+                en cada colección que lanzamos.
+              </p>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <i class="fas fa-handshake fa-3x text-primary mb-3"></i>
-                <h3 class="h5 mb-3">Ética</h3>
-                <p>
-                  Trabajamos con proveedores que comparten nuestros valores y
-                  compromisos éticos.
-                </p>
-              </div>
+          <div class="nosotros-pillar">
+            <span class="pillar-num">02</span>
+            <div>
+              <h3>Ética</h3>
+              <p>
+                Trabajamos solo con proveedores que comparten nuestro
+                compromiso con condiciones justas.
+              </p>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="card h-100 border-0 shadow-sm">
-              <div class="card-body text-center">
-                <i class="fas fa-crown fa-3x text-warning mb-3"></i>
-                <h3 class="h5 mb-3">Excelencia</h3>
-                <p>
-                  Comprometidos con la calidad y la satisfacción del cliente en
-                  cada detalle.
-                </p>
-              </div>
+          <div class="nosotros-pillar">
+            <span class="pillar-num">03</span>
+            <div>
+              <h3>Excelencia</h3>
+              <p>
+                Calidad verificada prenda por prenda, para que cada compra
+                se sienta a la altura.
+              </p>
+            </div>
+          </div>
+          <div class="nosotros-pillar">
+            <span class="pillar-num">04</span>
+            <div>
+              <h3>Cercanía</h3>
+              <p>
+                Atención real y humana, de quienes conocen cada prenda que
+                tenés puesta.
+              </p>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="nosotros-img-col">
+        <div class="nosotros-img-frame">
+          <img src="img/vintage7.jpg" class="nosotros-img" alt="Nuestros valores" />
+          <div class="nosotros-img-overlay"></div>
+        </div>
+      </div>
     </section>
 
-    <section class="testimonios-container py-5 bg-dark text-white">
-      <div class="container">
-        <h2 class="text-center mb-5">¿Qué dicen nuestros clientes?</h2>
+    <!-- QUÉ DICEN NUESTROS CLIENTES -->
+    <section class="nosotros-section editorial-block">
+      <div class="nosotros-img-col">
+        <div class="nosotros-img-frame">
+          <img src="img/vintage10.jpg" class="nosotros-img" alt="Comunidad MVCQ" />
+          <div class="nosotros-img-overlay"></div>
+        </div>
+      </div>
+
+      <div class="nosotros-content-col">
+        <span class="nosotros-eyebrow">Comunidad MVCQ</span>
+        <h2 class="nosotros-title">Lo que dicen<br /><em>nuestras clientas</em></h2>
+
         <div
           id="testimoniosCarousel"
-          class="carousel slide"
+          class="testimonios-carousel carousel slide"
           data-bs-ride="carousel"
         >
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="text-center">
-                    <p class="lead mb-4">
-                      "La calidad de las prendas es excepcional.
-                      MeVistoComoQuiero ha cambiado mi forma de vestir y de
-                      pensar sobre la moda sostenible."
-                    </p>
-                    <h5 class="mb-3">María S.</h5>
-                    <p class="text-muted">Cliente desde 2018</p>
-                  </div>
-                </div>
+              <blockquote class="testimonio-quote">
+                <i class="fas fa-quote-left testimonio-quote-mark"></i>
+                <p>
+                  La calidad de las prendas es excepcional. MeVistoComoQuiero
+                  cambió mi forma de vestir y de pensar sobre la moda
+                  sostenible.
+                </p>
+              </blockquote>
+              <div class="testimonio-author">
+                <span class="testimonio-stars">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </span>
+                <span class="testimonio-name">María S. <em>— clienta desde 2018</em></span>
               </div>
             </div>
             <div class="carousel-item">
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="text-center">
-                    <p class="lead mb-4">
-                      "El servicio al cliente es increíble. Siempre están
-                      dispuestos a ayudar y asesorar sobre las tendencias más
-                      actuales."
-                    </p>
-                    <h5 class="mb-3">Ana L.</h5>
-                    <p class="text-muted">Fashionista</p>
-                  </div>
-                </div>
+              <blockquote class="testimonio-quote">
+                <i class="fas fa-quote-left testimonio-quote-mark"></i>
+                <p>
+                  El servicio al cliente es increíble. Siempre están
+                  dispuestos a ayudar y asesorar sobre las tendencias más
+                  actuales.
+                </p>
+              </blockquote>
+              <div class="testimonio-author">
+                <span class="testimonio-stars">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </span>
+                <span class="testimonio-name">Ana L. <em>— fashionista</em></span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <blockquote class="testimonio-quote">
+                <i class="fas fa-quote-left testimonio-quote-mark"></i>
+                <p>
+                  Pedí un cambio de talle y me lo resolvieron el mismo día.
+                  Se nota que hay personas reales detrás, no un call center.
+                </p>
+              </blockquote>
+              <div class="testimonio-author">
+                <span class="testimonio-stars">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </span>
+                <span class="testimonio-name">Camila R. <em>— clienta frecuente</em></span>
               </div>
             </div>
           </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#testimoniosCarousel"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#testimoniosCarousel"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-          </button>
+
+          <div class="testimonios-nav">
+            <button
+              class="testimonios-ctrl"
+              type="button"
+              data-bs-target="#testimoniosCarousel"
+              data-bs-slide="prev"
+              aria-label="Anterior"
+            >
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="testimonios-dots">
+              <button type="button" data-bs-target="#testimoniosCarousel" data-bs-slide-to="0" class="active" aria-label="Testimonio 1"></button>
+              <button type="button" data-bs-target="#testimoniosCarousel" data-bs-slide-to="1" aria-label="Testimonio 2"></button>
+              <button type="button" data-bs-target="#testimoniosCarousel" data-bs-slide-to="2" aria-label="Testimonio 3"></button>
+            </div>
+            <button
+              class="testimonios-ctrl"
+              type="button"
+              data-bs-target="#testimoniosCarousel"
+              data-bs-slide="next"
+              aria-label="Siguiente"
+            >
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -965,6 +1061,17 @@
             void el.offsetHeight;
             el.style.animation = "";
           });
+        });
+      })();
+
+      /* ── Testimonios dots sync (custom indicators, not .carousel-indicators) ── */
+      (function () {
+        const el = document.getElementById("testimoniosCarousel");
+        if (!el) return;
+        const dots = el.querySelectorAll(".testimonios-dots button");
+        if (!dots.length) return;
+        el.addEventListener("slide.bs.carousel", (e) => {
+          dots.forEach((d, i) => d.classList.toggle("active", i === e.to));
         });
       })();
 
