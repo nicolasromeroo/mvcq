@@ -603,3 +603,64 @@
   .mp-stats-row { grid-template-columns: 1fr 1fr; }
   .mp-header { flex-direction: column; align-items: flex-start; }
 }
+
+/* ══════════════════════════════════════════════
+   Bloque de envío y despacho
+   ══════════════════════════════════════════════ */
+
+.mp-ship-box,
+.mp-track-box {
+  background: #f5f0ed;
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.mp-ship-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a7a74;
+  margin-bottom: 0.55rem;
+}
+
+.mp-ship-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-size: 0.83rem;
+  color: #1a1614;
+  padding: 0.14rem 0;
+}
+.mp-ship-line i {
+  color: #7a2b3b;
+  width: 14px;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+}
+
+.mp-track-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.mp-track-row input {
+  flex: 1 1 150px;
+  min-width: 0;
+  padding: 0.5rem 0.7rem;
+  border: 1.5px solid #e8ddd6;
+  border-radius: 8px;
+  font-size: 0.83rem;
+  background: #fff;
+}
+.mp-track-row input:focus {
+  outline: none;
+  border-color: #7a2b3b;
+  box-shadow: 0 0 0 3px rgba(122, 43, 59, 0.12);
+}
+.mp-track-row .mp-btn { flex: 0 0 auto; }
+
+@media (max-width: 520px) {
+  .mp-track-row .mp-btn { width: 100%; justify-content: center; }
+}

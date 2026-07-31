@@ -125,10 +125,6 @@
                 <span class="resumen-row-label">Envío</span>
                 <span class="resumen-row-val" id="envioVal">Calculando…</span>
               </div>
-              <div class="resumen-row resumen-row--descuento" id="descuentoRow" style="display:none">
-                <span class="resumen-row-label">Descuento</span>
-                <span class="resumen-row-val" id="descuentoVal">−$0</span>
-              </div>
               <hr class="resumen-divider" />
               <div class="resumen-row resumen-row--total">
                 <span class="resumen-row-label">Total</span>
@@ -136,14 +132,10 @@
               </div>
             </div>
 
-            <!-- Coupon -->
-            <div class="resumen-cupon">
-              <div class="cupon-form">
-                <input type="text" class="cupon-input" id="cuponInput" placeholder="Código de descuento" maxlength="24" />
-                <button class="cupon-apply-btn" id="cuponApplyBtn">Aplicar</button>
-              </div>
-              <p class="cupon-msg" id="cuponMsg" style="display:none"></p>
-            </div>
+            <!-- Cupones: removidos a propósito. El descuento se aplicaba sólo en
+                 el navegador y nunca llegaba al backend, así que el cliente veía
+                 un precio y se le cobraba otro. El diseño de la versión
+                 server-side está en mvcq-server/docs/CUPONES.md -->
 
             <div class="resumen-footer">
               <button class="btn-checkout" id="checkoutBtn" disabled>
@@ -176,6 +168,106 @@
         </aside>
       </div>
     </main>
+
+    <!-- ══ SHIPPING MODAL ══ -->
+    <!-- Va antes del pago a propósito: el costo depende del código postal y
+         tiene que estar dentro de la preferencia antes de redirigir a MP. -->
+    <div class="pm-modal-overlay" id="shipModalOverlay">
+      <div class="pm-modal ship-modal" role="dialog" aria-modal="true" aria-labelledby="shipModalTitle">
+        <button class="pm-modal-close" id="shipModalClose" type="button" aria-label="Cerrar">
+          <i class="fas fa-times"></i>
+        </button>
+
+        <div class="pm-modal-header">
+          <span class="pm-modal-eyebrow">Paso 1 de 2</span>
+          <h2 id="shipModalTitle">¿A dónde te lo enviamos?</h2>
+          <p class="pm-modal-sub">Con el código postal calculamos el costo del envío</p>
+        </div>
+
+        <form class="ship-form" id="shipForm" novalidate>
+          <div class="ship-modes" role="radiogroup" aria-label="Forma de entrega">
+            <button class="ship-mode is-selected" data-mode="home" type="button" role="radio" aria-checked="true">
+              <i class="fas fa-house"></i><span>A mi domicilio</span>
+            </button>
+            <button class="ship-mode" data-mode="branch" type="button" role="radio" aria-checked="false">
+              <i class="fas fa-store"></i><span>Retiro en sucursal</span>
+            </button>
+          </div>
+
+          <div class="ship-grid">
+            <label class="ship-field ship-field--wide">
+              <span>Nombre y apellido de quien recibe</span>
+              <input type="text" name="recipientName" autocomplete="name" required />
+            </label>
+
+            <label class="ship-field">
+              <span>DNI</span>
+              <input type="text" name="dni" inputmode="numeric" placeholder="30123456" required />
+            </label>
+
+            <label class="ship-field">
+              <span>Teléfono</span>
+              <input type="tel" name="phone" autocomplete="tel" placeholder="351 123 4567" required />
+            </label>
+
+            <label class="ship-field ship-field--wide">
+              <span>Calle</span>
+              <input type="text" name="street" autocomplete="address-line1" required />
+            </label>
+
+            <label class="ship-field">
+              <span>Altura</span>
+              <input type="text" name="number" required />
+            </label>
+
+            <label class="ship-field">
+              <span>Piso <em>(opcional)</em></span>
+              <input type="text" name="floor" />
+            </label>
+
+            <label class="ship-field">
+              <span>Depto <em>(opcional)</em></span>
+              <input type="text" name="apartment" />
+            </label>
+
+            <label class="ship-field">
+              <span>Código postal</span>
+              <input type="text" name="postalCode" inputmode="numeric" placeholder="5000" required />
+            </label>
+
+            <label class="ship-field">
+              <span>Localidad</span>
+              <input type="text" name="city" autocomplete="address-level2" required />
+            </label>
+
+            <label class="ship-field">
+              <span>Provincia</span>
+              <input type="text" name="province" autocomplete="address-level1" required />
+            </label>
+
+            <label class="ship-field ship-field--wide ship-field--branch" style="display:none">
+              <span>Sucursal del correo</span>
+              <input type="text" name="branchName" placeholder="Sucursal y dirección" />
+            </label>
+
+            <label class="ship-field ship-field--wide">
+              <span>Entre calles o referencia <em>(opcional)</em></span>
+              <input type="text" name="reference" placeholder="Portón negro, timbre 2" />
+            </label>
+          </div>
+
+          <div class="ship-quote" id="shipQuote" aria-live="polite">
+            <i class="fas fa-truck-fast"></i>
+            <span id="shipQuoteText">Completá el código postal para ver el costo</span>
+          </div>
+
+          <button class="pm-continue-btn" id="shipContinueBtn" type="submit">
+            <span class="pm-continue-label">Continuar al pago<i class="fas fa-arrow-right ms-2"></i></span>
+            <span class="pm-continue-spinner" style="display:none"><i class="fas fa-spinner fa-spin"></i></span>
+          </button>
+        </form>
+      </div>
+    </div>
 
     <!-- ══ PAYMENT METHOD MODAL ══ -->
     <div class="pm-modal-overlay" id="pmModalOverlay">

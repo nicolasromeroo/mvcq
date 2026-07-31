@@ -4,8 +4,8 @@
    ===================================================== */
 
 const CARRITO_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
-const ENVIO_GRATIS_THRESHOLD = 15000;
-const ENVIO_COST = 1500;
+// El costo de envío ya no vive acá: lo cotiza el backend según el CP de destino
+// (POST /shipping/quote) y se vuelve a calcular al crear la orden.
 
 /* ── Formatters ── */
 function formatARS(n) {
@@ -102,30 +102,31 @@ function renderCartItems(items) {
 function updateTotals() {
   const cart = getLocalCart();
   const subtotal = cart.items.reduce((s, i) => s + (i.price * i.qty), 0);
-  const envio = subtotal >= ENVIO_GRATIS_THRESHOLD ? 0 : (subtotal > 0 ? ENVIO_COST : 0);
-  const descuento = _appliedDiscount || 0;
-  const total = Math.max(0, subtotal - descuento + envio);
+  // Hasta que el cliente no dé su CP no sabemos el costo real, así que no
+  // inventamos un número: el envío se muestra recién cuando el backend lo cotiza.
+  const envio = _shippingQuote ? _shippingQuote.cost : 0;
+  const total = subtotal + envio;
 
   const subtotalEl = document.getElementById('subtotalVal');
   const envioEl = document.getElementById('envioVal');
   const totalEl = document.getElementById('totalVal');
-  const descRow = document.getElementById('descuentoRow');
-  const descVal = document.getElementById('descuentoVal');
   const countEl = document.getElementById('carritoCount');
   const checkoutBtn = document.getElementById('checkoutBtn');
 
   if (subtotalEl) subtotalEl.textContent = formatARS(subtotal);
-  if (envioEl) envioEl.textContent = subtotal === 0 ? '—' : envio === 0 ? 'Gratis 🎉' : formatARS(envio);
+  if (envioEl) {
+    envioEl.textContent =
+      subtotal === 0 ? '—'
+      : !_shippingQuote ? 'A calcular'
+      : _shippingQuote.freeShipping ? 'Gratis 🎉'
+      : formatARS(envio);
+  }
   if (totalEl) totalEl.textContent = formatARS(total);
-  if (descRow) descRow.style.display = descuento > 0 ? '' : 'none';
-  if (descVal) descVal.textContent = `−${formatARS(descuento)}`;
 
   const totalItems = cart.items.reduce((s, i) => s + i.qty, 0);
   if (countEl) countEl.textContent = totalItems > 0 ? `(${totalItems} ${totalItems === 1 ? 'artículo' : 'artículos'})` : '';
   if (checkoutBtn) checkoutBtn.disabled = totalItems === 0;
 }
-
-let _appliedDiscount = 0;
 
 function reRender() {
   const cart = getLocalCart();
@@ -176,25 +177,178 @@ function initClearBtn() {
   });
 }
 
-/* ── Coupon ── */
-function initCupon() {
-  const DEMO_COUPONS = { 'MVCQ10': 0.10, 'REBAJAS15': 0.15 };
-  document.getElementById('cuponApplyBtn')?.addEventListener('click', () => {
-    const code = (document.getElementById('cuponInput')?.value || '').trim().toUpperCase();
-    const msgEl = document.getElementById('cuponMsg');
-    if (!msgEl) return;
-    msgEl.style.display = '';
-    if (DEMO_COUPONS[code]) {
-      const subtotal = getLocalCart().items.reduce((s, i) => s + (i.price * i.qty), 0);
-      _appliedDiscount = Math.round(subtotal * DEMO_COUPONS[code]);
-      msgEl.className = 'cupon-msg cupon-msg--ok';
-      msgEl.textContent = `✓ Cupón aplicado: ${Math.round(DEMO_COUPONS[code] * 100)}% de descuento`;
-    } else {
-      _appliedDiscount = 0;
-      msgEl.className = 'cupon-msg cupon-msg--err';
-      msgEl.textContent = code ? 'Código no válido' : 'Ingresá un código de descuento';
-    }
+/* ══════════════════════════════════════════════
+   Envío — paso previo al pago
+   ══════════════════════════════════════════════ */
+
+/** Última cotización del backend. Es la única fuente del costo mostrado. */
+let _shippingQuote = null;
+/** Dirección validada que se manda al crear la preferencia. */
+let _shippingData = null;
+let _deliveryMode = 'home';
+
+const SHIP_REQUIRED = ['recipientName', 'dni', 'phone', 'street', 'number', 'postalCode', 'city', 'province'];
+
+function readShipForm() {
+  const form = document.getElementById('shipForm');
+  if (!form) return {};
+  const data = Object.fromEntries(new FormData(form).entries());
+  Object.keys(data).forEach((k) => { data[k] = String(data[k] ?? '').trim(); });
+  data.deliveryMode = _deliveryMode;
+  if (_deliveryMode !== 'branch') delete data.branchName;
+  // Los opcionales vacíos no se mandan: el DTO los espera ausentes, no en "".
+  ['floor', 'apartment', 'reference', 'branchName'].forEach((k) => {
+    if (!data[k]) delete data[k];
+  });
+  return data;
+}
+
+function setShipQuoteMsg(text, kind = '') {
+  const box = document.getElementById('shipQuote');
+  const txt = document.getElementById('shipQuoteText');
+  if (txt) txt.textContent = text;
+  if (box) box.className = `ship-quote${kind ? ' ' + kind : ''}`;
+}
+
+/** Pide la cotización al backend. El costo nunca se calcula en el navegador. */
+async function fetchShippingQuote() {
+  const cart = getLocalCart();
+  const subtotal = cart.items.reduce((s, i) => s + (i.price * i.qty), 0);
+  const cp = (document.querySelector('#shipForm [name="postalCode"]')?.value || '').trim();
+
+  if (cp.replace(/\D/g, '').length < 4) {
+    _shippingQuote = null;
+    setShipQuoteMsg('Completá el código postal para ver el costo');
     updateTotals();
+    return;
+  }
+
+  setShipQuoteMsg('Calculando envío…');
+  try {
+    const res = await fetch(`${CARRITO_API}/shipping/quote`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ postalCode: cp, subtotal, deliveryMode: _deliveryMode })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      _shippingQuote = null;
+      const msg = Array.isArray(data?.message) ? data.message[0] : data?.message;
+      setShipQuoteMsg(msg || 'No pudimos cotizar ese código postal', 'is-error');
+      updateTotals();
+      return;
+    }
+
+    _shippingQuote = data;
+    setShipQuoteMsg(
+      data.freeShipping
+        ? `¡Envío gratis a ${data.zone}! · Llega en ${data.etaBusinessDays}`
+        : `Envío a ${data.zone}: ${formatARS(data.cost)} · Llega en ${data.etaBusinessDays}`,
+      data.freeShipping ? 'is-free' : ''
+    );
+  } catch (err) {
+    console.error('[shipping quote]', err);
+    _shippingQuote = null;
+    setShipQuoteMsg('No pudimos calcular el envío. Reintentá en un momento.', 'is-error');
+  }
+  updateTotals();
+}
+
+function validateShipForm() {
+  const data = readShipForm();
+  let firstBad = null;
+
+  const required = [...SHIP_REQUIRED, ...(_deliveryMode === 'branch' ? ['branchName'] : [])];
+  required.forEach((name) => {
+    const input = document.querySelector(`#shipForm [name="${name}"]`);
+    if (!input) return;
+    const ok = String(data[name] || '').length > 0;
+    input.classList.toggle('is-invalid', !ok);
+    if (!ok && !firstBad) firstBad = input;
+  });
+
+  const dniInput = document.querySelector('#shipForm [name="dni"]');
+  const dniDigits = String(data.dni || '').replace(/\D/g, '');
+  if (dniInput && (dniDigits.length < 7 || dniDigits.length > 9)) {
+    dniInput.classList.add('is-invalid');
+    if (!firstBad) firstBad = dniInput;
+  }
+
+  if (firstBad) {
+    firstBad.focus();
+    carritoToast('Revisá los campos marcados', 'warn', 'fa-triangle-exclamation');
+    return null;
+  }
+  if (!_shippingQuote) {
+    carritoToast('Esperá a que calculemos el envío', 'warn', 'fa-truck-fast');
+    return null;
+  }
+  return data;
+}
+
+function openShippingModal() {
+  const overlay = document.getElementById('shipModalOverlay');
+  if (!overlay) return;
+  overlay.classList.add('is-open');
+  document.body.classList.add('pm-modal-open');
+  document.querySelector('#shipForm [name="recipientName"]')?.focus();
+}
+
+function closeShippingModal() {
+  document.getElementById('shipModalOverlay')?.classList.remove('is-open');
+  document.body.classList.remove('pm-modal-open');
+}
+
+function initShippingModal() {
+  const overlay = document.getElementById('shipModalOverlay');
+  const form = document.getElementById('shipForm');
+  if (!overlay || !form) return;
+
+  // Domicilio vs sucursal: cambia la tarifa, así que recotizamos.
+  overlay.querySelectorAll('.ship-mode').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      overlay.querySelectorAll('.ship-mode').forEach((b) => {
+        b.classList.remove('is-selected');
+        b.setAttribute('aria-checked', 'false');
+      });
+      btn.classList.add('is-selected');
+      btn.setAttribute('aria-checked', 'true');
+      _deliveryMode = btn.dataset.mode;
+      overlay.querySelector('.ship-field--branch').style.display =
+        _deliveryMode === 'branch' ? '' : 'none';
+      fetchShippingQuote();
+    });
+  });
+
+  // Recotiza al terminar de escribir el CP, sin pegarle al backend por tecla.
+  let cpTimer;
+  const cpInput = form.querySelector('[name="postalCode"]');
+  cpInput?.addEventListener('input', () => {
+    clearTimeout(cpTimer);
+    cpTimer = setTimeout(fetchShippingQuote, 450);
+  });
+  cpInput?.addEventListener('blur', fetchShippingQuote);
+
+  form.querySelectorAll('input').forEach((input) => {
+    input.addEventListener('input', () => input.classList.remove('is-invalid'));
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = validateShipForm();
+    if (!data) return;
+    _shippingData = data;
+    closeShippingModal();
+    openPaymentModal();
+  });
+
+  document.getElementById('shipModalClose')?.addEventListener('click', closeShippingModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeShippingModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeShippingModal();
   });
 }
 
@@ -219,6 +373,7 @@ async function checkoutWithStripe() {
         quantity: i.qty,
         size: i.size
       })),
+      shipping: _shippingData,
       successUrl: `${window.location.origin}/pages/mis-pedidos.html?checkout=success&via=stripe`,
       cancelUrl: `${window.location.origin}/pages/carrito.html`
     })
@@ -261,6 +416,7 @@ async function checkoutWithMercadoPago() {
         size: i.size,
         image: i.image
       })),
+      shipping: _shippingData,
       successUrl: `${window.location.origin}/pages/mis-pedidos.html?checkout=success&via=mercadopago`,
       failureUrl: `${window.location.origin}/pages/carrito.html?checkout=failure&via=mercadopago`,
       pendingUrl: `${window.location.origin}/pages/mis-pedidos.html?checkout=pending&via=mercadopago`
@@ -364,8 +520,11 @@ function initCheckout() {
       window.location.href = 'login.html?return=carrito.html';
       return;
     }
-    openPaymentModal();
+    // Primero la dirección: sin CP no hay costo de envío, y el costo tiene que
+    // estar en la preferencia antes de mandar al cliente a pagar.
+    openShippingModal();
   });
+  initShippingModal();
   initPaymentModal();
 }
 
@@ -383,7 +542,6 @@ function checkPaymentReturnStatus() {
 document.addEventListener('DOMContentLoaded', () => {
   reRender();
   initClearBtn();
-  initCupon();
   initCheckout();
   checkPaymentReturnStatus();
 });

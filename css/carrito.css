@@ -751,3 +751,98 @@ body.pm-modal-open { overflow: hidden; }
   .toast-stack { bottom: 1rem; right: 1rem; left: 1rem; }
   .toast-item { max-width: 100%; white-space: normal; }
 }
+
+/* ══════════════════════════════════════════════
+   Modal de envío — paso previo al pago
+   Reutiliza .pm-modal-overlay / .pm-modal / .pm-continue-btn
+   ══════════════════════════════════════════════ */
+
+.ship-modal { max-width: 560px; }
+
+.ship-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 1.3rem;
+}
+.ship-mode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.6rem;
+  border: 1.5px solid #e8ddd6;
+  border-radius: 10px;
+  background: #fff;
+  color: #6a5f58;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.ship-mode:hover { border-color: #c9a9a6; }
+.ship-mode.is-selected {
+  border-color: #7a2b3b;
+  background: rgba(122, 43, 59, 0.05);
+  color: #7a2b3b;
+}
+
+.ship-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.ship-field { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+.ship-field--wide { grid-column: 1 / -1; }
+
+.ship-field > span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8a7a74;
+}
+.ship-field > span em { font-style: normal; font-weight: 500; text-transform: none; letter-spacing: 0; }
+
+.ship-field input {
+  width: 100%;
+  padding: 0.62rem 0.75rem;
+  border: 1.5px solid #e8ddd6;
+  border-radius: 9px;
+  font-size: 0.88rem;
+  color: #1a1614;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.ship-field input:focus {
+  outline: none;
+  border-color: #7a2b3b;
+  box-shadow: 0 0 0 3px rgba(122, 43, 59, 0.12);
+}
+.ship-field input.is-invalid {
+  border-color: #e63946;
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+}
+
+.ship-quote {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.2rem 0 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: #f5f0ed;
+  font-size: 0.84rem;
+  color: #6a5f58;
+}
+.ship-quote i { color: #7a2b3b; }
+.ship-quote.is-free { background: rgba(39, 174, 96, 0.1); color: #1e8449; }
+.ship-quote.is-free i { color: #1e8449; }
+.ship-quote.is-error { background: rgba(230, 57, 70, 0.08); color: #c0392b; }
+.ship-quote.is-error i { color: #c0392b; }
+
+@media (max-width: 540px) {
+  .ship-grid { grid-template-columns: 1fr; }
+  .ship-field--wide { grid-column: auto; }
+}

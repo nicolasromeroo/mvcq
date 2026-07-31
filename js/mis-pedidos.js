@@ -42,6 +42,42 @@ const STATUS_MAP = {
   refunded:        { label: 'Reembolsado',      cls: 'mp-badge--refunded',  icon: 'fa-undo' },
 };
 
+/* ── Envío ── */
+
+/** Arma la dirección en una línea legible a partir de los campos separados. */
+function formatShipping(s) {
+  if (!s) return null;
+  const calle = [s.street, s.number].filter(Boolean).join(' ');
+  const unidad = [s.floor && `Piso ${s.floor}`, s.apartment && `Depto ${s.apartment}`]
+    .filter(Boolean).join(' ');
+  const zona = [s.city, s.province].filter(Boolean).join(', ');
+  return [calle, unidad, zona, s.postalCode && `CP ${s.postalCode}`]
+    .filter(Boolean).join(' · ');
+}
+
+function shippingBlock(order) {
+  const s = order.shipping;
+  if (!s) return '';
+
+  const modo = s.deliveryMode === 'branch'
+    ? `<div class="mp-ship-line"><i class="fas fa-store"></i>Retiro en sucursal: ${mpEsc(s.branchName || '—')}</div>`
+    : '';
+  const tracking = order.trackingCode
+    ? `<div class="mp-ship-line"><i class="fas fa-barcode"></i>Seguimiento: <strong>${mpEsc(order.trackingCode)}</strong>${order.shippingCarrier ? ` (${mpEsc(order.shippingCarrier)})` : ''}</div>`
+    : '';
+
+  return `
+    <div class="mp-ship-box">
+      <div class="mp-ship-title"><i class="fas fa-truck-fast me-2"></i>Envío</div>
+      <div class="mp-ship-line"><i class="fas fa-user"></i>${mpEsc(s.recipientName)} · DNI ${mpEsc(s.dni)}</div>
+      <div class="mp-ship-line"><i class="fas fa-phone"></i>${mpEsc(s.phone)}</div>
+      <div class="mp-ship-line"><i class="fas fa-map-marker-alt"></i>${mpEsc(formatShipping(s))}</div>
+      ${s.reference ? `<div class="mp-ship-line"><i class="fas fa-info-circle"></i>${mpEsc(s.reference)}</div>` : ''}
+      ${modo}
+      ${tracking}
+    </div>`;
+}
+
 /* Estados en los que el dinero ya entró. */
 function isPaidStatus(status) {
   return ['paid', 'processing', 'shipped', 'delivered'].includes(status);
@@ -201,6 +237,40 @@ async function updateOrderStatus(orderId, newStatus) {
   }
 }
 
+/** Guarda correo y número de seguimiento del pedido (solo admin). */
+async function saveTracking(orderId, btn) {
+  const { token } = getAuthState();
+  const carrier = document.getElementById('trackCarrier')?.value.trim() ?? '';
+  const code = document.getElementById('trackCode')?.value.trim() ?? '';
+
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+  try {
+    const res = await fetch(`${MP_API}/orders/${orderId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ shippingCarrier: carrier, trackingCode: code }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const updated = await res.json();
+
+    // Mantiene la copia local en sync para no tener que recargar todo.
+    const order = allAdminOrders.find(o => o.id === orderId);
+    if (order) {
+      order.shippingCarrier = updated.shippingCarrier;
+      order.trackingCode = updated.trackingCode;
+    }
+    mpToast('Seguimiento guardado', 'success', 'fa-check');
+  } catch (err) {
+    console.error('[tracking]', err);
+    mpToast('No se pudo guardar el seguimiento', 'error', 'fa-exclamation-circle');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = original;
+  }
+}
+
 function openOrderModal(orderId) {
   const order = allAdminOrders.find(o => o.id === orderId);
   if (!order) return;
@@ -234,16 +304,30 @@ function openOrderModal(orderId) {
         <div style="font-size:.78rem;color:#8a7a74;margin-top:.4rem">${fmtDate(order.createdAt)} ${fmtTime(order.createdAt)}</div>
       </div>
     </div>
-    ${order.shippingAddress ? `<div style="background:#f5f0ed;border-radius:8px;padding:.7rem 1rem;font-size:.83rem;margin-bottom:1rem"><i class="fas fa-map-marker-alt me-2" style="color:#7a2b3b"></i>${mpEsc(order.shippingAddress)}</div>` : ''}
+    ${shippingBlock(order)}
     <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#8a7a74;margin-bottom:.6rem">Artículos</div>
     <div class="mp-order-items-grid">${itemsHTML}</div>
     <div class="mp-invoice">
+      ${Number(order.shippingCost) > 0 ? `
+      <div class="mp-invoice-row"><span>Envío</span><span>${fmtARS(order.shippingCost)}</span></div>` : ''}
       <div class="mp-invoice-row is-total">
         <span>Total</span>
         <span>${fmtARS(order.total)}</span>
       </div>
       ${order.stripePaymentIntent ? `<div style="font-size:.72rem;color:#8a7a74;margin-top:.5rem"><i class="fab fa-stripe me-1"></i>PI: ${mpEsc(order.stripePaymentIntent)}</div>` : ''}
-    </div>`;
+    </div>
+
+    ${order.shipping ? `
+    <div class="mp-track-box">
+      <div class="mp-ship-title"><i class="fas fa-barcode me-2"></i>Despacho</div>
+      <div class="mp-track-row">
+        <input type="text" id="trackCarrier" placeholder="Correo (Andreani, OCA…)" value="${mpEsc(order.shippingCarrier ?? '')}" />
+        <input type="text" id="trackCode" placeholder="Número de seguimiento" value="${mpEsc(order.trackingCode ?? '')}" />
+        <button class="mp-btn mp-btn--primary" onclick="saveTracking('${mpEsc(order.id)}', this)">
+          <i class="fas fa-save"></i> Guardar
+        </button>
+      </div>
+    </div>` : ''}`;
 
   document.getElementById('orderModal').classList.add('is-open');
 }
@@ -345,7 +429,9 @@ function buildOrderCard(order) {
     </div>`).join('');
 
   const subtotal = (order.items || []).reduce((s, i) => s + Number(i.subtotal), 0);
-  const envio    = Number(order.total) - subtotal;
+  // El envío ahora es un campo propio de la orden. Deducirlo restando del total
+  // mentía cuando había descuentos, y daba 0 en los pedidos que nunca lo cobraron.
+  const envio    = Number(order.shippingCost ?? 0);
 
   return `
     <div class="mp-order-card" data-order-id="${mpEsc(order.id)}">
@@ -365,6 +451,8 @@ function buildOrderCard(order) {
 
       <div class="mp-order-body">
         <div class="mp-order-items-grid">${itemsHTML}</div>
+
+        ${shippingBlock(order)}
 
         <!-- Factura -->
         <div class="mp-invoice">
