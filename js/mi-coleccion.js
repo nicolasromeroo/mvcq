@@ -70,21 +70,36 @@ function detectSlot(prod) {
 
 /* ═══════════════════════════════
    PRODUCT LOADING
+   El vestidor solo prueba prendas que el usuario ya agregó al
+   carrito — no navega el catálogo completo. La fuente es
+   getLocalCart() (cart-utils.js), que ya se mantiene sincronizada
+   con el backend cuando hay sesión iniciada.
 ═══════════════════════════════ */
 
-async function loadProducts() {
-  const listEl = document.getElementById('browserList');
-  if (!listEl) return;
-  listEl.innerHTML = Array(6).fill('<div class="browser-skeleton"></div>').join('');
-  try {
-    const res  = await fetch(`${API}/product/products`);
-    if (!res.ok) throw new Error();
-    const data = await res.json();
-    allProducts = Array.isArray(data) ? data : (data.data || data.products || []);
-  } catch (_) { allProducts = []; }
+function cartItemToProduct(item) {
+  return {
+    id: item.size ? `${item.productId}__${item.size}` : String(item.productId),
+    productId: item.productId,
+    name: item.name || 'Producto',
+    category: item.categoria || item.category || '',
+    price: item.price,
+    imageUrl: item.image || '',
+    size: item.size || '',
+  };
+}
+
+function loadProducts() {
+  const cart = typeof getLocalCart === 'function' ? getLocalCart() : { items: [] };
+  allProducts = (cart.items || []).map(cartItemToProduct);
   buildCategoryPills();
   applyFilter();
 }
+
+/* Refresca la lista del vestidor cuando cambia el carrito (agregás/sacás
+   algo desde /productos o /carrito en otra pestaña, o desde acá mismo) */
+window.addEventListener('storage', e => {
+  if (e.key === 'mvcq_cart') loadProducts();
+});
 
 function buildCategoryPills() {
   const el = document.getElementById('catPills');
@@ -118,6 +133,15 @@ function applyFilter() {
 function renderBrowserList() {
   const listEl = document.getElementById('browserList');
   if (!listEl) return;
+  if (!allProducts.length) {
+    listEl.innerHTML = `
+      <div class="browser-empty">
+        <i class="fas fa-shopping-bag"></i>
+        Todavía no tenés prendas en el carrito.
+        <a href="productos.html" class="browser-empty-cta">Ver productos <i class="fas fa-arrow-right ms-1"></i></a>
+      </div>`;
+    return;
+  }
   if (!filteredProds.length) {
     listEl.innerHTML = `<div class="browser-empty"><i class="fas fa-search"></i>Sin resultados</div>`;
     return;
@@ -232,8 +256,8 @@ function openFullscreenView() {
           <span class="fs-total-value">${fmtPrice(total)}</span>
         </div>
         <div class="fs-actions">
-          <button class="fs-btn fs-btn--cart" onclick="showToast('Función de carrito próximamente')">
-            <i class="fas fa-shopping-bag"></i> Agregar al carrito
+          <button class="fs-btn fs-btn--cart" onclick="window.location.href='carrito.html'">
+            <i class="fas fa-shopping-bag"></i> Ir al carrito
           </button>
           <button class="fs-btn fs-btn--save" onclick="openSaveModal();closeFullscreenView()">
             <i class="fas fa-bookmark"></i> Guardar outfit
@@ -456,12 +480,17 @@ function renderColecciones() {
       const col = getColecciones().find(c=>c.id===Number(btn.dataset.colId));
       if (!col?.prendas?.length) return;
       outfit={};
+      let restored = 0;
       col.prendas.forEach(p => {
         const prod=allProducts.find(ap=>String(ap.id)===String(p.id));
-        if (prod) outfit[p.slot]=prod;
+        if (prod) { outfit[p.slot]=prod; restored++; }
       });
       switchTab('vestidor');
       renderMannequin(); renderOutfitPanel(); renderBrowserList();
+      if (restored < col.prendas.length) {
+        const faltantes = col.prendas.length - restored;
+        showToast(`Se restauraron ${restored} de ${col.prendas.length} prendas — ${faltantes===1?'la otra ya no está':'las demás ya no están'} en tu carrito`);
+      }
     });
   });
 }
@@ -494,6 +523,12 @@ function showToast(msg) {
 ═══════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  /* Redirect si no está autenticado — el vestidor es por-usuario */
+  if (localStorage.getItem('isAuthenticated') !== 'true') {
+    window.location.href = 'login.html?return=mi-coleccion.html';
+    return;
+  }
 
   loadOutfitDraft();
 
@@ -558,9 +593,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnClearOutfit')?.addEventListener('click', () => {
     if (!Object.keys(outfit).length) return;
     if (confirm('¿Limpiar el outfit?')) clearOutfit();
-  });
-  document.getElementById('btnAddAllToCart')?.addEventListener('click', () => {
-    showToast('Función de carrito próximamente');
   });
 
   /* Save modal */

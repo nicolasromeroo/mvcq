@@ -569,8 +569,15 @@
             ).toLowerCase();
             localStorage.setItem("userRole", role);
 
+            // Si vinimos empujados desde otra página (carrito, vestidor, etc.)
+            // volvemos ahí en vez de mandar siempre a index.html.
+            const returnTo = new URLSearchParams(window.location.search).get(
+              "return",
+            );
             window.location.href =
-              role === "admin" ? "admin-panel.html" : "../index.html";
+              role === "admin"
+                ? "admin-panel.html"
+                : returnTo || "../index.html";
           } catch (err) {
             errorAlert.textContent = err.message;
             errorAlert.classList.remove("d-none");
