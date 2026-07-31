@@ -8,27 +8,22 @@
   'use strict';
 
   const API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+  const CACHE_KEY = 'mvcq_site_config_cache';
+  const SECTION_KEYS = ['marquee', 'hero', 'categories', 'promoBanner', 'featured', 'trust', 'newsletter'];
 
-  /* Map section keys → CSS selectors */
-  const SECTION_SELECTORS = {
-    marquee:     '#promoMarquee',
-    hero:        '#heroBanner',
-    categories:  '[data-section="categories"]',
-    promoBanner: '[data-section="promoBanner"]',
-    featured:    '[data-section="featured"]',
-    trust:       '[data-section="trust"]',
-    newsletter:  '[data-section="newsletter"]',
-  };
-
-  /* ── Apply visibility ── */
+  /* ── Apply visibility ──
+     Sets a single attribute on <html> that a matching CSS rule (inlined in
+     <head>, before this script ever runs) already understands. That inline
+     rule is what actually prevents the flash — this just reconciles the
+     attribute with the freshly-fetched config once it's confirmed, so a
+     stale cache never leaves a section wrongly shown or wrongly hidden. */
   function applyVisibility(config) {
-    Object.entries(SECTION_SELECTORS).forEach(([key, selector]) => {
-      const section = config[key];
-      if (section && section.visible === false) {
-        const el = document.querySelector(selector);
-        if (el) el.style.display = 'none';
-      }
-    });
+    const hidden = SECTION_KEYS.filter((key) => config[key] && config[key].visible === false);
+    if (hidden.length) {
+      document.documentElement.setAttribute('data-hide-sections', hidden.join(' '));
+    } else {
+      document.documentElement.removeAttribute('data-hide-sections');
+    }
   }
 
   /* ── Apply marquee text ── */
@@ -76,6 +71,8 @@
       const res = await fetch(`${API}/site-config`, { cache: 'no-store' });
       if (!res.ok) return; // silently use HTML defaults
       const config = await res.json();
+
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify(config)); } catch (_) {}
 
       applyVisibility(config);
       applyMarquee(config.marquee);

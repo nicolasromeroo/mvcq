@@ -386,8 +386,97 @@ footer .input-group button {
   padding-top: 100px;
 }
 
+/* ── Page intro (eyebrow + title), sits right under the fixed navbar ── */
+.contact-page-intro {
+  max-width: var(--max-w, 1400px);
+  margin: 0 auto;
+  padding: calc(var(--nav-h, 78px) + 3.5rem) 1.5rem 0;
+  text-align: center;
+}
+
 .contact-section {
-  padding-top: 100px;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+
+/* ── Contact info card — vintage editorial, matches Quiénes somos ── */
+.contact-info-card {
+  background: var(--c-ink, #1a1614);
+  color: var(--c-cream, #faf7f2);
+  border-radius: 4px;
+  padding: 2.75rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.contact-info-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--c-cream, #faf7f2);
+  margin: 0 0 0.25rem;
+}
+
+.contact-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.contact-info-item i {
+  flex-shrink: 0;
+  width: 30px;
+  margin-top: 0.2rem;
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--c-gold, #c4986b);
+}
+
+.contact-info-item h4 {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-gold, #c4986b);
+  margin: 0 0 0.4rem;
+}
+
+.contact-info-item p {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: rgba(250, 247, 242, 0.78);
+  margin: 0;
+}
+
+/* ── Map section ── */
+.map-section {
+  background: var(--c-cream, #faf7f2);
+}
+
+.map-container {
+  max-width: var(--max-w, 1400px);
+  margin: 0 auto;
+  border: 1px solid rgba(26, 22, 20, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.map-container iframe {
+  display: block;
+  filter: grayscale(20%) contrast(1.02);
+}
+
+@media (max-width: 767px) {
+  .contact-page-intro {
+    padding-top: calc(var(--nav-h, 78px) + 2rem);
+  }
+  .contact-info-card {
+    padding: 2.25rem 1.5rem;
+  }
 }
 
 /* ── SOCIAL HUB (reemplaza formulario de contacto) ── */
