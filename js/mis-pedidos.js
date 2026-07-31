@@ -42,6 +42,11 @@ const STATUS_MAP = {
   refunded:        { label: 'Reembolsado',      cls: 'mp-badge--refunded',  icon: 'fa-undo' },
 };
 
+/* Estados en los que el dinero ya entró. */
+function isPaidStatus(status) {
+  return ['paid', 'processing', 'shipped', 'delivered'].includes(status);
+}
+
 function statusBadge(status) {
   const s = STATUS_MAP[status] || { label: status, cls: 'mp-badge--pending', icon: 'fa-question' };
   return `<span class="mp-badge ${s.cls}"><i class="fas ${s.icon}"></i> ${s.label}</span>`;
@@ -371,7 +376,7 @@ function buildOrderCard(order) {
           ${envio > 0 ? `<div class="mp-invoice-row"><span>Envío</span><span>${fmtARS(envio)}</span></div>` : ''}
           ${envio <= 0 && subtotal > 0 ? `<div class="mp-invoice-row" style="color:#27ae60"><span>Envío</span><span>Gratis 🎉</span></div>` : ''}
           <div class="mp-invoice-row is-total">
-            <span>Total pagado</span>
+            <span>${isPaidStatus(order.status) ? 'Total pagado' : 'Total a pagar'}</span>
             <span>${fmtARS(order.total)}</span>
           </div>
         </div>
@@ -469,9 +474,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkoutStatus = params.get('checkout');
   if (checkoutStatus === 'success') {
     document.getElementById('successBanner').style.display = '';
+    // La orden ya se creó con estos items: el carrito no tiene que sobrevivir.
+    clearCart();
     history.replaceState({}, '', window.location.pathname);
   } else if (checkoutStatus === 'pending') {
     document.getElementById('pendingBanner').style.display = '';
+    clearCart();
     history.replaceState({}, '', window.location.pathname);
   }
 

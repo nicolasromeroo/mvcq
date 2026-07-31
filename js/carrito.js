@@ -170,17 +170,7 @@ function attachItemEvents() {
 function initClearBtn() {
   document.getElementById('clearCartBtn')?.addEventListener('click', async () => {
     if (!confirm('¿Vaciar el carrito? Esta acción no se puede deshacer.')) return;
-    clearLocalCart();
-    const token = localStorage.getItem('token');
-    if (token) {
-      const userId = await getMvcqUserId();
-      if (userId) {
-        fetch(`${CARRITO_API}/cart/clear/${userId}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${token}` }
-        }).catch(() => {});
-      }
-    }
+    await clearCart();
     carritoToast('Carrito vaciado', 'info', 'fa-trash-alt');
     reRender();
   });

@@ -144,6 +144,24 @@ function clearLocalCart() {
   saveLocalCart({ items: [] });
 }
 
+/* Vacía el carrito local y el del backend. Se usa tanto en el botón "vaciar"
+   como al volver de un checkout aprobado. */
+async function clearCart() {
+  clearLocalCart();
+  const token = localStorage.getItem('token');
+  if (!token) return;
+  const userId = await getMvcqUserId();
+  if (!userId) return;
+  try {
+    await fetch(`${_CART_API}/cart/clear/${userId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  } catch (e) {
+    console.warn('[cart] clear backend error:', e.message);
+  }
+}
+
 /* ── Getters ── */
 function getCartCount() {
   return getLocalCart().items.reduce((s, i) => s + i.qty, 0);
