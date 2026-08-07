@@ -2020,3 +2020,90 @@
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════════
+   LEGAL SECTIONS EDITOR (Envíos y Legales)
+   ═══════════════════════════════════════════════════ */
+
+.legal-section-editor {
+  border: 1px solid #e8e2db;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.legal-section-editor-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.9rem;
+  padding: 1rem;
+  background: #f5f2ee;
+  flex-wrap: wrap;
+}
+
+.legal-section-editor-headline { min-width: 140px; }
+.legal-section-editor-headline--grow { flex: 1; min-width: 200px; }
+.legal-section-editor-headline .admin-label { margin-bottom: 0.3rem; }
+.legal-section-editor-headline .admin-input:disabled {
+  background: #ece7e1;
+  color: #8d7f78;
+  cursor: not-allowed;
+}
+
+.legal-section-remove {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(192,57,43,0.25);
+  background: transparent;
+  color: #c0392b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.legal-section-remove:hover { background: rgba(192,57,43,0.08); border-color: #c0392b; }
+
+.legal-section-editor-body { padding: 1rem; }
+
+.legal-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.legal-para-row { display: flex; gap: 0.6rem; align-items: flex-start; }
+
+.admin-textarea { resize: vertical; min-height: 64px; }
+
+.legal-para-remove {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin-top: 0.2rem;
+  border-radius: 8px;
+  border: 1px solid #e0d9d4;
+  background: #faf7f2;
+  color: #8d7f78;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.legal-para-remove:hover:not(:disabled) { border-color: #c0392b; color: #c0392b; background: rgba(192,57,43,0.06); }
+.legal-para-remove:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.legal-para-add,
+.legal-add-section-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 9px;
+  border: 1.5px dashed rgba(122,43,59,0.25);
+  background: transparent;
+  color: #7a2b3b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.legal-para-add:hover,
+.legal-add-section-btn:hover { border-color: #7a2b3b; background: rgba(122,43,59,0.05); }

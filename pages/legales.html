@@ -118,7 +118,7 @@
 
         <nav class="legal-toc" aria-label="Índice">
           <span class="legal-toc-title">En esta página</span>
-          <ol>
+          <ol id="legalToc">
             <li><a href="#tyc">Términos y condiciones</a></li>
             <li><a href="#compras">Compras y pagos</a></li>
             <li><a href="#envios">Envíos y entregas</a></li>
@@ -129,8 +129,9 @@
           </ol>
         </nav>
 
+        <div id="legalSections">
         <section class="legal-section" id="tyc">
-          <h2>1. Términos y condiciones</h2>
+          <h2>Términos y condiciones</h2>
           <p>
             Estos términos regulan el uso del sitio de Me Visto Como Quiero y la compra
             de productos a través de él. Al realizar un pedido, aceptás estas condiciones
@@ -149,7 +150,7 @@
         </section>
 
         <section class="legal-section" id="compras">
-          <h2>2. Compras y pagos</h2>
+          <h2>Compras y pagos</h2>
           <p>
             Los precios están expresados en pesos argentinos (ARS) e incluyen IVA. El
             precio que se aplica a tu compra es el vigente al momento de confirmar el
@@ -168,7 +169,7 @@
         </section>
 
         <section class="legal-section" id="envios">
-          <h2>3. Envíos y entregas</h2>
+          <h2>Envíos y entregas</h2>
           <p>
             Realizamos envíos a todo el país. El costo se calcula según el código postal
             de destino y se muestra antes de confirmar la compra, nunca después.
@@ -186,7 +187,7 @@
         </section>
 
         <section class="legal-section legal-section--highlight" id="arrepentimiento">
-          <h2>4. Derecho de arrepentimiento</h2>
+          <h2>Derecho de arrepentimiento</h2>
           <p>
             Conforme al artículo 34 de la Ley 24.240 de Defensa del Consumidor, tenés
             derecho a <strong>revocar la compra dentro de los 10 días corridos</strong>
@@ -208,7 +209,7 @@
         </section>
 
         <section class="legal-section" id="cambios">
-          <h2>5. Cambios y devoluciones</h2>
+          <h2>Cambios y devoluciones</h2>
           <p>
             Además del derecho de arrepentimiento, aceptamos cambios por talle o color
             dentro de los 30 días de recibido el producto, sujeto a disponibilidad de
@@ -222,7 +223,7 @@
         </section>
 
         <section class="legal-section" id="datos">
-          <h2>6. Datos personales</h2>
+          <h2>Datos personales</h2>
           <p>
             Los datos que nos brindás se usan exclusivamente para procesar tu pedido,
             gestionar el envío y contactarte por cuestiones relacionadas con tu compra.
@@ -241,7 +242,7 @@
         </section>
 
         <section class="legal-section" id="reclamos">
-          <h2>7. Reclamos</h2>
+          <h2>Reclamos</h2>
           <p>
             Si tenés un problema con tu compra, el camino más rápido es escribirnos
             directamente. Estamos para resolverlo.
@@ -261,8 +262,9 @@
             </a>
           </div>
         </section>
+        </div><!-- /legalSections -->
 
-        <p class="legal-updated">Última actualización: julio de 2026</p>
+        <p class="legal-updated" id="legalUpdated">Última actualización: julio de 2026</p>
       </div>
     </main>
 
@@ -358,5 +360,6 @@
     <script src="../js/nav-bar.js"></script>
     <script src="../js/cart-utils.js"></script>
     <script src="../js/favorites-utils.js"></script>
+    <script src="../js/legales.js"></script>
   </body>
 </html>

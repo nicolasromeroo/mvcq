@@ -90,12 +90,33 @@ Guard de roles (ADMIN) -->
 
 <============================>
 
-- hace falta agregar un campo COLOR para el filtro de los productos: en el panel de administrador me deberia pedir el color del articulo, y en el front deberia poder filtrar por diferentes colores (ya esta el filtro, falta el campo en el front y back)
+- RESEND (2da pc) -> 
+1) acuse de recibo automático. (La resolución exige responder dentro de las 24 horas hábiles.) - legal.service.ts.
+2) confirmación de compra y 
+3) el aviso de despacho.
 
-<============================>
+- Tarifas propias por zona
 
-- pagina de carrito
-- pagina de mi perfil (admin - user)
+- las políticas que decide el comercio las puse con valores inventados: "30 días para cambios por talle, que aceptan cambios sujeto a stock, la política de datos" -> ajustá con el comerciante lo que no coincida con cómo trabaja. 
 
-- Agregar productos opcionalmente con Drag & drop (ordenar outfit)
-- REFACTORIZAR HOJA DE ESTILOS (empezando por index.css) - ACOMODAR ARCHIVOS, CARPETAS,
+- pie dice "Última actualización: julio de 2026".
+
+- Stripe está en modo test (si un cliente elige esa opción, no se le cobra) 
+
+- rotar la contraseña de la base.
+
+=============================>
+
+1. Motor de Control de Stock Concurrente (Anti-Overselling)En eventos de alto tráfico (CyberMonday, Black Friday, flash sales), miles de usuarios intentan comprar el mismo ítem al mismo tiempo.Reserva temporal de stock (Locks): Manejo de reservas por tiempo limitado (ej. 10-15 min) en memoria rápida (Redis) con transacciones atómicas antes de confirmar el pago.Idempotencia en pagos y órdenes: Prevenir cobros duplicados mediante idempotencia basada en tokens/claves únicas enviadas al gateway.Control de concurrencia optimista/pesimista: Manejo a nivel de base de datos para evitar diferencias de inventario (race conditions).  
+
+2. Motor de Búsqueda Semántica e Híbrida (Search & Discovery)Las búsquedas por coincidencia exacta de texto (SQL ILIKE o LIKE) ya no alcanzan.Búsqueda Vectorial e Híbrida: Integración de motores de búsqueda (Elasticsearch, OpenSearch o Meilisearch) combinando términos con embeddings vectoriales. Permite buscar por intención (ej: "ropa formal para evento al aire libre").Sugerencias e Indexación en Tiempo Real: Re-indexación asíncrona (vía event-driven con colas como RabbitMQ o Kafka) cuando el catálogo o stock cambia.
+
+3. Motor de Reglas de Descuentos y Precios Dinámicos (Rules Engine)Crear un sistema flexible para que el equipo de marketing configure ofertas complejas sin tocar código:Motor de condiciones: Reglas del tipo Si (Monto > $X) Y (Categoría = Y) Y (MetodoPago = Z) -> Aplicar Descuento / Regalo.  Cupones dinámicos de un solo uso: Generación masiva y validación atómica con límites de uso por usuario/IP.Precios dinámicos/B2B: Precios segmentados por tipo de cliente (minorista vs. mayorista), volumen de compra o regiones geográficas.
+
+4. Gestión Logística Multi-Depósito y Devoluciones (OMS & RMA)El procesamiento posterior a la compra suele ser el cuello de botella operacional.Multi-Warehouse Routing: Algoritmo que determina automáticamente desde qué depósito/sucursal despachar cada ítem del pedido para optimizar costos de envío y tiempos.Sistema RMA (Return Merchandise Authorization): Flujo backend para gestionar cambios, devoluciones, reingreso de stock e integración con la pasarela para refunds parciales o créditos en tienda.Webhooks de Tracking: Integración bidireccional con las APIs de las empresas de correo (tracking en tiempo real y cambio de estado vía eventos).
+
+5. Event-Driven Automation (Retención y Marketing Integrado)Casi toda la retención depende de la capacidad del backend para reaccionar a eventos del cliente:Recuperación de carritos abandonados: Eventos programados (vía colas de tareas como BullMQ/Redis) que disparan avisos por WhatsApp/Email a las $X$ horas de inactividad.Webhooks/Integraciones salientes: Un subsistema de webhooks confiable (con reintentos y exponential backoff) para sincronizar eventos de ventas en tiempo real con ERPs, CRMs (HubSpot/Salesforce) o software contable.
+
+6. Suscripciones y Pagos RecurrentesEl modelo de membresías/compras periódicas incrementa el LTV (Lifetime Value) del cliente.Motor de cobro recurrente: Lógica para gestionar ciclos de facturación, fallos de cobro (dunning process), reintentos automáticos y pausado/cancelación de suscripciones.
+
+7. Métricas Backend, Telemetría y Análisis Anti-FraudeRisk Scoring & Anti-Fraude: Validación preventiva de transacciones analizando velocidad de compra (múltiples tarjetas desde la misma IP), discrepancia entre dirección de facturación y envío, o volúmenes anómalos.Clickstream Analytics Pipeline: Captura y agregación de eventos de navegación/interacción del usuario para medir el conversion funnel directamente en la infraestructura propia sin depender al 100% de scripts de terceros.Resumen de Stack Recomendado para estas característicasNecesidadHerramientas / Enfoques ComunesColas / Tareas asíncronasBullMQ, RabbitMQ, Apache KafkaBúsqueda avanzadaElasticsearch, Meilisearch, PGVectorCaché / Lock concurrenteRedis / RedlockArquitecturaEvent-Driven Architecture (EDA) / Microservicios orientados a dominio (OMS, Catalog, Promo Engine)
