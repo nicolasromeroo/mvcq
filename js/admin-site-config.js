@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  const API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+  const API = window.MVCQ_API;
 
   /* ── DOM references ── */
   const loader   = document.getElementById('siteConfigLoader');

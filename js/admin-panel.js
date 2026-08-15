@@ -2,8 +2,7 @@
    ADMIN PANEL JS – Me Visto Como Quiero
    ═══════════════════════════════════════════════════ */
 
-const API = "https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com";
-const STORAGE_USERS = "mvcq-admin-users";
+const API = window.MVCQ_API;
 const FALLBACK_IMG = "../img/aestethic.jpg";
 const LOOKBOOK_FALLBACKS = [
   "../img/ropa-alta.jpg",
@@ -187,34 +186,34 @@ async function togglePublished(id) {
   }
 }
 
-/* ── Mock users (localStorage) ── */
+/* ══════════════════════════════════════
+     USUARIOS — estado real, servido por la API
+     ══════════════════════════════════════
+
+   Antes esto era un mock en localStorage: eliminar un usuario solo lo sacaba
+   del array local y nunca llamaba al backend, así que al recargar volvía a
+   aparecer (fetchBackendUsers lo re-fusionaba). Ahora la única fuente de
+   verdad es la base: toda mutación va contra la API y después se recarga.  */
+
+let allUsers = [];
+
 function getUsers() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_USERS)) || [];
-  } catch {
-    return [];
-  }
+  return allUsers;
 }
 
-function saveUsers(list) {
-  localStorage.setItem(STORAGE_USERS, JSON.stringify(list));
+/** Normaliza la forma del backend a la que usa la tabla. */
+function mapUser(u) {
+  return {
+    id: u._id || u.id,
+    username: u.username || u.name || u.email,
+    email: u.email,
+    role: (u.role || u.userRole || u.rol || "user").toLowerCase(),
+    createdAt: u.createdAt || u.created_at || null,
+    isActive: u.isActive !== false,
+    orderCount: u._count?.orders ?? 0,
+  };
 }
 
-function seedUsersIfEmpty() {
-  if (getUsers().length) return;
-  const seed = [
-    {
-      id: crypto.randomUUID(),
-      username: localStorage.getItem("username") || "Admin",
-      email: "admin@mvcq.com",
-      role: "admin",
-      createdAt: new Date().toISOString(),
-    },
-  ];
-  saveUsers(seed);
-}
-
-/* ── Fetch real users from backend and merge into localStorage ── */
 async function fetchBackendUsers() {
   try {
     const token = localStorage.getItem("token");
@@ -226,27 +225,11 @@ async function fetchBackendUsers() {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    const list = extractList(data);
-    if (!list.length) return;
-
-    const localUsers = getUsers();
-    const localEmails = new Set(localUsers.map((u) => u.email));
-
-    const mapped = list
-      .filter((u) => u.email && !localEmails.has(u.email))
-      .map((u) => ({
-        id: u._id || u.id || crypto.randomUUID(),
-        username: u.username || u.name || u.email,
-        email: u.email,
-        role: (u.role || u.userRole || u.rol || "user").toLowerCase(),
-        createdAt: u.createdAt || u.created_at || new Date().toISOString(),
-      }));
-
-    if (mapped.length) {
-      saveUsers([...localUsers, ...mapped]);
-    }
+    allUsers = extractList(data).filter((u) => u && u.email).map(mapUser);
   } catch (err) {
     console.warn("No se pudieron obtener usuarios del backend:", err);
+    allUsers = [];
+    showToast("No se pudo cargar la lista de usuarios", "error");
   }
 }
 
@@ -673,6 +656,76 @@ function bindDeleteButtons(container) {
   });
 }
 
+/* ── Llamadas de mutación contra la API ──
+   Todas devuelven true/false y recargan la lista desde el backend, para que
+   lo que se ve en pantalla sea siempre lo que hay en la base. */
+
+/** Devuelve { ok, status, message } para que quien llama pueda decidir
+    qué hacer según el código (por ejemplo, ofrecer desactivar en un 409). */
+async function apiUser(path, options, mensajeError, { silencioso = false } = {}) {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${API}${path}`, {
+      ...options,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+        ...(options.headers || {}),
+      },
+    });
+
+    if (res.ok) return { ok: true, status: res.status, message: "" };
+
+    let detalle = "";
+    try {
+      const body = await res.json();
+      detalle = Array.isArray(body.message) ? body.message[0] : body.message;
+    } catch { /* respuesta sin cuerpo JSON */ }
+
+    // el backend responde 401/403 si el token venció o no es de un ADMIN
+    if (res.status === 401 || res.status === 403) {
+      detalle = detalle || "No tenés permisos para esta acción";
+    }
+
+    if (!silencioso) showToast(detalle || `${mensajeError} (HTTP ${res.status})`, "error");
+    return { ok: false, status: res.status, message: detalle };
+  } catch (err) {
+    // acá solo caen fallos de red: el backend caído o CORS
+    console.error(mensajeError, err);
+    showToast(`${mensajeError}: no se pudo contactar al servidor`, "error");
+    return { ok: false, status: 0, message: err.message };
+  }
+}
+
+async function deleteUserApi(id) {
+  // silencioso: un 409 no es un error a mostrar, es una bifurcación
+  // (el usuario tiene pedidos y hay que ofrecer desactivarlo)
+  return apiUser(`/users/delete/${id}`, { method: "DELETE" },
+    "Error al eliminar el usuario", { silencioso: true });
+}
+
+async function updateUserApi(id, payload) {
+  return apiUser(`/users/update/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  }, "Error al actualizar el usuario");
+}
+
+async function createUserApi(payload) {
+  return apiUser(`/users/create`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  }, "Error al crear el usuario");
+}
+
+/** Recarga desde la base y repinta. Se llama después de cada mutación. */
+async function reloadUsuarios() {
+  await fetchBackendUsers();
+  renderUsuarios();
+  refreshDashboard();
+}
+
 /* ══════════════════════════════════════
      USUARIOS
      ══════════════════════════════════════ */
@@ -688,13 +741,16 @@ function renderUsuarios() {
   usersBody.innerHTML = users
     .map(
       (u) => `
-      <tr>
+      <tr class="${u.isActive ? "" : "is-inactive"}">
         <td>
           <div class="admin-user-cell">
             <img class="admin-user-avatar"
                  src="https://ui-avatars.com/api/?name=${encodeURIComponent(u.username)}&background=${u.role === "admin" ? "7a2b3b" : "2980b9"}&color=fff&size=36"
                  alt="${esc(u.username)}" />
-            <strong>${esc(u.username)}</strong>
+            <div>
+              <strong>${esc(u.username)}</strong>
+              ${u.isActive ? "" : '<span class="admin-user-flag">Desactivado</span>'}
+            </div>
           </div>
         </td>
         <td>${esc(u.email)}</td>
@@ -704,12 +760,19 @@ function renderUsuarios() {
             ${u.role}
           </span>
         </td>
-        <td>${new Date(u.createdAt).toLocaleDateString("es-AR")}</td>
+        <td>
+          ${u.createdAt ? new Date(u.createdAt).toLocaleDateString("es-AR") : "—"}
+          ${u.orderCount ? `<span class="admin-user-orders">${u.orderCount} pedido${u.orderCount === 1 ? "" : "s"}</span>` : ""}
+        </td>
         <td>
           <div class="admin-table-actions">
             <button title="Editar" data-edit-user="${esc(u.id)}"><i class="fas fa-pen"></i></button>
             <button title="Cambiar rol" data-toggle-role="${esc(u.id)}"><i class="fas fa-user-shield"></i></button>
-            <button title="Eliminar" class="btn-delete" data-delete-user="${esc(u.id)}"><i class="fas fa-trash-alt"></i></button>
+            ${
+              u.isActive
+                ? `<button title="Eliminar" class="btn-delete" data-delete-user="${esc(u.id)}"><i class="fas fa-trash-alt"></i></button>`
+                : `<button title="Reactivar cuenta" data-reactivate-user="${esc(u.id)}"><i class="fas fa-rotate-left"></i></button>`
+            }
           </div>
         </td>
       </tr>
@@ -732,27 +795,72 @@ function bindUserActions() {
 
   // Toggle role
   usersBody.querySelectorAll("[data-toggle-role]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const users = getUsers();
-      const user = users.find((u) => u.id === btn.dataset.toggleRole);
+    btn.addEventListener("click", async () => {
+      const user = getUsers().find((u) => u.id === btn.dataset.toggleRole);
       if (!user) return;
-      user.role = user.role === "admin" ? "user" : "admin";
-      saveUsers(users);
-      renderUsuarios();
-      refreshDashboard();
+
+      const nuevoRol = user.role === "admin" ? "USER" : "ADMIN";
+      if (!confirm(`¿Cambiar el rol de "${user.username}" a ${nuevoRol}?`)) return;
+
+      btn.disabled = true;
+      const res = await updateUserApi(user.id, { role: nuevoRol });
+      btn.disabled = false;
+      if (!res.ok) return;
+
+      await reloadUsuarios();
+      showToast(`${user.username} ahora es ${nuevoRol}`, "success");
     });
   });
 
   // Delete
   usersBody.querySelectorAll("[data-delete-user]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const users = getUsers();
-      const user = users.find((u) => u.id === btn.dataset.deleteUser);
+    btn.addEventListener("click", async () => {
+      const user = getUsers().find((u) => u.id === btn.dataset.deleteUser);
       if (!user) return;
-      if (!confirm(`¿Eliminar al usuario "${user.username}"?`)) return;
-      saveUsers(users.filter((u) => u.id !== user.id));
-      renderUsuarios();
-      refreshDashboard();
+      if (!confirm(`¿Eliminar al usuario "${user.username}"? Esta acción no se puede deshacer.`)) return;
+
+      btn.disabled = true;
+      const res = await deleteUserApi(user.id);
+
+      // 409: tiene pedidos. Borrarlo se llevaría el historial de ventas,
+      // así que el backend lo rechaza y ofrecemos la baja lógica.
+      if (!res.ok && res.status === 409) {
+        btn.disabled = false;
+        const quiereDesactivar = confirm(
+          `${res.message}\n\n¿Querés desactivar la cuenta en su lugar? ` +
+            `No va a poder iniciar sesión, y los pedidos se conservan.`,
+        );
+        if (!quiereDesactivar) return;
+
+        const off = await updateUserApi(user.id, { isActive: false });
+        if (!off.ok) return;
+        await reloadUsuarios();
+        showToast(`Cuenta de "${user.username}" desactivada`, "success");
+        return;
+      }
+
+      btn.disabled = false;
+      if (!res.ok) return;
+
+      await reloadUsuarios();
+      showToast(`Usuario "${user.username}" eliminado`, "success");
+    });
+  });
+
+  // Reactivar una cuenta dada de baja
+  usersBody.querySelectorAll("[data-reactivate-user]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const user = getUsers().find((u) => u.id === btn.dataset.reactivateUser);
+      if (!user) return;
+      if (!confirm(`¿Reactivar la cuenta de "${user.username}"?`)) return;
+
+      btn.disabled = true;
+      const res = await updateUserApi(user.id, { isActive: true });
+      btn.disabled = false;
+      if (!res.ok) return;
+
+      await reloadUsuarios();
+      showToast(`Cuenta de "${user.username}" reactivada`, "success");
     });
   });
 }
@@ -808,46 +916,45 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-userForm.addEventListener("submit", (e) => {
+userForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const users = getUsers();
   const id = userFormId.value;
   const role = document.querySelector('input[name="userRole"]:checked').value;
+  const username = userFormName.value.trim();
+  const email = userFormEmail.value.trim();
+  const password = userFormPassword.value;
 
+  // el backend espera el rol en mayúsculas (enum Role de Prisma)
+  const rolePayload = role.toUpperCase();
+
+  const submitBtn = userForm.querySelector('[type="submit"]');
+  if (submitBtn) submitBtn.disabled = true;
+
+  let res;
   if (id) {
-    // Edit existing
-    const user = users.find((u) => u.id === id);
-    if (user) {
-      user.username = userFormName.value.trim();
-      user.email = userFormEmail.value.trim();
-      user.role = role;
-      if (userFormPassword.value) {
-        user.passwordHash = "updated";
-      }
-    }
+    // Edición: la contraseña solo viaja si la cargaron
+    const payload = { username, email, role: rolePayload };
+    if (password) payload.password = password;
+    res = await updateUserApi(id, payload);
   } else {
-    // New user
-    if (!userFormPassword.value || userFormPassword.value.length < 6) {
+    if (!password || password.length < 6) {
       userFormPassword.setCustomValidity(
         "La contraseña debe tener al menos 6 caracteres",
       );
       userFormPassword.reportValidity();
+      if (submitBtn) submitBtn.disabled = false;
       return;
     }
-    users.push({
-      id: crypto.randomUUID(),
-      username: userFormName.value.trim(),
-      email: userFormEmail.value.trim(),
-      role,
-      createdAt: new Date().toISOString(),
-    });
+    res = await createUserApi({ username, email, password, role: rolePayload });
   }
 
-  saveUsers(users);
+  if (submitBtn) submitBtn.disabled = false;
+  if (!res.ok) return;
+
   closeUserModal();
-  renderUsuarios();
-  refreshDashboard();
+  await reloadUsuarios();
+  showToast(id ? "Usuario actualizado" : "Usuario creado", "success");
 });
 
 /* ══════════════════════════════════════
@@ -1282,8 +1389,6 @@ function showToast(msg, type = "success") {
      ══════════════════════════════════════ */
 document.addEventListener("DOMContentLoaded", async () => {
   if (!checkAdmin()) return;
-
-  seedUsersIfEmpty();
 
   // Show loading state
   statTotal.textContent = "…";

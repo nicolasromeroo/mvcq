@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     try {
-      const response = await fetch("https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com/auth/register", {
+      const response = await fetch(window.MVCQ_API + "/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

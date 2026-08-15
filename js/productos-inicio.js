@@ -1,5 +1,5 @@
 const contenedorDeProductos = document.getElementById("productos-genericos");
-const API_BASE_URL = "https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com";
+const API_BASE_URL = window.MVCQ_API;
 const IMAGEN_FALLBACK = "img/aestethic.jpg";
 
 function obtenerListaDeProductos(data) {

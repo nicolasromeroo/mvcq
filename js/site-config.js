@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  const API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+  const API = window.MVCQ_API;
   const CACHE_KEY = 'mvcq_site_config_cache';
   const SECTION_KEYS = ['marquee', 'hero', 'categories', 'promoBanner', 'featured', 'trust', 'newsletter'];
 

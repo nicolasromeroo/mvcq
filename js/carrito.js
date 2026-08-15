@@ -3,7 +3,7 @@
    Cart page: render items, qty controls, totals, checkout
    ===================================================== */
 
-const CARRITO_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const CARRITO_API = window.MVCQ_API;
 const ENVIO_GRATIS_THRESHOLD = 15000;
 const ENVIO_COST = 1500;
 

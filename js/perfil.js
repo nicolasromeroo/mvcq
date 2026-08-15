@@ -1,6 +1,6 @@
 'use strict';
 
-const API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const API = window.MVCQ_API;
 const OUTFITS_KEY  = 'mvcq-colecciones-v2';
 const POINTS_PER_FAV    = 5;
 const POINTS_PER_OUTFIT = 20;

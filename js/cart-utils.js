@@ -4,7 +4,7 @@
    ===================================================== */
 
 const MVCQ_CART_KEY = 'mvcq_cart';
-const _CART_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const _CART_API = window.MVCQ_API;
 
 let _cartUserId = null;
 

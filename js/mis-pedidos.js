@@ -3,7 +3,7 @@
    Dual-role: ADMIN → gestión · USER → historial + factura
    ══════════════════════════════════════════════════════ */
 
-const MP_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const MP_API = window.MVCQ_API;
 
 /* ── Helpers ── */
 function mpEsc(v) {
