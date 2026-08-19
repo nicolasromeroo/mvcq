@@ -1,6 +1,18 @@
 const contenedorDeProductos = document.getElementById("productos-genericos");
-const API_BASE_URL = "https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com";
+const API_BASE_URL = (['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com');
 const IMAGEN_FALLBACK = "img/aestethic.jpg";
+
+// Nunca insertar texto de producto en innerHTML sin escapar: el nombre/categoría
+// vienen del backend (cargados por el admin) y sin esto son un XSS almacenado
+// que se ejecutaría para cada visitante de la home.
+function esc(val) {
+  return String(val ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 function obtenerListaDeProductos(data) {
   if (Array.isArray(data)) {
@@ -95,12 +107,12 @@ function renderizarProductosDestacados(productos) {
     <div class="destacados-col" style="--card-delay:${index * 90}ms">
       <article class="destacados-card h-100">
         <div class="destacados-card-media">
-          <span class="destacados-badge">${obtenerCategoriaProducto(producto)}</span>
-          <img src="${resolverImagenProducto(producto)}" alt="${obtenerNombreProducto(producto)}">
+          <span class="destacados-badge">${esc(obtenerCategoriaProducto(producto))}</span>
+          <img src="${resolverImagenProducto(producto)}" alt="${esc(obtenerNombreProducto(producto))}">
         </div>
         <div class="destacados-card-body">
           <p class="destacados-eyebrow">Selección destacada</p>
-          <h5 class="card-title destacados-card-title">${obtenerNombreProducto(producto)}</h5>
+          <h5 class="card-title destacados-card-title">${esc(obtenerNombreProducto(producto))}</h5>
           <div class="destacados-card-footer">
             <div class="destacados-price-block">
               <p class="destacados-price">${formatearPrecio(producto.price)}</p>
