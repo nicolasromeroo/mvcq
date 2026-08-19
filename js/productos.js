@@ -19,6 +19,7 @@ const LOOKBOOK = [
 
 let paginaActual = 1;
 let ordenActual = "relevancia";
+let busquedaActual = "";
 
 /* ─────────────────────────────
    HELPERS
@@ -255,9 +256,10 @@ function buildCard(producto, index) {
 /* ─────────────────────────────
    LOAD PRODUCTS
 ───────────────────────────── */
-async function cargarProductos(page = 1, sort = ordenActual) {
+async function cargarProductos(page = 1, sort = ordenActual, q = busquedaActual) {
   paginaActual = page;
   ordenActual = sort;
+  busquedaActual = q || "";
   mostrarSkeletons();
 
   try {
@@ -267,14 +269,9 @@ async function cargarProductos(page = 1, sort = ordenActual) {
     if (sort && sort !== "relevancia") {
       url.searchParams.set("sort", sort);
     }
-
-    // TODO: forward active filter state to API when backend supports it
-    // e.g. url.searchParams.set("category", [...state.categorias].join(","));
-    //      url.searchParams.set("minPrice", state.precioMin);
-    //      url.searchParams.set("maxPrice", state.precioMax);
-    //      url.searchParams.set("size", [...state.tallas].join(","));
-    //      url.searchParams.set("color", [...state.colores].join(","));
-    //      url.searchParams.set("q", state.busqueda);
+    if (busquedaActual.trim()) {
+      url.searchParams.set("q", busquedaActual.trim());
+    }
 
     const res = await fetch(url.toString(), {
       headers: { Accept: "application/json" },
@@ -376,9 +373,10 @@ function applyClientFilters() {
 
   const checkedCats = [...state.categorias];
   const checkedAuds = [...state.audiencias];
+  const priceActive = state.precioMin > 0 || state.precioMax < 50000;
 
   /* Nothing active → restore all cards */
-  if (!checkedCats.length && !checkedAuds.length) {
+  if (!checkedCats.length && !checkedAuds.length && !priceActive) {
     contenedor.querySelectorAll('.producto-card').forEach((c) => (c.style.display = ''));
     contenedor.querySelector('.js-filter-empty')?.remove();
     return;
@@ -404,7 +402,11 @@ function applyClientFilters() {
         return kws.some((kw) => cardText.includes(kw));
       });
 
-    const show = catMatch && audMatch;
+    const precio = parseFloat(card.dataset.precio);
+    const priceMatch = !priceActive || Number.isNaN(precio) ||
+      (precio >= state.precioMin && precio <= state.precioMax);
+
+    const show = catMatch && audMatch && priceMatch;
     card.style.display = show ? '' : 'none';
     if (show) visible++;
   });
@@ -535,7 +537,7 @@ function initSearch() {
   clearBtn?.addEventListener("click", () => {
     input.value = "";
     input.focus();
-    // TODO: trigger search with empty query when backend supports it
+    cargarProductos(1, ordenActual, "");
   });
 
   input.addEventListener("keydown", (e) => {
@@ -549,9 +551,7 @@ function initSearch() {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => {
       const q = input.value.trim();
-      // TODO: POST /product/search?q=... or GET /product/products?q=...
-      // cargarProductos(1, ordenActual, q);
-      console.info("[Search] query:", q);
+      cargarProductos(1, ordenActual, q);
     }, 420);
   });
 
