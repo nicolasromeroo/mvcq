@@ -358,15 +358,6 @@ async function fetchAllProducts() {
     const list = extractList(data);
     allProducts = list;
 
-    // DEBUG: ver qué campos tienen los productos
-    if (list.length) {
-      console.log("PRODUCTO EJEMPLO (campos):", Object.keys(list[0]));
-      console.log(
-        "PRODUCTO EJEMPLO (completo):",
-        JSON.parse(JSON.stringify(list[0])),
-      );
-    }
-
     // If the response had pagination info, fetch remaining pages
     const totalPages = data.totalPages || data.total_pages || 1;
     if (totalPages > 1) {
@@ -1207,7 +1198,6 @@ if (productFormSubmit) {
       if (submitBtn) submitBtn.disabled = false;
       return;
     }
-    console.log("Token enviado:", token.substring(0, 30) + "...");
 
     try {
       const headers = {};
