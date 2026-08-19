@@ -1,8 +1,8 @@
 # Me Visto Como Quiero
 
 Plataforma de e-commerce de indumentaria construida de cero: tienda pública,
-panel de administración, pasarelas de pago, gestión de inventario y un módulo
-de logística interna para depósito y sucursales.
+panel de administración, pasarelas de pago, transacciones de stock, gestión de inventario, módulo
+de logística interna para depósito y sucursales, y mucho más.
 
 No es un CRUD con carrito encima. El sistema modela el ciclo comercial completo
 —reserva de stock, cobro, despacho, cancelación y reintegro— con las garantías
