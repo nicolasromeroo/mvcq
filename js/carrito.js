@@ -3,7 +3,7 @@
    Cart page: render items, qty controls, totals, checkout
    ===================================================== */
 
-const CARRITO_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const CARRITO_API = (['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com');
 // El costo de envío ya no vive acá: lo cotiza el backend según el CP de destino
 // (POST /shipping/quote) y se vuelve a calcular al crear la orden.
 

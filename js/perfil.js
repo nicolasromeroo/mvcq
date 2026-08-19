@@ -1,6 +1,6 @@
 'use strict';
 
-const API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const API = (['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com');
 const OUTFITS_KEY  = 'mvcq-colecciones-v2';
 const POINTS_PER_FAV    = 5;
 const POINTS_PER_OUTFIT = 20;

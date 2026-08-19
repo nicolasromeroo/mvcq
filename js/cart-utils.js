@@ -4,7 +4,7 @@
    ===================================================== */
 
 const MVCQ_CART_KEY = 'mvcq_cart';
-const _CART_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const _CART_API = (['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com');
 
 let _cartUserId = null;
 

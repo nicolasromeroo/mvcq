@@ -3,7 +3,7 @@
    Dual-role: ADMIN → gestión · USER → historial + factura
    ══════════════════════════════════════════════════════ */
 
-const MP_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const MP_API = (['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com');
 
 /* ── Helpers ── */
 function mpEsc(v) {

@@ -6,7 +6,7 @@
    consumidor pueda ejercer el derecho sin registrarse ni iniciar sesión.
    ===================================================== */
 
-const ARREP_API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+const ARREP_API = (['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com');
 
 function arrepShowMsg(text, kind = 'error') {
   const el = document.getElementById('arrepMsg');

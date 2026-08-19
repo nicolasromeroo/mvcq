@@ -637,7 +637,7 @@
               '<i class="fas fa-spinner fa-spin me-2"></i>Creando tu cuenta…';
 
             const res = await fetch(
-              "https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com/auth/register",
+              `${['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com'}/auth/register`,
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

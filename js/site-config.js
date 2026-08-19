@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  const API = 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+  const API = (['127.0.0.1','localhost'].includes(location.hostname) ? 'http://localhost:3000' : 'https://web-vd8s1gd9atgj.up-de-fra1-k8s-1.apps.run-on-seenode.com');
   const CACHE_KEY = 'mvcq_site_config_cache';
   const SECTION_KEYS = ['marquee', 'hero', 'categories', 'promoBanner', 'featured', 'trust', 'newsletter'];
 
